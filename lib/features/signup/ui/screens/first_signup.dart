@@ -10,7 +10,7 @@ import 'package:graduation_project/core/widgets/dark_custom_text_field.dart';
 import 'package:graduation_project/core/widgets/date_bottom_sheet.dart';
 import 'package:graduation_project/core/widgets/indecator.dart';
 import 'package:graduation_project/core/widgets/item_bottom_sheet.dart';
-import 'package:graduation_project/features/signup/ui/signup_screen.dart';
+import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
 
 ///هنا اول صفحة تسجيل فيها الاسم والجنس والميلاد والمحافظة
 /// وف الاخر انديكيتور بيتحرك فقعته من باكدج وعدلت عليه هتلاقيه في فايل الويديجت
@@ -42,7 +42,7 @@ class _FirstSignupState extends State<FirstSignup> {
     });
 
     if (!isNameEmpty && !isGenderEmpty && !isDateEmpty && !isCityEmpty) {
-      context.pushNamed(Routing.secondSignupScreen);
+      context.pushNamed(Routing.secondSignUpScreen);
     }
   }
 

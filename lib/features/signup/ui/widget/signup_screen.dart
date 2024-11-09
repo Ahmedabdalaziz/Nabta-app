@@ -4,7 +4,7 @@ import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
 
-import '../../../core/theming/style_manager.dart';
+import '../../../../core/theming/style_manager.dart';
 
 class SignupScreen extends StatelessWidget {
   final Widget customContent;

@@ -61,4 +61,12 @@ Future<void> requestPermissions() async {
   if (!cameraStatus.isGranted) {
     await Permission.camera.request();
   }
+  var microphoneStatus = await Permission.microphone.status;
+  if (!microphoneStatus.isGranted) {
+    await Permission.microphone.request();
+  }
+  var audioStatus = await Permission.audio.status;
+  if (!audioStatus.isGranted) {
+    await Permission.audio.request();
+  }
 }

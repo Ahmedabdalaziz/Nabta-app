@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
@@ -77,25 +78,34 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
               numberOfFields: 6,
               showFieldAsBox: true,
               onCodeChanged: (String code) {
-                if (code.isEmpty) {
-                  setState(() {
-                    isChanged = true;
-                  });
-                }
+                setState(() {
+                  isChanged = code.isNotEmpty;
+                });
               },
               onSubmit: (String verificationCode) {
                 showDialog(
                   context: context,
-                  builder: (context) {
+                  builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text("Verification Code"),
-                      content: Text('Code entered is $verificationCode'),
+                      backgroundColor: ColorsManager.secondGreen,
+                      content: Container(
+                        height: 200.h,
+                        width: 400.h,
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          "عذرًا ، البريد الإلكتروني أو كلمة المرور غير صحيحين . يُرجى التحقق من البيانات والمحاولة مرة أخرى .",
+                          style: CairoTextStyles.bold.copyWith(
+                            fontSize: 20.sp,
+                            color: ColorsManager.white,
+                          ),
+                        ),
+                      ),
                     );
                   },
                 );
               },
             ),
-            verticalSpace(32.h),
+            verticalSpace(43.h),
             SizedBox(
               height: 56.h,
               width: 400.w,
@@ -104,7 +114,11 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
                     ? ColorsManager.secondGreen
                     : const Color(0xFF8AA5A4),
                 text: "التحقق من الرمز",
-                onPressed: () {},
+                onPressed: isChanged
+                    ? () {
+                        context.pushNamed(Routing.firstPasswordSignupScreen);
+                      }
+                    : null,
                 textStyle: CairoTextStyles.extraBold
                     .copyWith(fontSize: 20.sp, color: ColorsManager.white),
               ),
@@ -116,7 +130,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
               child: DarkCustomTextButton(
                 textColor: ColorsManager.secondGreen,
                 bottomColor: ColorsManager.white,
-                text: "تعديل البريد الألكتروني",
+                text: "اعادة ارسال الرمز",
                 onPressed: () {
                   context.pop();
                 },

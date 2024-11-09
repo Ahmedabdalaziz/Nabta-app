@@ -4,6 +4,7 @@ bool isValid(String value) {
   );
   return emailRegex.hasMatch(value);
 }
+
 bool hasUppercase(String value) {
   return value.contains(RegExp(r'[A-Z]'));
 }
@@ -16,10 +17,15 @@ bool hasNumber(String value) {
   return value.contains(RegExp(r'[0-9]'));
 }
 
+bool isLengthValid(String value) {
+  return value.length >= 8;
+}
+
 bool hasSpecialChar(String value) {
   return value.contains(RegExp(r'[@$!%*?&]'));
 }
 
-bool isLengthValid(String value) {
-  return value.length >= 8;
+bool isMatch(String password, String confirmPassword) {
+  return password == confirmPassword;
 }
+
