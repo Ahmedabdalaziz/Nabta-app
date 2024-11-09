@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "279574771263",
+    "project_id": "nabta-f65ea",
+    "storage_bucket": "nabta-f65ea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279574771263:android:b975e2949fa82588b2ea8a",
+        "android_client_info": {
+          "package_name": "com.example.nabta_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279574771263-hp07ea15ccfrkfoqv53oevlvgj51ddq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nabta_app",
+            "certificate_hash": "bd5da194fd9c5ea1e90a6e5aaa62280bc6670885"
+          }
+        },
+        {
+          "client_id": "279574771263-avpcjnlt5gsfc89rii5svmlr4ldqrrn3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAak1jh22DHcmNPjUst8W-df2-WSkZ-1zM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279574771263-avpcjnlt5gsfc89rii5svmlr4ldqrrn3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
