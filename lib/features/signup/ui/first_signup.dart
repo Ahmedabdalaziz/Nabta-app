@@ -46,7 +46,6 @@ class _FirstSignupState extends State<FirstSignup> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SignupScreen(
@@ -153,6 +152,7 @@ class _FirstSignupState extends State<FirstSignup> {
             width: 400.w,
             height: 56.h,
             child: CustomSelectionTextField(
+              showSearch:true,
               showError: isCityEmpty,
               svgIconLeft: const [],
               svgIconRight: const [],

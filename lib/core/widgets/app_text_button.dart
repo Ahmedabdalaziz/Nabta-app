@@ -8,6 +8,7 @@ class DarkCustomTextButton extends StatelessWidget {
   final Function()? onPressed;
   final Color textColor;
   final TextStyle textStyle;
+  final Color bottomColor;
 
   const DarkCustomTextButton({
     super.key,
@@ -15,13 +16,14 @@ class DarkCustomTextButton extends StatelessWidget {
     required this.onPressed,
     this.textColor = ColorsManager.white,
     required this.textStyle,
+    this.bottomColor = ColorsManager.secondGreen,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ColorsManager.secondGreen,
+        color: bottomColor,
         borderRadius: BorderRadius.circular(50.sp),
       ),
       child: TextButton(

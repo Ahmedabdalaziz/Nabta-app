@@ -5,7 +5,7 @@ const String loginSVG = "assets/SVGs/login_screen/login.svg";
 List<String> governorates = [
   "القاهرة",
   "الجيزة",
-  "الإسكندرية",
+  "الاسكندرية",
   "أسوان",
   "الأقصر",
   "بورسعيد",

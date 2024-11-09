@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
+import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/bottom_sheet.dart';
 
 class CustomSelectionTextField extends StatefulWidget {
@@ -15,6 +17,7 @@ class CustomSelectionTextField extends StatefulWidget {
   final double borderCircular;
   final double height;
   final bool showError;
+  final bool showSearch;
 
   const CustomSelectionTextField({
     Key? key,
@@ -27,6 +30,7 @@ class CustomSelectionTextField extends StatefulWidget {
     required this.height,
     required this.svgIconLeft,
     this.showError = false,
+    this.showSearch = false,
   }) : super(key: key);
 
   @override
@@ -49,6 +53,7 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
             svgIconRight: widget.svgIconRight,
             svgIconLeft: widget.svgIconLeft,
             onItemSelected: _setSelectedItem,
+            showSearch: widget.showSearch,
           ),
         );
       },
@@ -114,11 +119,12 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
   }
 }
 
-class SelectionList extends StatelessWidget {
+class SelectionList extends StatefulWidget {
   final List<String> items;
   final List<String> svgIconRight;
   final List<String> svgIconLeft;
   final ValueChanged<String> onItemSelected;
+  final bool showSearch;
 
   const SelectionList({
     Key? key,
@@ -126,65 +132,113 @@ class SelectionList extends StatelessWidget {
     required this.svgIconRight,
     required this.svgIconLeft,
     required this.onItemSelected,
+    this.showSearch = false,
   }) : super(key: key);
+
+  @override
+  _SelectionListState createState() => _SelectionListState();
+}
+
+class _SelectionListState extends State<SelectionList> {
+  List<String> _filteredItems = [];
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredItems = widget.items;
+    _searchController.addListener(_filterItems);
+  }
+
+  void _filterItems() {
+    setState(() {
+      _filteredItems = filterItems(_searchController.text, widget.items);
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.w),
-      child: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              onItemSelected(items[index]);
-            },
-            child: Center(
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 8.h),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: ColorsManager.secondGreen, width: 1.5),
-                      borderRadius: BorderRadius.circular(70),
-                    ),
-                    child: Row(
+      child: Column(
+        children: [
+          if (widget.showSearch)
+            Padding(
+              padding: EdgeInsets.only(bottom: 8.h),
+              child: SizedBox(
+                height: 50.h,
+                child: DarkCustomTextField(
+                  fillColor: ColorsManager.white,
+                  textColor: ColorsManager.secondGreen,
+                  controller: _searchController,
+                  icon: Icon(Icons.search),
+                  borderCircular: 50.sp,
+                ),
+              ),
+            ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _filteredItems.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    widget.onItemSelected(_filteredItems[index]);
+                  },
+                  child: Center(
+                    child: Column(
                       children: [
-                        if (svgIconRight.isNotEmpty)
-                          SvgPicture.asset(
-                            svgIconRight[index],
-                            color: ColorsManager.secondGreen,
-                            width: 24.w,
-                            height: 24.h,
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.h),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 16.w),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: ColorsManager.secondGreen, width: 1.5),
+                            borderRadius: BorderRadius.circular(70),
                           ),
-                        Expanded(
-                          child: Text(
-                            items[index],
-                            textAlign: TextAlign.right,
-                            style: CairoTextStyles.bold.copyWith(
-                              color: ColorsManager.secondGreen,
-                              fontSize: 18.sp,
-                            ),
+                          child: Row(
+                            children: [
+                              if (widget.svgIconRight.isNotEmpty)
+                                SvgPicture.asset(
+                                  widget.svgIconRight[index],
+                                  color: ColorsManager.secondGreen,
+                                  width: 24.w,
+                                  height: 24.h,
+                                ),
+                              Expanded(
+                                child: Text(
+                                  _filteredItems[index],
+                                  textAlign: TextAlign.right,
+                                  style: CairoTextStyles.bold.copyWith(
+                                    color: ColorsManager.secondGreen,
+                                    fontSize: 18.sp,
+                                  ),
+                                ),
+                              ),
+                              if (widget.svgIconLeft.isNotEmpty)
+                                SvgPicture.asset(
+                                  widget.svgIconLeft[index],
+                                  color: ColorsManager.secondGreen,
+                                  width: 24.w,
+                                  height: 24.h,
+                                ),
+                            ],
                           ),
                         ),
-                        if (svgIconLeft.isNotEmpty)
-                          SvgPicture.asset(
-                            svgIconLeft[index],
-                            color: ColorsManager.secondGreen,
-                            width: 24.w,
-                            height: 24.h,
-                          ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

@@ -17,6 +17,7 @@ class DarkCustomTextField extends StatefulWidget {
   final String? errorMessage;
   final TextAlign textAlign;
   final ValueChanged<String>? onChanged;
+  final Color? fillColor;
 
   const DarkCustomTextField({
     Key? key,
@@ -32,6 +33,7 @@ class DarkCustomTextField extends StatefulWidget {
     this.errorMessage,
     this.textAlign = TextAlign.right,
     this.onChanged,
+    this.fillColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -74,7 +76,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
       decoration: InputDecoration(
         hintTextDirection: getTextDirection(widget.labelText ?? ''),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: widget.fillColor,
         hintText: _isEmpty ? widget.labelText : null,
         hintStyle: CairoTextStyles.regular.copyWith(
           color: ColorsManager.grey,
@@ -94,6 +96,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
                 onPressed: _toggleObscureText,
               )
             : null,
+        suffixIcon: widget.icon,
         errorText: widget.showError ? widget.errorMessage : null,
         errorStyle: const TextStyle(color: ColorsManager.red),
         focusedBorder: OutlineInputBorder(

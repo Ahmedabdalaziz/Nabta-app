@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/core/helper/extension.dart';
+import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
@@ -14,9 +15,19 @@ import 'package:graduation_project/features/login/ui/google_signin.dart';
 
 import '../../../core/theming/style_manager.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    requestPermissions();
+  }
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
@@ -99,14 +110,22 @@ class LoginScreen extends StatelessWidget {
               children: [
                 horizontalSpace(32.sp),
                 GestureDetector(
-                  onTap: () {
-                    context.pushNamed(Routing.signupScreen);
+                  onTap: () async{
+                    final imageHandler = ImageHandler();
+
+                    String? imageBase64 = await imageHandler.pickImageAsBase64();
+
+                    if (imageBase64 != null) {
+                      print("Image Base64: $imageBase64");
+                    } else {
+                      print("No image was selected.");
+                    }
                   },
                   child: Text(
                     "نسيت كلمة المرور ؟",
                     textAlign: TextAlign.right,
                     style: CairoTextStyles.extraBold.copyWith(
-                        fontSize: 18.sp, color: ColorsManager.secondGreen),
+                        fontSize: 18.sp, color: ColorsManager.mainGreen),
                   ),
                 ),
               ],

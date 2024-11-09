@@ -35,6 +35,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   #onbaording
   smooth_page_indicator: ^1.0.0+2
+  #images handling
+  image_picker: ^0.8.7+3
+  permission_handler: ^10.2.0
   #A build system for Dart code generation and modular compilation.
   build_runner: ^2.4.12
   #state management

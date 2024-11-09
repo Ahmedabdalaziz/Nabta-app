@@ -44,7 +44,7 @@ class CustomModalBottomSheet extends StatelessWidget {
               ),
             ),
           ),
-          verticalSpace(42.h),
+          verticalSpace(12.h),
           Expanded(
             child: child,
           ),
