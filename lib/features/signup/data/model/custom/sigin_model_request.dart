@@ -6,7 +6,7 @@ part 'sigin_model_request.g.dart';
 @JsonSerializable()
 class SigInModelRequest {
   final String username;
-  final DateTime birthDate;
+  final String birthDate;  // تعديل هنا
   final String city;
   final String gender;
   final String? ProfileImage;

@@ -28,10 +28,14 @@ class DarkCustomTextButton extends StatelessWidget {
       ),
       child: TextButton(
         style: ButtonStyle(
-          foregroundColor: WidgetStateProperty.all(ColorsManager.white),
-          padding: WidgetStateProperty.all(
+          // إزالة جميع التأثيرات عند الضغط
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+          splashFactory: NoSplash.splashFactory, // لا شيء يحدث عند الضغط
+          shadowColor: MaterialStateProperty.all(Colors.transparent),
+          foregroundColor: MaterialStateProperty.all(ColorsManager.white),
+          padding: MaterialStateProperty.all(
               EdgeInsets.symmetric(vertical: 12.h, horizontal: 22.0.w)),
-          shape: WidgetStateProperty.all(RoundedRectangleBorder(
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.sp),
           )),
         ),

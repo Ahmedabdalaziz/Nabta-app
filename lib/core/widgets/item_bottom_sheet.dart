@@ -170,7 +170,7 @@ class _SelectionListState extends State<SelectionList> {
         children: [
           if (widget.showSearch)
             Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
+              padding: EdgeInsets.only(bottom: 16.h),
               child: SizedBox(
                 height: 50.h,
                 child: DarkCustomTextField(
@@ -194,7 +194,7 @@ class _SelectionListState extends State<SelectionList> {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 8.h),
+                          margin: EdgeInsets.symmetric(vertical: 12.h), // تعديل الفاصل هنا
                           padding: EdgeInsets.symmetric(
                               vertical: 10.h, horizontal: 16.w),
                           decoration: BoxDecoration(

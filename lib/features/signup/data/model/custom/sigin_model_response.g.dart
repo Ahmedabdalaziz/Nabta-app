@@ -6,12 +6,13 @@ part of 'sigin_model_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SignInResponse _$SignInResponseFromJson(Map<String, dynamic> json) =>
-    SignInResponse(
+SignInResponseModel _$SignInResponseModelFromJson(Map<String, dynamic> json) =>
+    SignInResponseModel(
       token: json['token'] as String,
     );
 
-Map<String, dynamic> _$SignInResponseToJson(SignInResponse instance) =>
+Map<String, dynamic> _$SignInResponseModelToJson(
+        SignInResponseModel instance) =>
     <String, dynamic>{
       'token': instance.token,
     };

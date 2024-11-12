@@ -9,7 +9,7 @@ part of 'sigin_model_request.dart';
 SigInModelRequest _$SigInModelRequestFromJson(Map<String, dynamic> json) =>
     SigInModelRequest(
       username: json['username'] as String,
-      birthDate: DateTime.parse(json['birthDate'] as String),
+      birthDate: json['birthDate'] as String,
       city: json['city'] as String,
       gender: json['gender'] as String,
       ProfileImage: json['ProfileImage'] as String?,
@@ -21,7 +21,7 @@ SigInModelRequest _$SigInModelRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SigInModelRequestToJson(SigInModelRequest instance) =>
     <String, dynamic>{
       'username': instance.username,
-      'birthDate': instance.birthDate.toIso8601String(),
+      'birthDate': instance.birthDate,
       'city': instance.city,
       'gender': instance.gender,
       'ProfileImage': instance.ProfileImage,

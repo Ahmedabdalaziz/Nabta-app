@@ -1,8 +1,13 @@
-bool isValid(String value) {
+bool isValidEmail(String value) {
   final RegExp emailRegex = RegExp(
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
   return emailRegex.hasMatch(value);
+}
+
+bool isValidPhoneNumber(String value) {
+  final RegExp phoneRegex = RegExp(r'^\d{11}$');
+  return phoneRegex.hasMatch(value);
 }
 
 bool hasUppercase(String value) {

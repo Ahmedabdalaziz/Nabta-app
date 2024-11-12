@@ -70,3 +70,18 @@ Future<void> requestPermissions() async {
     await Permission.audio.request();
   }
 }
+
+Future<String?> pickImageAsBase64() async {
+  final ImagePicker _picker = ImagePicker();
+
+  try {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final bytes = await File(image.path).readAsBytes();
+      return base64Encode(bytes);
+    }
+  } catch (e) {
+    print("Error picking image: $e");
+  }
+  return null;
+}

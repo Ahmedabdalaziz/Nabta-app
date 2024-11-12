@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/color.dart';
@@ -8,12 +9,14 @@ class CustomDateField extends StatefulWidget {
   final TextEditingController? controller;
   final Color textColor;
   final bool showError;
+  final ValueChanged<String>? onDateSelected;  // تعديل هنا
 
   const CustomDateField({
     Key? key,
     this.controller,
     required this.textColor,
     this.showError = false,
+    this.onDateSelected,
   }) : super(key: key);
 
   @override
@@ -48,71 +51,13 @@ class _CustomDateFieldState extends State<CustomDateField> {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 26.0.h, horizontal: 16.w),
+                padding: EdgeInsets.symmetric(vertical: 26.0.h, horizontal: 16.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.w, vertical: 10.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30.0.sp),
-                        border: Border.all(
-                            color: ColorsManager.secondGreen, width: 2.0.w),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Day",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            color: ColorsManager.secondGreen,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.w, vertical: 10.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30.0),
-                        border: Border.all(
-                            color: ColorsManager.secondGreen, width: 2.0.w),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Month",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            color: ColorsManager.secondGreen,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.w, vertical: 10.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30.0),
-                        border: Border.all(
-                            color: ColorsManager.secondGreen, width: 2.0.w),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Year",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            color: ColorsManager.secondGreen,
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildLabelContainer("Day"),
+                    _buildLabelContainer("Month"),
+                    _buildLabelContainer("Year"),
                   ],
                 ),
               ),
@@ -121,16 +66,17 @@ class _CustomDateFieldState extends State<CustomDateField> {
                   onSelectedItemChanged: (date) {
                     setState(() {
                       _selectedDate = date;
-                      widget.controller?.text =
-                          '${date.day}/${date.month}/${date.year}';
+                      DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                      widget.controller?.text = dateFormat.format(date);
                     });
                   },
                   lastDate: DateTime.now(),
                   initialDate: _selectedDate,
                   theme: FlatDatePickerTheme(
                     overlay: ScrollWheelDatePickerOverlay.holo,
-                    itemTextStyle: CairoTextStyles.bold
-                        .copyWith(color: ColorsManager.secondGreen),
+                    itemTextStyle: CairoTextStyles.bold.copyWith(
+                      color: ColorsManager.secondGreen,
+                    ),
                     overlayColor: ColorsManager.secondGreen,
                     overAndUnderCenterOpacity: 0.2,
                     itemExtent: 50.0,
@@ -143,8 +89,10 @@ class _CustomDateFieldState extends State<CustomDateField> {
                 padding: EdgeInsets.only(bottom: 16.h),
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.controller?.text =
-                        '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
+                    DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                    String formattedDate = dateFormat.format(_selectedDate);
+                    widget.controller?.text = formattedDate;
+                    widget.onDateSelected?.call(formattedDate);  // تعديل هنا
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
@@ -155,12 +103,15 @@ class _CustomDateFieldState extends State<CustomDateField> {
                       side: const BorderSide(
                           color: ColorsManager.secondGreen, width: 2.0),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   ),
-                  child: Text("إضافة",
-                      style: CairoTextStyles.bold.copyWith(
-                          fontSize: 20.sp, color: ColorsManager.secondGreen)),
+                  child: Text(
+                    "إضافة",
+                    style: CairoTextStyles.bold.copyWith(
+                      fontSize: 20.sp,
+                      color: ColorsManager.secondGreen,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -170,25 +121,23 @@ class _CustomDateFieldState extends State<CustomDateField> {
     );
   }
 
-  Widget _buildDateContainer(String label, String value) {
+  Widget _buildLabelContainer(String label) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(50.0.sp),
-        border: Border.all(color: ColorsManager.secondGreen, width: 2.0),
+        borderRadius: BorderRadius.circular(30.0.sp),
+        border: Border.all(color: ColorsManager.secondGreen, width: 2.0.w),
       ),
-      child: Column(
-        children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+      child: Center(
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: ColorsManager.secondGreen,
           ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 14.sp),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -214,7 +163,7 @@ class _CustomDateFieldState extends State<CustomDateField> {
             filled: true,
             fillColor: Colors.white,
             contentPadding:
-                EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+            EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.sp),
               borderSide: BorderSide(width: 2.0.w),

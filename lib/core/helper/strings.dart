@@ -4,7 +4,7 @@ const String loginSVG = "assets/SVGs/login_screen/login.svg";
 const String WarningBoxSvg = "assets/SVGs/icons/warningLogo.svg";
 const String alertSvg = "assets/SVGs/icons/alert.svg";
 const String placeHolderImage = "assets/SVGs/icons/user_picture.svg";
-List<String> governorates = [
+List<String> cities = [
   "القاهرة",
   "الجيزة",
   "الإسكندرية",

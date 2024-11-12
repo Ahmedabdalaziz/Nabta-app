@@ -3,13 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'sigin_model_response.g.dart';
 
 @JsonSerializable()
-class SignInResponse {
+class SignInResponseModel {
   final String token;
 
-  SignInResponse({required this.token});
+  SignInResponseModel({required this.token});
 
-  factory SignInResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignInResponseFromJson(json);
+  factory SignInResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$SignInResponseModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SignInResponseToJson(this);
+  Map<String, dynamic> toJson() => _$SignInResponseModelToJson(this);
 }

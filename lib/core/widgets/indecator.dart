@@ -10,6 +10,7 @@ class CircleProgressBar extends StatefulWidget {
   final Color backgroundColor;
   final Color foregroundColor;
   final double? value;
+  final String iconPath;
 
   const CircleProgressBar({
     Key? key,
@@ -17,6 +18,7 @@ class CircleProgressBar extends StatefulWidget {
     this.backgroundColor = const Color(0x00000000),
     required this.foregroundColor,
     this.value = 0,
+    this.iconPath = "assets/SVGs/icons/indcetor.svg",
   }) : super(key: key);
 
   @override
@@ -112,7 +114,7 @@ class CircleProgressBarState extends State<CircleProgressBar>
         child: Transform.scale(
           scale: 0.5,
           child: SvgPicture.asset(
-            "assets/SVGs/icons/indcetor.svg",
+            widget.iconPath,
             width: 30.w,
             height: 30.h,
           ),
