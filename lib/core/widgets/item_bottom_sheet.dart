@@ -67,7 +67,6 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
     setState(() {
       widget.controller?.text = item;
     });
-    Navigator.pop(context);
   }
 
   @override

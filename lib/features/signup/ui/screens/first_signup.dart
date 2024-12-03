@@ -125,7 +125,7 @@ class _FirstSignupState extends State<FirstSignup> {
                     "assets/SVGs/icons/female.svg"
                   ],
                   height: 300.h,
-                  textColor: ColorsManager.white,
+                  textColor: ColorsManager.black,
                   labelText: "إدخل نوع الجنس",
                   items: const ["ذكر", "أنثى"],
                   controller: genderController,
@@ -178,7 +178,7 @@ class _FirstSignupState extends State<FirstSignup> {
                   showSearch: true,
                   showError: isCityEmpty,
                   height: 700.h,
-                  textColor: ColorsManager.white,
+                  textColor: ColorsManager.black,
                   labelText: "إدخل المحافظة",
                   items: cities,
                   controller: cityController,
