@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/core/networking/api_service.dart';
+import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
+import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
+import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_signup.dart';
 import 'package:graduation_project/features/signup/ui/screens/image_upload.dart';
 import 'package:graduation_project/features/signup/ui/screens/second_signup.dart';
+import 'package:graduation_project/features/signup/ui/screens/start_screen.dart';
 import 'package:graduation_project/features/splash/ui/splash_screen.dart';
-import 'package:get_it/get_it.dart';
-import 'package:graduation_project/features/login/logic/login_cubit.dart';
-import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 
 class AppRouter {
   final getIt = GetIt.instance;
@@ -29,7 +30,8 @@ class AppRouter {
       case Routing.loginScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => getIt<LoginCubit>(), // استخدام GetIt للإعتماديات
+            create: (context) => getIt<LoginCubit>(),
+            // استخدام GetIt للإعتماديات
             child: const LoginScreen(),
           ),
         );
@@ -37,7 +39,8 @@ class AppRouter {
       case Routing.signupScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(), // استخدام GetIt للإعتماديات
+            create: (context) => getIt<SignupCubit>(),
+            // استخدام GetIt للإعتماديات
             child: const FirstSignup(),
           ),
         );
@@ -45,7 +48,8 @@ class AppRouter {
       case Routing.secondSignUpScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(), // استخدام GetIt للإعتماديات
+            create: (context) => getIt<SignupCubit>(),
+            // استخدام GetIt للإعتماديات
             child: const SecondSignup(),
           ),
         );
@@ -53,7 +57,8 @@ class AppRouter {
       case Routing.uploadingImageScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(), // استخدام GetIt للإعتماديات
+            create: (context) => getIt<SignupCubit>(),
+            // استخدام GetIt للإعتماديات
             child: UploadingImageScreen(),
           ),
         );
@@ -61,13 +66,21 @@ class AppRouter {
       case Routing.firstPasswordSignupScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(), // استخدام GetIt للإعتماديات
+            create: (context) => getIt<SignupCubit>(),
+            // استخدام GetIt للإعتماديات
             child: const FirstPasswordSignup(),
           ),
         );
 
       case Routing.homeScreen:
         return MaterialPageRoute(builder: (context) => const Column());
+
+      case Routing.startScreen:
+        return MaterialPageRoute(builder: (context) => const StartScreen());
+
+      case Routing.forgetPasswordScreen:
+        return MaterialPageRoute(
+            builder: (context) => const ForgetPasswordScreen());
 
       default:
         return MaterialPageRoute(builder: (context) => const Column());

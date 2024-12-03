@@ -110,16 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 horizontalSpace(32.sp),
                 GestureDetector(
-                  onTap: () async{
-                    final imageHandler = ImageHandler();
-
-                    String? imageBase64 = await imageHandler.pickImageAsBase64();
-
-                    if (imageBase64 != null) {
-                      print("Image Base64: $imageBase64");
-                    } else {
-                      print("No image was selected.");
-                    }
+                  onTap: () {
+                    context.pushNamed(Routing.forgetPasswordScreen);
                   },
                   child: Text(
                     "نسيت كلمة المرور ؟",

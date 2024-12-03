@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
-import 'package:graduation_project/core/widgets/bottom_sheet.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CustomSelectionTextField extends StatefulWidget {
   final Color textColor;
   final String? labelText;
   final List<String> items;
-  final List<String> svgIconRight;
-  final List<String> svgIconLeft;
+  final List<String> svgIcons;
   final TextEditingController? controller;
   final double borderCircular;
   final double height;
@@ -24,11 +22,10 @@ class CustomSelectionTextField extends StatefulWidget {
     required this.textColor,
     this.labelText,
     required this.items,
-    required this.svgIconRight,
+    required this.svgIcons,
     this.controller,
     this.borderCircular = 10,
     required this.height,
-    required this.svgIconLeft,
     this.showError = false,
     this.showSearch = false,
   }) : super(key: key);
@@ -39,20 +36,26 @@ class CustomSelectionTextField extends StatefulWidget {
 }
 
 class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
-  String _selectedItem = '';
-
   void _showSelectionSheet(BuildContext context) {
-    showModalBottomSheet(
+    showMaterialModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(50.sp),
+        ),
+      ),
+      backgroundColor: ColorsManager.white,
+      animationCurve: Curves.easeInOut,
       context: context,
-      isScrollControlled: true,
       builder: (BuildContext context) {
-        return CustomModalBottomSheet(
+        return SizedBox(
           height: widget.height,
           child: SelectionList(
             items: widget.items,
-            svgIconRight: widget.svgIconRight,
-            svgIconLeft: widget.svgIconLeft,
-            onItemSelected: _setSelectedItem,
+            svgIcons: widget.svgIcons,
+            onItemSelected: (selectedItem) {
+              _setSelectedItem(selectedItem);
+              Navigator.pop(context);
+            },
             showSearch: widget.showSearch,
           ),
         );
@@ -62,7 +65,6 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
 
   void _setSelectedItem(String item) {
     setState(() {
-      _selectedItem = item;
       widget.controller?.text = item;
     });
     Navigator.pop(context);
@@ -76,7 +78,7 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
         child: TextFormField(
           controller: widget.controller,
           style: CairoTextStyles.bold.copyWith(
-            color: ColorsManager.grey,
+            color: widget.textColor,
             fontSize: 18.0.sp,
           ),
           textAlign: TextAlign.right,
@@ -121,16 +123,14 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
 
 class SelectionList extends StatefulWidget {
   final List<String> items;
-  final List<String> svgIconRight;
-  final List<String> svgIconLeft;
+  final List<String> svgIcons;
   final ValueChanged<String> onItemSelected;
   final bool showSearch;
 
   const SelectionList({
     Key? key,
     required this.items,
-    required this.svgIconRight,
-    required this.svgIconLeft,
+    required this.svgIcons,
     required this.onItemSelected,
     this.showSearch = false,
   }) : super(key: key);
@@ -140,8 +140,8 @@ class SelectionList extends StatefulWidget {
 }
 
 class _SelectionListState extends State<SelectionList> {
-  List<String> _filteredItems = [];
-  TextEditingController _searchController = TextEditingController();
+  late List<String> _filteredItems;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -152,7 +152,10 @@ class _SelectionListState extends State<SelectionList> {
 
   void _filterItems() {
     setState(() {
-      _filteredItems = filterItems(_searchController.text, widget.items);
+      _filteredItems = widget.items
+          .where((item) =>
+          item.toLowerCase().contains(_searchController.text.toLowerCase()))
+          .toList();
     });
   }
 
@@ -167,19 +170,17 @@ class _SelectionListState extends State<SelectionList> {
     return Container(
       padding: EdgeInsets.all(16.w),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.showSearch)
-            Padding(
-              padding: EdgeInsets.only(bottom: 16.h),
-              child: SizedBox(
-                height: 50.h,
-                child: DarkCustomTextField(
-                  fillColor: ColorsManager.white,
-                  textColor: ColorsManager.secondGreen,
-                  controller: _searchController,
-                  icon: Icon(Icons.search),
-                  borderCircular: 50.sp,
-                ),
+            SizedBox(
+              height: 50.h,
+              child: DarkCustomTextField(
+                fillColor: ColorsManager.white,
+                textColor: ColorsManager.secondGreen,
+                controller: _searchController,
+                icon: const Icon(Icons.search),
+                borderCircular: 50.sp,
               ),
             ),
           Expanded(
@@ -190,45 +191,32 @@ class _SelectionListState extends State<SelectionList> {
                   onTap: () {
                     widget.onItemSelected(_filteredItems[index]);
                   },
-                  child: Center(
-                    child: Column(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 12.h),
+                    padding:
+                    EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: ColorsManager.secondGreen,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(70),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 12.h), // تعديل الفاصل هنا
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 16.w),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: ColorsManager.secondGreen, width: 1.5),
-                            borderRadius: BorderRadius.circular(70),
+                        if (widget.svgIcons.isNotEmpty)
+                          SvgPicture.asset(
+                            widget.svgIcons[index],
+                            color: ColorsManager.secondGreen,
+                            width: 24.w,
+                            height: 24.h,
                           ),
-                          child: Row(
-                            children: [
-                              if (widget.svgIconRight.isNotEmpty)
-                                SvgPicture.asset(
-                                  widget.svgIconRight[index],
-                                  color: ColorsManager.secondGreen,
-                                  width: 24.w,
-                                  height: 24.h,
-                                ),
-                              Expanded(
-                                child: Text(
-                                  _filteredItems[index],
-                                  textAlign: TextAlign.right,
-                                  style: CairoTextStyles.bold.copyWith(
-                                    color: ColorsManager.secondGreen,
-                                    fontSize: 18.sp,
-                                  ),
-                                ),
-                              ),
-                              if (widget.svgIconLeft.isNotEmpty)
-                                SvgPicture.asset(
-                                  widget.svgIconLeft[index],
-                                  color: ColorsManager.secondGreen,
-                                  width: 24.w,
-                                  height: 24.h,
-                                ),
-                            ],
+                        Text(
+                          _filteredItems[index],
+                          style: CairoTextStyles.bold.copyWith(
+                            color: ColorsManager.secondGreen,
+                            fontSize: 18.sp,
                           ),
                         ),
                       ],

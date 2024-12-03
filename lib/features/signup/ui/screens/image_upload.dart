@@ -30,7 +30,6 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
         listener: (context, state) {
           if (state is SignupSuccess) {
             log("Signup successful");
-            // Navigate to the next screen or show a success message
           } else if (state is SignupError) {
             log("Signup error: ${state.message}");
             ScaffoldMessenger.of(context).showSnackBar(

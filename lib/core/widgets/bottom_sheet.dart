@@ -10,45 +10,49 @@ class CustomModalBottomSheet extends StatelessWidget {
   const CustomModalBottomSheet({
     Key? key,
     required this.child,
-    this.height = 400,
+    this.height = 1000, // ارتفاع مبدئي يمكن تعديله
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration:  BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(60.sp),
-          topLeft: Radius.circular(60.sp),
+    return SingleChildScrollView(  // لجعل المحتوى قابلًا للتمرير
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(60.sp),
+            topLeft: Radius.circular(60.sp),
+          ),
+          color: ColorsManager.white,
         ),
-        color: ColorsManager.white,
-      ),
-      height: height,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 16.0.sp, top: 16.sp),
-              child: Container(
-                width: 50.w,
-                height: 6.sp,
-                decoration: BoxDecoration(
-                  color: ColorsManager.secondGreen,
-                  borderRadius: BorderRadius.circular(100),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 16.0.sp, top: 16.sp),
+                child: Container(
+                  width: 50.w,
+                  height: 6.sp,
+                  decoration: BoxDecoration(
+                    color: ColorsManager.secondGreen,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                 ),
               ),
             ),
-          ),
-          verticalSpace(12.h),
-          Expanded(
-            child: child,
-          ),
-        ],
+            verticalSpace(12.h),
+            // نستخدم Expanded مع ScrollView لكي نسمح بالتوسع التلقائي للمحتوى
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+              child: child,
+            ),
+            verticalSpace(16.h), // المسافة بين المحتوى وأسفل الـ BottomSheet
+          ],
+        ),
       ),
     );
   }

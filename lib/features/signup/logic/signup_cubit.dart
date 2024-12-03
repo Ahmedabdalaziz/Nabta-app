@@ -72,7 +72,6 @@ class SignupCubit extends Cubit<SignupState> {
           password: signupData.password!,
           phone: signupData.phone!,
         );
-        log("Submitting signup with data: ${requestModel.toJson()}");
         final response = await signupRepository.signUp(requestModel.toJson());
         if (response is SignInResponseModel) {
           emit(SignupSuccess());

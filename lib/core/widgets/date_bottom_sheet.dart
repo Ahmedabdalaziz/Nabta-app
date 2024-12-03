@@ -1,22 +1,20 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:scroll_wheel_date_picker/scroll_wheel_date_picker.dart';
 
 class CustomDateField extends StatefulWidget {
   final TextEditingController? controller;
   final Color textColor;
   final bool showError;
-  final ValueChanged<String>? onDateSelected;  // تعديل هنا
 
   const CustomDateField({
     Key? key,
     this.controller,
     required this.textColor,
     this.showError = false,
-    this.onDateSelected,
   }) : super(key: key);
 
   @override
@@ -27,16 +25,24 @@ class _CustomDateFieldState extends State<CustomDateField> {
   DateTime _selectedDate = DateTime.now();
 
   void _selectDate(BuildContext context) {
-    showModalBottomSheet(
+    showMaterialModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(50.sp),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      animationCurve: Curves.easeInOut,
       context: context,
-      isScrollControlled: true,
-      builder: (context) {
+      builder: (BuildContext context) {
         return Container(
+          height: 500.h,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(70.sp)),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(70.sp),
+            ),
           ),
-          height: 500.h,
           child: Column(
             children: [
               Padding(
@@ -51,13 +57,15 @@ class _CustomDateFieldState extends State<CustomDateField> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 26.0.h, horizontal: 16.w),
+                padding:
+                    EdgeInsets.symmetric(vertical: 26.0.h, horizontal: 16.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildLabelContainer("Day"),
-                    _buildLabelContainer("Month"),
-                    _buildLabelContainer("Year"),
+                    _buildDateContainer("Day", _selectedDate.day.toString()),
+                    _buildDateContainer(
+                        "Month", _selectedDate.month.toString()),
+                    _buildDateContainer("Year", _selectedDate.year.toString()),
                   ],
                 ),
               ),
@@ -66,17 +74,20 @@ class _CustomDateFieldState extends State<CustomDateField> {
                   onSelectedItemChanged: (date) {
                     setState(() {
                       _selectedDate = date;
-                      DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-                      widget.controller?.text = dateFormat.format(date);
+                      widget.controller?.text =
+                          '${date.day}/${date.month}/${date.year}';
                     });
                   },
                   lastDate: DateTime.now(),
-                  initialDate: _selectedDate,
+                  initialDate: DateTime(
+                    _selectedDate.year,
+                    _selectedDate.month - 1,
+                    _selectedDate.day,
+                  ),
                   theme: FlatDatePickerTheme(
                     overlay: ScrollWheelDatePickerOverlay.holo,
-                    itemTextStyle: CairoTextStyles.bold.copyWith(
-                      color: ColorsManager.secondGreen,
-                    ),
+                    itemTextStyle: CairoTextStyles.bold
+                        .copyWith(color: ColorsManager.secondGreen),
                     overlayColor: ColorsManager.secondGreen,
                     overAndUnderCenterOpacity: 0.2,
                     itemExtent: 50.0,
@@ -89,29 +100,24 @@ class _CustomDateFieldState extends State<CustomDateField> {
                 padding: EdgeInsets.only(bottom: 16.h),
                 child: ElevatedButton(
                   onPressed: () {
-                    DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-                    String formattedDate = dateFormat.format(_selectedDate);
-                    widget.controller?.text = formattedDate;
-                    widget.onDateSelected?.call(formattedDate);  // تعديل هنا
+                    widget.controller?.text =
+                        '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: ColorsManager.secondGreen,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: BorderRadius.circular(50.0.sp),
                       side: const BorderSide(
                           color: ColorsManager.secondGreen, width: 2.0),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   ),
-                  child: Text(
-                    "إضافة",
-                    style: CairoTextStyles.bold.copyWith(
-                      fontSize: 20.sp,
-                      color: ColorsManager.secondGreen,
-                    ),
-                  ),
+                  child: Text("إضافة",
+                      style: CairoTextStyles.bold.copyWith(
+                          fontSize: 20.sp, color: ColorsManager.secondGreen)),
                 ),
               ),
             ],
@@ -121,23 +127,25 @@ class _CustomDateFieldState extends State<CustomDateField> {
     );
   }
 
-  Widget _buildLabelContainer(String label) {
+  Widget _buildDateContainer(String label, String value) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(30.0.sp),
-        border: Border.all(color: ColorsManager.secondGreen, width: 2.0.w),
+        borderRadius: BorderRadius.circular(50.0.sp),
+        border: Border.all(color: ColorsManager.secondGreen, width: 2.0),
       ),
-      child: Center(
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-            color: ColorsManager.secondGreen,
+      child: Column(
+        children: [
+          Text(
+            label,
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
           ),
-        ),
+          Text(
+            value,
+            style: TextStyle(fontSize: 14.sp),
+          ),
+        ],
       ),
     );
   }
@@ -163,7 +171,7 @@ class _CustomDateFieldState extends State<CustomDateField> {
             filled: true,
             fillColor: Colors.white,
             contentPadding:
-            EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+                EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.sp),
               borderSide: BorderSide(width: 2.0.w),

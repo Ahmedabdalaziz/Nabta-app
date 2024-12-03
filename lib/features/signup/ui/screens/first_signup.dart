@@ -15,7 +15,6 @@ import 'package:graduation_project/core/widgets/indecator.dart';
 import 'package:graduation_project/core/widgets/item_bottom_sheet.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
-import 'package:intl/intl.dart';
 
 class FirstSignup extends StatefulWidget {
   const FirstSignup({super.key});
@@ -108,7 +107,9 @@ class _FirstSignupState extends State<FirstSignup> {
                     "الجنس",
                     textAlign: TextAlign.right,
                     style: CairoTextStyles.extraBold.copyWith(
-                        fontSize: 20.sp, color: ColorsManager.secondGreen),
+                      fontSize: 20.sp,
+                      color: ColorsManager.secondGreen,
+                    ),
                   ),
                   horizontalSpace(32.sp),
                 ],
@@ -119,8 +120,7 @@ class _FirstSignupState extends State<FirstSignup> {
                 height: 56.h,
                 child: CustomSelectionTextField(
                   showError: isGenderEmpty,
-                  svgIconLeft: const [],
-                  svgIconRight: const [
+                  svgIcons: const [
                     "assets/SVGs/icons/male.svg",
                     "assets/SVGs/icons/female.svg"
                   ],
@@ -177,14 +177,13 @@ class _FirstSignupState extends State<FirstSignup> {
                 child: CustomSelectionTextField(
                   showSearch: true,
                   showError: isCityEmpty,
-                  svgIconLeft: const [],
-                  svgIconRight: const [],
                   height: 700.h,
                   textColor: ColorsManager.white,
                   labelText: "إدخل المحافظة",
                   items: cities,
                   controller: cityController,
                   borderCircular: 50.sp,
+                  svgIcons: [],
                 ),
               ),
               verticalSpace(28.h),
