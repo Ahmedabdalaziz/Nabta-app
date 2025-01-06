@@ -31,3 +31,4 @@ List<String> cities = [
   "مرسى مطروح",
   "الوادي الجديد",
 ];
+List<String> citiesIcons = cities.map((gov) => 'assets/SVGs/icons/build.svg').toList();

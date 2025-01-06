@@ -167,7 +167,7 @@ class _SelectionListState extends State<SelectionList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(16.w,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

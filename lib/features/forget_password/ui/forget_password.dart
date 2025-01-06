@@ -97,7 +97,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                   animationCurve: Curves.easeInOut,
                   context: context,
                   builder: (BuildContext context) {
-                    return const OTPBottomSheet();
+                    return const OTPBottomSheet(nextRoute: '',);
                   });
             },
           ),

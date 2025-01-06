@@ -4,14 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
-import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class OTPBottomSheet extends StatefulWidget {
-  const OTPBottomSheet({super.key});
+  final String nextRoute;
+
+  const OTPBottomSheet({super.key, required this.nextRoute});
 
   @override
   State<OTPBottomSheet> createState() => _OTPBottomSheetState();
@@ -130,7 +131,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
               text: "التحقق من الرمز",
               onPressed: isChanged
                   ? () {
-                      context.pushNamed(Routing.firstPasswordSignupScreen);
+                      context.pushNamed(widget.nextRoute);
                     }
                   : null,
               textStyle: CairoTextStyles.extraBold.copyWith(
