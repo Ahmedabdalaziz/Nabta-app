@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/core/widgets/token.dart';
 import 'package:graduation_project/features/login/data/models/login_error_model.dart';
 import 'package:graduation_project/features/login/data/models/respons_login_model.dart';
 import 'package:graduation_project/features/login/data/repo/login_repo.dart';
@@ -17,14 +18,17 @@ class LoginCubit extends Cubit<LoginState> {
       try {
         final response = await loginRepository.login(email, password);
         if (response is LoginResponseModel) {
-          emit(LoginSuccess());
+          //يتم حفظ token
+          await TokenManager().saveToken(response.token);
+
+          emit(LoginSuccess(response.token));
         } else if (response is LoginErrorModel) {
           emit(LoginError(response.message));
         } else {
           emit(LoginError("Unknown error occurred"));
         }
-      } catch (DioException) {
-        emit(LoginError("Failed to login: ${DioException.toString()}"));
+      } catch (e) {
+        emit(LoginError("Failed to login: ${e.toString()}"));
       }
     } else {
       emit(ValidationError("Invalid email or password format"));

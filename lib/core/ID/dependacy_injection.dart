@@ -4,7 +4,9 @@ import 'package:graduation_project/core/networking/api_service.dart';
 import 'package:graduation_project/core/networking/dio_factory.dart';
 import 'package:graduation_project/features/login/data/repo/login_repo.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
+import 'package:graduation_project/features/signup/data/repo/repo_active_code.dart';
 import 'package:graduation_project/features/signup/data/repo/repo_signin.dart';
+import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 
 final getIt = GetIt.instance;
@@ -17,19 +19,33 @@ Future<GetIt> setUpGetIt() async {
 
   // Register LoginRepo
   getIt.registerLazySingleton<LoginRepository>(
-          () => LoginRepository(getIt<ApiService>()));
+        () => LoginRepository(getIt<ApiService>()),
+  );
 
   // Register LoginCubit
   getIt.registerLazySingleton<LoginCubit>(
-          () => LoginCubit(getIt<LoginRepository>()));
+        () => LoginCubit(getIt<LoginRepository>()),
+  );
 
   // Register SignupRepository
   getIt.registerLazySingleton<SignupRepository>(
-          () => SignupRepository(getIt<ApiService>()));
+        () => SignupRepository(getIt<ApiService>()),
+  );
 
   // Register SignupCubit
   getIt.registerLazySingleton<SignupCubit>(
-          () => SignupCubit(getIt<SignupRepository>()));
+        () => SignupCubit(getIt<SignupRepository>()),
+  );
+
+  // Register ActivateAccountRepository
+  getIt.registerLazySingleton<ActivateAccountRepository>(
+        () => ActivateAccountRepository(getIt<ApiService>()),
+  );
+
+  // Register ActivateAccountCubit
+  getIt.registerLazySingleton<ActiveCodeCubit>(
+        () => ActiveCodeCubit(getIt<ActivateAccountRepository>()),
+  );
 
   return getIt;
 }

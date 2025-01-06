@@ -54,6 +54,7 @@ class _FirstSignupState extends State<FirstSignup> {
       log(dateController.text);
       log(genderController.text);
       log(cityController.text);
+      context.pushNamed(Routing.secondSignUpScreen);
     }
   }
 
@@ -183,7 +184,7 @@ class _FirstSignupState extends State<FirstSignup> {
                   items: cities,
                   controller: cityController,
                   borderCircular: 50.sp,
-                  svgIcons: [],
+                  svgIcons:citiesIcons,
                 ),
               ),
               verticalSpace(28.h),

@@ -6,6 +6,7 @@ import 'package:graduation_project/features/forget_password/ui/forget_password.d
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
+import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_signup.dart';
@@ -31,7 +32,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => getIt<LoginCubit>(),
-            // استخدام GetIt للإعتماديات
             child: const LoginScreen(),
           ),
         );
@@ -40,7 +40,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => getIt<SignupCubit>(),
-            // استخدام GetIt للإعتماديات
             child: const FirstSignup(),
           ),
         );
@@ -49,25 +48,28 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => getIt<SignupCubit>(),
-            // استخدام GetIt للإعتماديات
             child: const SecondSignup(),
           ),
         );
 
       case Routing.uploadingImageScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(),
-            // استخدام GetIt للإعتماديات
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<SignupCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<ActiveCodeCubit>(),
+              ),
+            ],
             child: UploadingImageScreen(),
           ),
         );
-
       case Routing.firstPasswordSignupScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => getIt<SignupCubit>(),
-            // استخدام GetIt للإعتماديات
             child: const FirstPasswordSignup(),
           ),
         );

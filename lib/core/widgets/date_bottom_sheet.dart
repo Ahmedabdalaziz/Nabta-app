@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -58,14 +59,13 @@ class _CustomDateFieldState extends State<CustomDateField> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.symmetric(vertical: 26.0.h, horizontal: 16.w),
+                    EdgeInsets.symmetric(vertical: 26.0.h, horizontal: 32.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildDateContainer("Day", _selectedDate.day.toString()),
-                    _buildDateContainer(
-                        "Month", _selectedDate.month.toString()),
-                    _buildDateContainer("Year", _selectedDate.year.toString()),
+                    _buildCustomButton("Day"),
+                    _buildCustomButton("Month"),
+                    _buildCustomButton("Year"),
                   ],
                 ),
               ),
@@ -81,7 +81,7 @@ class _CustomDateFieldState extends State<CustomDateField> {
                   lastDate: DateTime.now(),
                   initialDate: DateTime(
                     _selectedDate.year,
-                    _selectedDate.month - 1,
+                    _selectedDate.month,
                     _selectedDate.day,
                   ),
                   theme: FlatDatePickerTheme(
@@ -127,25 +127,26 @@ class _CustomDateFieldState extends State<CustomDateField> {
     );
   }
 
-  Widget _buildDateContainer(String label, String value) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(50.0.sp),
-        border: Border.all(color: ColorsManager.secondGreen, width: 2.0),
+  Widget _buildCustomButton(String label) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: ColorsManager.secondGreen,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.sp),
+          side: const BorderSide(
+            color: ColorsManager.secondGreen,
+            width: 2.0,
+          ),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       ),
-      child: Column(
-        children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 14.sp),
-          ),
-        ],
+      onPressed: () {},
+      child: Text(
+        label,
+        style: CairoTextStyles.bold.copyWith(
+          color: ColorsManager.secondGreen,
+        ),
       ),
     );
   }

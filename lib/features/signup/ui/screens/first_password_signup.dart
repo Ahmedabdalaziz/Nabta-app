@@ -104,6 +104,7 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
                   borderCircular: 50.sp,
                   controller: passwordController,
                   textColor: ColorsManager.white,
+                  isPassword: true,
                 ),
               ),
               verticalSpace(35.h),
@@ -124,6 +125,7 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
                 width: 400.w,
                 height: 56.h,
                 child: DarkCustomTextField(
+                  isPassword: true,
                   textAlign: TextAlign.right,
                   labelText: "تأكيد كلمة المرور",
                   borderCircular: 50.sp,
@@ -156,12 +158,11 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
                               ),
                               horizontalSpace(8.sp),
                               Container(
-                                width: 10.sp, // حجم النقطة
+                                width: 10.sp,
                                 height: 10.sp,
                                 decoration: BoxDecoration(
                                   color: _coloring(
                                       _isLength(passwordController.text)),
-                                  // لون النقطة
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -218,7 +219,6 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
                                 decoration: BoxDecoration(
                                   color: _coloring(
                                       _isLength(passwordController.text)),
-                                  // لون النقطة
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -244,13 +244,13 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
                               ),
                               horizontalSpace(8.sp),
                               Container(
-                                width: 10.sp, // حجم النقطة
+                                width: 10.sp,
                                 height: 10.sp,
                                 decoration: BoxDecoration(
                                   color: isMatch(passwordController.text,
                                           confirmController.text)
                                       ? ColorsManager.mainGreen
-                                      : ColorsManager.red, // لون النقطة
+                                      : ColorsManager.red,
                                   shape: BoxShape.circle,
                                 ),
                               ),

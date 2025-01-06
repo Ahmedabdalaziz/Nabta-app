@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/ID/dependacy_injection.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
+import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/opt_bottom_sheet.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -87,18 +89,23 @@ class ForgetPasswordScreen extends StatelessWidget {
                 .copyWith(fontSize: 20.sp, color: ColorsManager.white),
             onPressed: () {
               final email = emailController.text;
-              showMaterialModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(50.sp),
-                    ),
-                  ),
-                  backgroundColor: ColorsManager.white,
-                  animationCurve: Curves.easeInOut,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const OTPBottomSheet();
-                  });
+              // showMaterialModalBottomSheet(
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.vertical(
+              //         top: Radius.circular(50.sp),
+              //       ),
+              //     ),
+              //     backgroundColor: ColorsManager.white,
+              //     animationCurve: Curves.easeInOut,
+              //     context: context,
+              //     builder: (BuildContext context) {
+              //       return OTPBottomSheet(
+              //         cubit: getIt<ActiveCodeCubit>().activateAccount(email),
+              //         nextRoute: '',
+              //         email: email,
+              //         onPressed: (String email, String code) {},
+              //       );
+              //     });
             },
           ),
         )

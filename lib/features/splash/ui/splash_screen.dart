@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/strings.dart';
 import 'package:graduation_project/core/theming/color.dart';
-
-import '../../../core/routing/routing.dart';
+import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/core/widgets/token.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -35,9 +35,19 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 5), () {
+    _checkTokenAndNavigate();
+  }
+
+  Future<void> _checkTokenAndNavigate() async {
+    final token = await TokenManager().getToken();
+
+    await Future.delayed(const Duration(seconds: 5));
+
+    if (token != null) {
+      context.pushReplacementNamed(Routing.homeScreen);
+    } else {
       context.pushReplacementNamed(Routing.loginScreen);
-    });
+    }
   }
 
   @override

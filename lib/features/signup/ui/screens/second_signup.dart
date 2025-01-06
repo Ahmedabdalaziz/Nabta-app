@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +11,9 @@ import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/indecator.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import '../widget/opt_bottom_sheet.dart';
 
 class SecondSignup extends StatefulWidget {
   const SecondSignup({super.key});
@@ -24,13 +25,12 @@ class SecondSignup extends StatefulWidget {
 class _SecondSignupState extends State<SecondSignup> {
   bool isEmailEmpty = false;
   bool isPhoneEmpty = false;
-  bool isPhoneInvalid = false; // Flag to check phone validation
-  bool isEmailInvalid = false; // Flag to check email validation
+  bool isPhoneInvalid = false;
+  bool isEmailInvalid = false;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-  // Function to validate and proceed with the data submission
   void validateAndProceed() {
     setState(() {
       isEmailEmpty = emailController.text.isEmpty;
@@ -46,21 +46,16 @@ class _SecondSignupState extends State<SecondSignup> {
 
       signupCubit.updateContactDetails(
           emailController.text, phoneController.text);
-
-      log(emailController.text);
-      log(phoneController.text);
-
       context.pushNamed(Routing.firstPasswordSignupScreen);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
-        if (state is SignupContactDetailsUpdated) {
-          context.pushNamed(Routing.firstPasswordSignupScreen);
-        } else if (state is SignupError) {
+        if (state is SignupError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Error: ${state.message}")),
           );
@@ -126,7 +121,7 @@ class _SecondSignupState extends State<SecondSignup> {
                 width: 80.w,
                 height: 80.h,
                 child: GestureDetector(
-                  onTap: validateAndProceed, // Call the validateAndProceed function
+                  onTap: validateAndProceed,
                   child: CircleProgressBar(
                     animationDuration: const Duration(seconds: 1),
                     backgroundColor: Colors.grey.shade300,

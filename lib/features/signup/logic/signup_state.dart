@@ -1,13 +1,16 @@
 part of 'signup_cubit.dart';
 
-@immutable
-sealed class SignupState {}
+abstract class SignupState {}
 
 class SignupInitial extends SignupState {}
 
 class SignupLoading extends SignupState {}
 
-class SignupSuccess extends SignupState {}
+class SignupSuccess extends SignupState {
+  final String token;
+
+  SignupSuccess(this.token);
+}
 
 class SignupError extends SignupState {
   final String message;
@@ -15,18 +18,10 @@ class SignupError extends SignupState {
   SignupError(this.message);
 }
 
-class SignupValidationError extends SignupState {
-  final String message;
-
-  SignupValidationError(this.message);
-}
-
 class SignupUserDetailsUpdated extends SignupState {}
 
 class SignupContactDetailsUpdated extends SignupState {}
 
 class SignupPasswordUpdated extends SignupState {}
-
-class PasswordValidated extends SignupState {}
 
 class SignupProfileImageUpdated extends SignupState {}
