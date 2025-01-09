@@ -54,18 +54,15 @@ class AppRouter {
 
       case Routing.uploadingImageScreen:
         return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => getIt<SignupCubit>(),
-              ),
-              BlocProvider(
-                create: (context) => getIt<ActiveCodeCubit>(),
-              ),
-            ],
-            child: UploadingImageScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => getIt<SignupCubit>(),
+            child: BlocProvider(
+              create: (context) => getIt<ActiveCodeCubit>(),
+              child: UploadingImageScreen(),
+            ),
           ),
         );
+
       case Routing.firstPasswordSignupScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(

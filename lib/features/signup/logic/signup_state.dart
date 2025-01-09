@@ -7,9 +7,10 @@ class SignupInitial extends SignupState {}
 class SignupLoading extends SignupState {}
 
 class SignupSuccess extends SignupState {
-  final String token;
+  final String status; // الـ status اللي بيرجعها الباك إند
+  final String message; // الرسالة اللي بيرجعها الباك إند
 
-  SignupSuccess(this.token);
+  SignupSuccess(this.status, this.message);
 }
 
 class SignupError extends SignupState {

@@ -29,11 +29,16 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<SignupCubit, SignupState>(
+    return BlocProvider(
+      create: (context) => getIt<SignupCubit>(),
+      child: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
           if (state is SignupSuccess) {
-            log("Signup successful");
+            log("Signup successful: ${state.message}");
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+
             showMaterialModalBottomSheet(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
@@ -44,13 +49,16 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
               animationCurve: Curves.easeInOut,
               context: context,
               builder: (BuildContext context) {
-                return OTPBottomSheet(
-                  nextRoute: Routing.homeScreen,
-                  email: "${context.read<SignupCubit>().signupData.email}",
-                  cubit: getIt<ActiveCodeCubit>(),
-                  onPressed: (email, code) {
-                    getIt<ActiveCodeCubit>().activateAccount(email, code);
-                  },
+                return BlocProvider(
+                  create: (context) => getIt<ActiveCodeCubit>(),
+                  child: OTPBottomSheet(
+                    nextRoute: Routing.homeScreen,
+                    email: "${context.read<SignupCubit>().signupData.email}",
+                    cubit: getIt<ActiveCodeCubit>(),
+                    onPressed: (email, code) {
+                      getIt<ActiveCodeCubit>().activateAccount(email, code);
+                    },
+                  ),
                 );
               },
             );
@@ -62,7 +70,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
           }
         },
         builder: (context, state) {
-          final signupCubit = context.read<SignupCubit>();
+          final signupCubit = BlocProvider.of<SignupCubit>(context);
 
           return Stack(
             children: [
@@ -74,9 +82,8 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                       child: GestureDetector(
                         onTap: () async {
                           final imageHandler = ImageHandler();
-
                           String? imageBase64 =
-                              await imageHandler.pickImageAsBase64();
+                          await imageHandler.pickImageAsBase64();
 
                           if (imageBase64 != null) {
                             signupCubit.updateProfileImage(imageBase64);
@@ -105,18 +112,16 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                                 ),
                               ),
                               child: ClipOval(
-                                clipBehavior: Clip.hardEdge,
-                                child:
-                                    signupCubit.signupData.profileImage != null
-                                        ? Image.memory(
-                                            base64Decode(signupCubit
-                                                .signupData.profileImage!),
-                                            fit: BoxFit.cover,
-                                          )
-                                        : SvgPicture.asset(
-                                            placeHolderImage,
-                                            fit: BoxFit.cover,
-                                          ),
+                                child: signupCubit.signupData.profileImage != null
+                                    ? Image.memory(
+                                  base64Decode(
+                                      signupCubit.signupData.profileImage!),
+                                  fit: BoxFit.cover,
+                                )
+                                    : SvgPicture.asset(
+                                  placeHolderImage,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             );
                           },
@@ -139,11 +144,10 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                               : ColorsManager.moreWhite,
                         ),
                         onPressed: () async {
-                          if (imageSelected == false) {
+                          if (!imageSelected) {
                             final imageHandler = ImageHandler();
-
                             String? imageBase64 =
-                                await imageHandler.pickImageAsBase64();
+                            await imageHandler.pickImageAsBase64();
 
                             if (imageBase64 != null) {
                               signupCubit.updateProfileImage(imageBase64);
@@ -153,8 +157,6 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                             } else {
                               log("No image was selected.");
                             }
-                          } else {
-                            return null;
                           }
                         },
                       ),
@@ -164,8 +166,11 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset("assets/SVGs/icons/skip_lable.svg",
-                              width: 400.w, height: 60.h),
+                          SvgPicture.asset(
+                            "assets/SVGs/icons/skip_lable.svg",
+                            width: 400.w,
+                            height: 60.h,
+                          ),
                           horizontalSpace(12.sp),
                           SvgPicture.asset(alertSvg),
                         ],
@@ -191,7 +196,6 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                   ],
                 ),
               ),
-
               if (state is SignupLoading)
                 Container(
                   color: Colors.black.withOpacity(0.5),

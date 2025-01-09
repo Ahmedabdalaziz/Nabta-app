@@ -8,11 +8,13 @@ part of 'sigin_model_response.dart';
 
 SignInResponseModel _$SignInResponseModelFromJson(Map<String, dynamic> json) =>
     SignInResponseModel(
-      token: json['token'] as String,
+      status: json['status'] as String,
+      message: json['message'] as String,
     );
 
 Map<String, dynamic> _$SignInResponseModelToJson(
         SignInResponseModel instance) =>
     <String, dynamic>{
-      'token': instance.token,
+      'status': instance.status,
+      'message': instance.message,
     };

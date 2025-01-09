@@ -55,8 +55,7 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   void submitSignup() async {
-    if (_isEmailValid(signupData.email!) &&
-        _isPasswordValid(signupData.password!)) {
+    if (_isEmailValid(signupData.email!) && _isPasswordValid(signupData.password!)) {
       emit(SignupLoading());
       try {
         final requestModel = SigInModelRequest(
@@ -69,13 +68,12 @@ class SignupCubit extends Cubit<SignupState> {
           password: signupData.password!,
           phone: signupData.phone!,
         );
-        final response = await signupRepository.signUp(requestModel.toJson());
-        if (response is SignInResponseModel) {
-          // حفظ الـ token
-          await TokenManager().saveToken(response.token);
 
-          // إرسال حالة نجاح مع الـ token
-          emit(SignupSuccess(response.token));
+        final response = await signupRepository.signUp(requestModel.toJson());
+
+        if (response is SignInResponseModel) {
+          // إرسال حالة نجاح مع الـ status والـ message فقط
+          emit(SignupSuccess(response.status, response.message));
         } else if (response is SignUpErrorModel) {
           emit(SignupError(response.message));
         } else {

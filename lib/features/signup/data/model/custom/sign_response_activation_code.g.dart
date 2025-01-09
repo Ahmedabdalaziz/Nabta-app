@@ -9,11 +9,11 @@ part of 'sign_response_activation_code.dart';
 ActivateAccountResponseModel _$ActivateAccountResponseModelFromJson(
         Map<String, dynamic> json) =>
     ActivateAccountResponseModel(
-      json['message'] as String,
+      json['token'] as String,
     );
 
 Map<String, dynamic> _$ActivateAccountResponseModelToJson(
         ActivateAccountResponseModel instance) =>
     <String, dynamic>{
-      'message': instance.message,
+      'token': instance.token,
     };

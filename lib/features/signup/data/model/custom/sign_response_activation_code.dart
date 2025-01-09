@@ -4,9 +4,9 @@ part 'sign_response_activation_code.g.dart';
 
 @JsonSerializable()
 class ActivateAccountResponseModel {
-  final String message;
+  final String token;
 
-  ActivateAccountResponseModel(this.message);
+  ActivateAccountResponseModel(this.token);
 
   factory ActivateAccountResponseModel.fromJson(Map<String, dynamic> json) =>
       _$ActivateAccountResponseModelFromJson(json);

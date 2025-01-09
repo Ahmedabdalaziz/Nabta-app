@@ -78,6 +78,8 @@ dependencies:
   flutter_otp_text_field: ^1.2.0
   # secure of storage
   flutter_secure_storage: ^9.2.3
+  #internet check
+  internet_connection_checker_plus: ^2.7.0
 
 dev_dependencies:
   flutter_test:

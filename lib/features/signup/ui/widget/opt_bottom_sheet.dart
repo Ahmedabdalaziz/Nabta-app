@@ -49,7 +49,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
                 content: Container(
                   height: 200.h,
                   width: 400.h,
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     state.error,
                     style: CairoTextStyles.bold.copyWith(
@@ -155,9 +155,16 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
                 text: "التحقق من الرمز",
                 onPressed: isChanged
                     ? () {
-                  if (verificationCode != null) {
+                  if (verificationCode != null && verificationCode!.length == 6) {
                     // استدعاء الوظيفة الممررة
                     widget.onPressed(widget.email, verificationCode!);
+                  } else {
+                    // عرض رسالة خطأ إذا الكود مش كامل
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("من فضلك أدخل الكود المكون من 6 أرقام"),
+                      ),
+                    );
                   }
                 }
                     : null,

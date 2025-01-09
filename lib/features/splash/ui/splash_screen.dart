@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(seconds: 5));
 
     if (token != null) {
-      context.pushReplacementNamed(Routing.homeScreen);
+      context.pushReplacementNamed(Routing.loginScreen);
     } else {
       context.pushReplacementNamed(Routing.loginScreen);
     }
