@@ -69,6 +69,7 @@ Future<void> requestPermissions() async {
   if (!audioStatus.isGranted) {
     await Permission.audio.request();
   }
+
 }
 
 Future<String?> pickImageAsBase64() async {

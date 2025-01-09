@@ -130,6 +130,7 @@ class _CustomDateFieldState extends State<CustomDateField> {
   Widget _buildCustomButton(String label) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: ColorsManager.secondGreen,
         shape: RoundedRectangleBorder(

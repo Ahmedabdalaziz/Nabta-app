@@ -18,6 +18,7 @@ class DarkCustomTextField extends StatefulWidget {
   final TextAlign textAlign;
   final ValueChanged<String>? onChanged;
   final Color? fillColor;
+  final FocusNode? focusNode; // إضافة FocusNode
 
   const DarkCustomTextField({
     Key? key,
@@ -34,6 +35,7 @@ class DarkCustomTextField extends StatefulWidget {
     this.textAlign = TextAlign.right,
     this.onChanged,
     this.fillColor = Colors.white,
+    this.focusNode, // FocusNode كمعامل اختياري
   }) : super(key: key);
 
   @override
@@ -59,6 +61,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: widget.focusNode,
       obscuringCharacter: '•',
       controller: widget.controller,
       obscureText: widget.isPassword ? _isObscured : false,
@@ -77,7 +80,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
         hintTextDirection: getTextDirection(widget.labelText ?? ''),
         filled: true,
         fillColor: widget.fillColor,
-        hintText: _isEmpty ? widget.labelText : null,
+        hintText: widget.labelText,
         hintStyle: CairoTextStyles.regular.copyWith(
           color: ColorsManager.grey,
           fontSize: 16.0.sp,
@@ -89,12 +92,12 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
         ),
         prefixIcon: widget.isPassword
             ? IconButton(
-                icon: Icon(
-                  _isObscured ? Icons.visibility_off : Icons.visibility,
-                  color: ColorsManager.secondGreen,
-                ),
-                onPressed: _toggleObscureText,
-              )
+          icon: Icon(
+            _isObscured ? Icons.visibility_off : Icons.visibility,
+            color: ColorsManager.secondGreen,
+          ),
+          onPressed: _toggleObscureText,
+        )
             : null,
         suffixIcon: widget.icon,
         errorText: widget.showError ? widget.errorMessage : null,
@@ -103,7 +106,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
           borderRadius: BorderRadius.circular(widget.borderCircular),
           borderSide: BorderSide(
             color:
-                widget.showError ? ColorsManager.red : ColorsManager.mainGreen,
+            widget.showError ? ColorsManager.red : ColorsManager.mainGreen,
             width: 2.0.w,
           ),
         ),

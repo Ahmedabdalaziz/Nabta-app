@@ -13,6 +13,7 @@ import 'package:graduation_project/core/widgets/dark_custom_text_field.dart';
 import 'package:graduation_project/core/widgets/date_bottom_sheet.dart';
 import 'package:graduation_project/core/widgets/indecator.dart';
 import 'package:graduation_project/core/widgets/item_bottom_sheet.dart';
+import 'package:graduation_project/core/widgets/sexual_items.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
 
@@ -119,7 +120,7 @@ class _FirstSignupState extends State<FirstSignup> {
               SizedBox(
                 width: 400.w,
                 height: 56.h,
-                child: CustomSelectionTextField(
+                child: sexualType(
                   showError: isGenderEmpty,
                   svgIcons: const [
                     "assets/SVGs/icons/male.svg",

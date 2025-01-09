@@ -80,6 +80,8 @@ dependencies:
   flutter_secure_storage: ^9.2.3
   #internet check
   internet_connection_checker_plus: ^2.7.0
+  #icons
+  iconify_flutter: ^0.0.7
 
 dev_dependencies:
   flutter_test:

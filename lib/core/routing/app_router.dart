@@ -46,27 +46,31 @@ class AppRouter {
 
       case Routing.secondSignUpScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(),
+          builder: (context) => BlocProvider.value(
+            value: getIt<SignupCubit>(),
             child: const SecondSignup(),
           ),
         );
 
       case Routing.uploadingImageScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(),
-            child: BlocProvider(
-              create: (context) => getIt<ActiveCodeCubit>(),
-              child: UploadingImageScreen(),
-            ),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: getIt<SignupCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<ActiveCodeCubit>(),
+              ),
+            ],
+            child: UploadingImageScreen(),
           ),
         );
 
       case Routing.firstPasswordSignupScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => getIt<SignupCubit>(),
+          builder: (context) => BlocProvider.value(
+            value: getIt<SignupCubit>(),
             child: const FirstPasswordSignup(),
           ),
         );

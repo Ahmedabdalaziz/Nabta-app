@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     requestPermissions();
   }
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
@@ -144,8 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (state is LoginLoading) {
                     return const Center(
                         child: CircularProgressIndicator(
-                      color: ColorsManager.mainGreen,
-                    ));
+                          color: ColorsManager.mainGreen,
+                        ));
                   }
 
                   return DarkCustomTextButton(

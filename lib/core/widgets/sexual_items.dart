@@ -7,7 +7,7 @@ import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class CustomSelectionTextField extends StatefulWidget {
+class sexualType extends StatefulWidget {
   final Color textColor;
   final String? labelText;
   final List<String> items;
@@ -18,7 +18,7 @@ class CustomSelectionTextField extends StatefulWidget {
   final bool showError;
   final bool showSearch;
 
-  const CustomSelectionTextField({
+  const sexualType({
     Key? key,
     required this.textColor,
     this.labelText,
@@ -32,11 +32,11 @@ class CustomSelectionTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomSelectionTextFieldState createState() =>
-      _CustomSelectionTextFieldState();
+  _sexualTypeState createState() =>
+      _sexualTypeState();
 }
 
-class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
+class _sexualTypeState extends State<sexualType> {
   void _showSelectionSheet(BuildContext context) {
     showMaterialModalBottomSheet(
       shape: RoundedRectangleBorder(
@@ -91,7 +91,7 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
             filled: true,
             fillColor: Colors.white,
             contentPadding:
-                EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+            EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderCircular),
               borderSide: BorderSide(width: 2.0.w),
@@ -154,7 +154,7 @@ class _SelectionListState extends State<SelectionList> {
     setState(() {
       _filteredItems = widget.items
           .where((item) =>
-              item.toLowerCase().contains(_searchController.text.toLowerCase()))
+          item.toLowerCase().contains(_searchController.text.toLowerCase()))
           .toList();
     });
   }
@@ -182,7 +182,7 @@ class _SelectionListState extends State<SelectionList> {
               borderRadius: BorderRadius.circular(100),
             ),
           ),
-          verticalSpace(18.h),
+          verticalSpace(12.h),
           if (widget.showSearch)
             SizedBox(
               height: 50.h,
@@ -207,9 +207,9 @@ class _SelectionListState extends State<SelectionList> {
                     widget.onItemSelected(_filteredItems[index]);
                   },
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 12.h),
+                    margin: EdgeInsets.symmetric(vertical: 16.h),
                     padding:
-                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+                    EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: ColorsManager.secondGreen,
