@@ -18,7 +18,11 @@ class DarkCustomTextField extends StatefulWidget {
   final TextAlign textAlign;
   final ValueChanged<String>? onChanged;
   final Color? fillColor;
-  final FocusNode? focusNode; // إضافة FocusNode
+  final FocusNode? focusNode;
+  final VoidCallback? onEditingComplete;
+  final bool autofocus;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const DarkCustomTextField({
     Key? key,
@@ -35,7 +39,11 @@ class DarkCustomTextField extends StatefulWidget {
     this.textAlign = TextAlign.right,
     this.onChanged,
     this.fillColor = Colors.white,
-    this.focusNode, // FocusNode كمعامل اختياري
+    this.focusNode,
+    this.onEditingComplete,
+    this.autofocus = false,
+    this.textInputAction,
+    this.onFieldSubmitted,
   }) : super(key: key);
 
   @override
@@ -45,11 +53,34 @@ class DarkCustomTextField extends StatefulWidget {
 class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
   bool _isEmpty = true;
   bool _isObscured = false;
+  late FocusNode _internalFocusNode;
 
   @override
   void initState() {
     super.initState();
     _isObscured = widget.isPassword;
+    _internalFocusNode = widget.focusNode ?? FocusNode();
+
+    // إضافة مستمع للفوكس
+    _internalFocusNode.addListener(_onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    // التأكد من عدم حدوث تسريب للذاكرة
+    if (widget.focusNode == null) {
+      _internalFocusNode.removeListener(_onFocusChange);
+      _internalFocusNode.dispose();
+    }
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (mounted) {
+      setState(() {
+        _isEmpty = widget.controller?.text.isEmpty ?? true;
+      });
+    }
   }
 
   void _toggleObscureText() {
@@ -61,7 +92,9 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      focusNode: widget.focusNode,
+      focusNode: _internalFocusNode,
+      autofocus: widget.autofocus,
+      textInputAction: widget.textInputAction,
       obscuringCharacter: '•',
       controller: widget.controller,
       obscureText: widget.isPassword ? _isObscured : false,
@@ -105,8 +138,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderCircular),
           borderSide: BorderSide(
-            color:
-            widget.showError ? ColorsManager.red : ColorsManager.mainGreen,
+            color: widget.showError ? ColorsManager.red : ColorsManager.mainGreen,
             width: 2.0.w,
           ),
         ),
@@ -129,9 +161,11 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
           widget.onChanged!(value);
         }
       },
+      onEditingComplete: widget.onEditingComplete,
+      onFieldSubmitted: widget.onFieldSubmitted,
       onTap: () {
         setState(() {
-          _isEmpty = false;
+          _isEmpty = widget.controller?.text.isEmpty ?? true;
         });
       },
     );
