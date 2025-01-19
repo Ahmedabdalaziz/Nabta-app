@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,7 +72,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                       onTap: () async {
                         final imageHandler = ImageHandler();
                         String? imageBase64 =
-                        await imageHandler.pickImageAsBase64();
+                            await imageHandler.pickImageAsBase64();
 
                         if (imageBase64 != null) {
                           signupCubit.updateProfileImage(imageBase64);
@@ -102,14 +103,14 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                             child: ClipOval(
                               child: signupCubit.signupData.profileImage != null
                                   ? Image.memory(
-                                base64Decode(
-                                    signupCubit.signupData.profileImage!),
-                                fit: BoxFit.cover,
-                              )
+                                      base64Decode(
+                                          signupCubit.signupData.profileImage!),
+                                      fit: BoxFit.cover,
+                                    )
                                   : SvgPicture.asset(
-                                placeHolderImage,
-                                fit: BoxFit.cover,
-                              ),
+                                      placeHolderImage,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           );
                         },
@@ -135,7 +136,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                         if (!imageSelected) {
                           final imageHandler = ImageHandler();
                           String? imageBase64 =
-                          await imageHandler.pickImageAsBase64();
+                              await imageHandler.pickImageAsBase64();
 
                           if (imageBase64 != null) {
                             signupCubit.updateProfileImage(imageBase64);

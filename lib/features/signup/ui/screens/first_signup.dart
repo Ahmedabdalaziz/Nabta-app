@@ -59,161 +59,154 @@ class _FirstSignupState extends State<FirstSignup> {
     }
   }
 
-  void dismissKeyboard() {
-    FocusScope.of(context).unfocus();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: dismissKeyboard,
-      child: BlocConsumer<SignupCubit, SignupState>(
-        listener: (context, state) {
-          if (state is SignupUserDetailsUpdated) {
-            context.pushNamed(Routing.secondSignUpScreen);
-          } else if (state is SignupError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Error: ${state.message}")),
-            );
-          }
-        },
-        builder: (context, state) {
-          return SignupScreen(
-            customContent: Column(
-              children: [
-                ////////////// الاسم //////////////
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "الأسم",
-                      textAlign: TextAlign.right,
-                      style: CairoTextStyles.extraBold.copyWith(
-                          fontSize: 20.sp, color: ColorsManager.secondGreen),
-                    ),
-                    horizontalSpace(32.sp),
-                  ],
-                ),
-                verticalSpace(12.sp),
-                SizedBox(
-                  width: 400.w,
-                  height: 56.h,
-                  child: DarkCustomTextField(
-                    labelText: "إدخال الاسم الثلاثي",
-                    borderCircular: 50.sp,
-                    controller: nameController,
-                    textColor: ColorsManager.white,
-                    showError: isNameEmpty,
-                  ),
-                ),
-                verticalSpace(28.h),
-                ////////////// الجنس //////////////
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "الجنس",
-                      textAlign: TextAlign.right,
-                      style: CairoTextStyles.extraBold.copyWith(
-                        fontSize: 20.sp,
-                        color: ColorsManager.secondGreen,
-                      ),
-                    ),
-                    horizontalSpace(32.sp),
-                  ],
-                ),
-                verticalSpace(12.sp),
-                SizedBox(
-                  width: 400.w,
-                  height: 56.h,
-                  child: sexualType(
-                    showError: isGenderEmpty,
-                    svgIcons: const [
-                      "assets/SVGs/icons/male.svg",
-                      "assets/SVGs/icons/female.svg"
-                    ],
-                    height: 300.h,
-                    textColor: ColorsManager.black,
-                    labelText: "إدخل نوع الجنس",
-                    items: const ["ذكر", "أنثى"],
-                    controller: genderController,
-                    borderCircular: 50.sp,
-                  ),
-                ),
-                verticalSpace(28.h),
-                ////////////// تاريخ الميلاد //////////////
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "تاريخ الميلاد",
-                      textAlign: TextAlign.right,
-                      style: CairoTextStyles.extraBold.copyWith(
-                          fontSize: 20.sp, color: ColorsManager.secondGreen),
-                    ),
-                    horizontalSpace(32.sp),
-                  ],
-                ),
-                verticalSpace(12.sp),
-                SizedBox(
-                  width: 400.w,
-                  height: 56.h,
-                  child: CustomDateField(
-                    showError: isDateEmpty,
-                    textColor: ColorsManager.white,
-                    controller: dateController,
-                  ),
-                ),
-                verticalSpace(28.h),
-                ////////////// المحافظة //////////////
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "المحافظة",
-                      textAlign: TextAlign.right,
-                      style: CairoTextStyles.extraBold.copyWith(
-                          fontSize: 20.sp, color: ColorsManager.secondGreen),
-                    ),
-                    horizontalSpace(32.sp),
-                  ],
-                ),
-                verticalSpace(12.sp),
-                SizedBox(
-                  width: 400.w,
-                  height: 56.h,
-                  child: CustomSelectionTextField(
-                    showSearch: true,
-                    showError: isCityEmpty,
-                    height: 700.h,
-                    textColor: ColorsManager.black,
-                    labelText: "إدخل المحافظة",
-                    items: cities,
-                    controller: cityController,
-                    borderCircular: 50.sp,
-                    svgIcons: citiesIcons,
-                  ),
-                ),
-                verticalSpace(28.h),
-                ////////////// مؤشر الدائرة //////////////
-                SizedBox(
-                  width: 80.w,
-                  height: 80.h,
-                  child: GestureDetector(
-                    onTap: validateAndProceed,
-                    child: CircleProgressBar(
-                      animationDuration: const Duration(seconds: 1),
-                      backgroundColor: Colors.grey.shade300,
-                      foregroundColor: ColorsManager.secondGreen,
-                      value: 0.25,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    return BlocConsumer<SignupCubit, SignupState>(
+      listener: (context, state) {
+        if (state is SignupUserDetailsUpdated) {
+          context.pushNamed(Routing.secondSignUpScreen);
+        } else if (state is SignupError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Error: ${state.message}")),
           );
-        },
-      ),
+        }
+      },
+      builder: (context, state) {
+        return SignupScreen(
+          customContent: Column(
+            children: [
+              ////////////// الاسم //////////////
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "الأسم",
+                    textAlign: TextAlign.right,
+                    style: CairoTextStyles.extraBold.copyWith(
+                        fontSize: 20.sp, color: ColorsManager.secondGreen),
+                  ),
+                  horizontalSpace(32.sp),
+                ],
+              ),
+              verticalSpace(12.sp),
+              SizedBox(
+                width: 400.w,
+                height: 56.h,
+                child: DarkCustomTextField(
+                  labelText: "إدخال الاسم الثلاثي",
+                  borderCircular: 50.sp,
+                  controller: nameController,
+                  textColor: ColorsManager.white,
+                  showError: isNameEmpty,
+                ),
+              ),
+              verticalSpace(28.h),
+              ////////////// الجنس //////////////
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "الجنس",
+                    textAlign: TextAlign.right,
+                    style: CairoTextStyles.extraBold.copyWith(
+                      fontSize: 20.sp,
+                      color: ColorsManager.secondGreen,
+                    ),
+                  ),
+                  horizontalSpace(32.sp),
+                ],
+              ),
+              verticalSpace(12.sp),
+              SizedBox(
+                width: 400.w,
+                height: 56.h,
+                child: sexualType(
+                  showError: isGenderEmpty,
+                  svgIcons: const [
+                    "assets/SVGs/icons/male.svg",
+                    "assets/SVGs/icons/female.svg"
+                  ],
+                  height: 300.h,
+                  textColor: ColorsManager.black,
+                  labelText: "إدخل نوع الجنس",
+                  items: const ["ذكر", "أنثى"],
+                  controller: genderController,
+                  borderCircular: 50.sp,
+                ),
+              ),
+              verticalSpace(28.h),
+              ////////////// تاريخ الميلاد //////////////
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "تاريخ الميلاد",
+                    textAlign: TextAlign.right,
+                    style: CairoTextStyles.extraBold.copyWith(
+                        fontSize: 20.sp, color: ColorsManager.secondGreen),
+                  ),
+                  horizontalSpace(32.sp),
+                ],
+              ),
+              verticalSpace(12.sp),
+              SizedBox(
+                width: 400.w,
+                height: 56.h,
+                child: CustomDateField(
+                  showError: isDateEmpty,
+                  textColor: ColorsManager.white,
+                  controller: dateController,
+                ),
+              ),
+              verticalSpace(28.h),
+              ////////////// المحافظة //////////////
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "المحافظة",
+                    textAlign: TextAlign.right,
+                    style: CairoTextStyles.extraBold.copyWith(
+                        fontSize: 20.sp, color: ColorsManager.secondGreen),
+                  ),
+                  horizontalSpace(32.sp),
+                ],
+              ),
+              verticalSpace(12.sp),
+              SizedBox(
+                width: 400.w,
+                height: 56.h,
+                child: CustomSelectionTextField(
+                  showSearch: true,
+                  showError: isCityEmpty,
+                  height: 700.h,
+                  textColor: ColorsManager.black,
+                  labelText: "إدخل المحافظة",
+                  items: cities,
+                  controller: cityController,
+                  borderCircular: 50.sp,
+                  svgIcons: citiesIcons,
+                ),
+              ),
+              verticalSpace(28.h),
+              ////////////// مؤشر الدائرة //////////////
+              SizedBox(
+                width: 80.w,
+                height: 80.h,
+                child: GestureDetector(
+                  onTap: validateAndProceed,
+                  child: CircleProgressBar(
+                    animationDuration: const Duration(seconds: 1),
+                    backgroundColor: Colors.grey.shade300,
+                    foregroundColor: ColorsManager.secondGreen,
+                    value: 0.25,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
