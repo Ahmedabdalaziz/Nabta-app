@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/helper/extension.dart';
-import 'package:graduation_project/core/helper/regex.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
@@ -20,47 +19,27 @@ class SecondSignup extends StatefulWidget {
 }
 
 class _SecondSignupState extends State<SecondSignup> {
-  bool isEmailEmpty = false;
-  bool isPhoneEmpty = false;
-  bool isPhoneInvalid = false;
-  bool isEmailInvalid = false;
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-  void validateAndProceed() {
-    setState(() {
-      isEmailEmpty = emailController.text.isEmpty;
-      isPhoneEmpty = phoneController.text.isEmpty;
-
-      isEmailInvalid = !isValidEmail(emailController.text);
-      isPhoneInvalid = !isValidPhoneNumber(phoneController.text);
-    });
-
-    if (!isEmailEmpty && !isPhoneEmpty && !isEmailInvalid && !isPhoneInvalid) {
-      final signupCubit = BlocProvider.of<SignupCubit>(context);
-
-      signupCubit.updateContactDetails(
-          emailController.text, phoneController.text);
-      context.pushNamed(Routing.firstPasswordSignupScreen);
-    }
-  }
-
-  void dismissKeyboard() {
-    FocusScope.of(context).unfocus();
-  }
+  bool isEmailEmpty = false;
+  bool isPhoneEmpty = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
-        if (state is SignupError) {
+        if (state is SignupContactDetailsUpdated) {
+          context.pushNamed(Routing.firstPasswordSignupScreen);
+        } else if (state is SignupError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Error: ${state.message}")),
           );
         }
       },
       builder: (context, state) {
+        final signupCubit = BlocProvider.of<SignupCubit>(context);
+
         return SignupScreen(
           customContent: Column(
             children: [
@@ -82,7 +61,13 @@ class _SecondSignupState extends State<SecondSignup> {
                 width: 400.w,
                 height: 56.h,
                 child: DarkCustomTextField(
-                  showError: isEmailEmpty || isEmailInvalid,
+                  showError: isEmailEmpty,
+                  // Pass the error state
+                  onChanged: (value) {
+                    setState(() {
+                      isEmailEmpty = value.isEmpty;
+                    });
+                  },
                   labelText: "أدخل بريدك الألكتروني",
                   borderCircular: 50.sp,
                   controller: emailController,
@@ -107,12 +92,18 @@ class _SecondSignupState extends State<SecondSignup> {
                 width: 400.w,
                 height: 56.h,
                 child: DarkCustomTextField(
-                  showError: isPhoneEmpty || isPhoneInvalid,
+                  showError: isPhoneEmpty,
+                  // Pass the error state
                   keyboardType: TextInputType.number,
                   labelText: "ادخل رقم الهاتف",
                   borderCircular: 50.sp,
                   controller: phoneController,
                   textColor: ColorsManager.grey,
+                  onChanged: (value) {
+                    setState(() {
+                      isPhoneEmpty = value.isEmpty;
+                    });
+                  },
                 ),
               ),
               verticalSpace(275.sp),
@@ -120,7 +111,19 @@ class _SecondSignupState extends State<SecondSignup> {
                 width: 80.w,
                 height: 80.h,
                 child: GestureDetector(
-                  onTap: validateAndProceed,
+                  onTap: () {
+                    setState(() {
+                      isEmailEmpty = emailController.text.isEmpty;
+                      isPhoneEmpty = phoneController.text.isEmpty;
+                    });
+
+                    if (!isEmailEmpty && !isPhoneEmpty) {
+                      signupCubit.updateContactDetails(
+                        emailController.text,
+                        phoneController.text,
+                      );
+                    }
+                  },
                   child: CircleProgressBar(
                     animationDuration: const Duration(seconds: 1),
                     backgroundColor: Colors.grey.shade300,

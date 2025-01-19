@@ -11,6 +11,7 @@ import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_signup.dart';
 import 'package:graduation_project/features/signup/ui/screens/image_upload.dart';
+import 'package:graduation_project/features/signup/ui/screens/otp_screen.dart';
 import 'package:graduation_project/features/signup/ui/screens/second_signup.dart';
 import 'package:graduation_project/features/signup/ui/screens/start_screen.dart';
 import 'package:graduation_project/features/splash/ui/splash_screen.dart';
@@ -54,16 +55,16 @@ class AppRouter {
 
       case Routing.uploadingImageScreen:
         return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(
-                value: getIt<SignupCubit>(),
-              ),
-              BlocProvider(
-                create: (context) => getIt<ActiveCodeCubit>(),
-              ),
-            ],
+          builder: (context) => BlocProvider(
+            create: (context) => getIt<SignupCubit>(),
             child: UploadingImageScreen(),
+          ),
+        );
+      case Routing.otpScreen:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => getIt<ActiveCodeCubit>(),
+            child: const OTPScreen(),
           ),
         );
 

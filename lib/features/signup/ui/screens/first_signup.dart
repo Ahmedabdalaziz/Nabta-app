@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,30 +33,6 @@ class _FirstSignupState extends State<FirstSignup> {
   bool isDateEmpty = false;
   bool isCityEmpty = false;
 
-  void validateAndProceed() {
-    setState(() {
-      isNameEmpty = nameController.text.isEmpty;
-      isGenderEmpty = genderController.text.isEmpty;
-      isDateEmpty = dateController.text.isEmpty;
-      isCityEmpty = cityController.text.isEmpty;
-    });
-
-    if (!isNameEmpty && !isGenderEmpty && !isDateEmpty && !isCityEmpty) {
-      final signupCubit = BlocProvider.of<SignupCubit>(context);
-      signupCubit.updateUserDetails(
-        nameController.text,
-        dateController.text,
-        genderController.text,
-        cityController.text,
-      );
-      log(nameController.text);
-      log(dateController.text);
-      log(genderController.text);
-      log(cityController.text);
-      context.pushNamed(Routing.secondSignUpScreen);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignupCubit, SignupState>(
@@ -72,6 +46,8 @@ class _FirstSignupState extends State<FirstSignup> {
         }
       },
       builder: (context, state) {
+        final signupCubit = BlocProvider.of<SignupCubit>(context);
+
         return SignupScreen(
           customContent: Column(
             children: [
@@ -93,11 +69,17 @@ class _FirstSignupState extends State<FirstSignup> {
                 width: 400.w,
                 height: 56.h,
                 child: DarkCustomTextField(
+                  showError: isNameEmpty,
+                  // Pass the error state
+                  onChanged: (value) {
+                    setState(() {
+                      isNameEmpty = value.isEmpty;
+                    });
+                  },
                   labelText: "إدخال الاسم الثلاثي",
                   borderCircular: 50.sp,
                   controller: nameController,
                   textColor: ColorsManager.white,
-                  showError: isNameEmpty,
                 ),
               ),
               verticalSpace(28.h),
@@ -153,7 +135,7 @@ class _FirstSignupState extends State<FirstSignup> {
                 width: 400.w,
                 height: 56.h,
                 child: CustomDateField(
-                  showError: isDateEmpty,
+                  showError: isDateEmpty, // Pass the error state
                   textColor: ColorsManager.white,
                   controller: dateController,
                 ),
@@ -177,8 +159,8 @@ class _FirstSignupState extends State<FirstSignup> {
                 width: 400.w,
                 height: 56.h,
                 child: CustomSelectionTextField(
-                  showSearch: true,
                   showError: isCityEmpty,
+                  showSearch: true,
                   height: 700.h,
                   textColor: ColorsManager.black,
                   labelText: "إدخل المحافظة",
@@ -194,7 +176,26 @@ class _FirstSignupState extends State<FirstSignup> {
                 width: 80.w,
                 height: 80.h,
                 child: GestureDetector(
-                  onTap: validateAndProceed,
+                  onTap: () {
+                    setState(() {
+                      isNameEmpty = nameController.text.isEmpty;
+                      isGenderEmpty = genderController.text.isEmpty;
+                      isDateEmpty = dateController.text.isEmpty;
+                      isCityEmpty = cityController.text.isEmpty;
+                    });
+
+                    if (!isNameEmpty &&
+                        !isGenderEmpty &&
+                        !isDateEmpty &&
+                        !isCityEmpty) {
+                      signupCubit.updateUserDetails(
+                        nameController.text,
+                        dateController.text,
+                        genderController.text,
+                        cityController.text,
+                      );
+                    }
+                  },
                   child: CircleProgressBar(
                     animationDuration: const Duration(seconds: 1),
                     backgroundColor: Colors.grey.shade300,

@@ -1,21 +1,20 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/helper/strings.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/core/widgets/indecator.dart';
-import 'package:graduation_project/core/widgets/otp_bottom_sheet.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class UploadingImageScreen extends StatefulWidget {
   @override
@@ -34,27 +33,11 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
-
-          // استدعاء الـ BottomSheet عند نجاح الـ Signup
-          showMaterialModalBottomSheet(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(50.sp),
-              ),
-            ),
-            backgroundColor: ColorsManager.white,
-            animationCurve: Curves.easeInOut,
-            context: context,
-            builder: (BuildContext context) {
-              return OTPBottomSheetWidget(
-                email: "${context.read<SignupCubit>().signupData.email}",
-              );
-            },
-          );
+          context.pushNamed(Routing.otpScreen);
         } else if (state is SignupError) {
           log("Signup error: ${state.message}");
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: ${state.message}")),
+            const SnackBar(content: Text("There is a problem")),
           );
         }
       },
@@ -72,7 +55,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                       onTap: () async {
                         final imageHandler = ImageHandler();
                         String? imageBase64 =
-                            await imageHandler.pickImageAsBase64();
+                        await imageHandler.pickImageAsBase64();
 
                         if (imageBase64 != null) {
                           signupCubit.updateProfileImage(imageBase64);
@@ -103,14 +86,14 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                             child: ClipOval(
                               child: signupCubit.signupData.profileImage != null
                                   ? Image.memory(
-                                      base64Decode(
-                                          signupCubit.signupData.profileImage!),
-                                      fit: BoxFit.cover,
-                                    )
+                                base64Decode(
+                                    signupCubit.signupData.profileImage!),
+                                fit: BoxFit.cover,
+                              )
                                   : SvgPicture.asset(
-                                      placeHolderImage,
-                                      fit: BoxFit.cover,
-                                    ),
+                                placeHolderImage,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           );
                         },
@@ -136,7 +119,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                         if (!imageSelected) {
                           final imageHandler = ImageHandler();
                           String? imageBase64 =
-                              await imageHandler.pickImageAsBase64();
+                          await imageHandler.pickImageAsBase64();
 
                           if (imageBase64 != null) {
                             signupCubit.updateProfileImage(imageBase64);
