@@ -36,7 +36,8 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
           );
           context.pushNamedAndRemoveUntil(Routing.homeScreen);
-        } else if (state is ActiveCodeFailure) {
+        }
+        else if (state is ActiveCodeFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
@@ -89,9 +90,6 @@ class _OTPScreenState extends State<OTPScreen> {
                       length: 6,
                       onCompleted: (otp) {
                         context.read<ActiveCodeCubit>().updateOTP(otp);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("تم إدخال الكود: $otp")),
-                        );
                       },
                     ),
                     verticalSpace(32.sp),

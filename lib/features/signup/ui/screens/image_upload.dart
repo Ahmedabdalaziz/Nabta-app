@@ -158,7 +158,6 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                       onTap: () {
                         log("Submitting signup data");
                         signupCubit.submitSignup();
-
                       },
                       child: CircleProgressBar(
                         animationDuration: const Duration(seconds: 1),

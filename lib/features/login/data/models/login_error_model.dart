@@ -8,7 +8,8 @@ class LoginErrorModel {
 
   LoginErrorModel(this.message);
 
-  factory LoginErrorModel.fromJson(Map<String, dynamic> json) => _$LoginErrorModelFromJson(json);
+  factory LoginErrorModel.fromJson(Map<String, dynamic> json) =>
+      _$LoginErrorModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginErrorModelToJson(this);
 }

@@ -60,10 +60,19 @@ class AppRouter {
             child: UploadingImageScreen(),
           ),
         );
+
       case Routing.otpScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => getIt<ActiveCodeCubit>(),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: getIt<SignupCubit>(), // Provide the existing SignupCubit
+              ),
+              BlocProvider(
+                create: (context) =>
+                    getIt<ActiveCodeCubit>(), // Create a new ActiveCodeCubit
+              ),
+            ],
             child: const OTPScreen(),
           ),
         );
