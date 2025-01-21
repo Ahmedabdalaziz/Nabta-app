@@ -33,7 +33,6 @@ class SignupCubit extends Cubit<SignupState> {
   bool isConfirmPasswordValid(String password, String confirmPassword) =>
       _isConfirmPasswordValid(password, confirmPassword);
 
-  // Private validation methods
   bool _isNameValid(String name) => name.isNotEmpty;
 
   bool _isGenderValid(String gender) => gender.isNotEmpty;
@@ -44,8 +43,13 @@ class SignupCubit extends Cubit<SignupState> {
 
   bool _isEmailValid(String email) => isValidEmail(email);
 
-  bool _isPhoneValid(String phone) => isValidPhoneNumber(phone);
-
+  bool _isPhoneValid(String phone) {
+    if (phone.length != 11) {
+      emit(SignupError("رقم الهاتف يجب أن يكون 11 رقمًا"));
+      return false;
+    }
+    return isValidPhoneNumber(phone);
+  }
   bool _isPasswordValid(String password) {
     return password.length >= 8 &&
         password.contains(RegExp(r'(?=.*[a-z])(?=.*[A-Z])')) &&
@@ -55,44 +59,33 @@ class SignupCubit extends Cubit<SignupState> {
   bool _isConfirmPasswordValid(String password, String confirmPassword) =>
       password == confirmPassword;
 
-  // Update methods
   void updateUserDetails(
       String username, String birthDate, String gender, String city) {
-    if (_isNameValid(username) &&
-        _isDateValid(birthDate) &&
-        _isGenderValid(gender) &&
-        _isCityValid(city)) {
-      signupData.username = username;
-      signupData.birthDate = birthDate;
-      signupData.gender = gender;
-      signupData.city = city;
-      log("Updated user details: $signupData");
-      emit(SignupUserDetailsUpdated());
-    } else {
-      emit(SignupError("Please fill all fields correctly"));
-    }
+    signupData.username = username;
+    signupData.birthDate = birthDate;
+    signupData.gender = gender;
+    signupData.city = city;
+    log("Updated user details: $signupData");
+    emit(SignupUserDetailsUpdated());
   }
 
   void updateContactDetails(String email, String phone) {
-    if (_isEmailValid(email) && _isPhoneValid(phone)) {
-      signupData.email = email;
-      signupData.phone = phone;
-      log("Updated contact details: $signupData");
-      emit(SignupContactDetailsUpdated());
-    } else {
-      emit(SignupError("Invalid email or phone number"));
-    }
+    signupData.email = email;
+    signupData.phone = phone;
+    log("Updated contact details: $signupData");
+    emit(SignupContactDetailsUpdated());
   }
 
   void updatePassword(String password) {
-    if (_isPasswordValid(password)) {
-      signupData.password = password;
-      log("Updated password: $signupData");
-      emit(SignupPasswordUpdated());
-    } else {
-      emit(SignupError(
-          "Password must be at least 8 characters, contain uppercase, lowercase, and numbers"));
-    }
+    signupData.password = password;
+    log("Updated password: $signupData");
+    emit(SignupPasswordUpdated());
+  }
+
+  void updateConfirmPassword(String confirmPassword) {
+    signupData.confirmPassword = confirmPassword;
+    log("Updated confirm password: $signupData");
+    emit(SignupConfirmPasswordUpdated());
   }
 
   void updateProfileImage(String profileImage) {
@@ -102,36 +95,31 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   void submitSignup() async {
-    if (_isEmailValid(signupData.email!) &&
-        _isPhoneValid(signupData.phone!) &&
-        _isPasswordValid(signupData.password!)) {
-      emit(SignupLoading());
-      try {
-        final requestModel = SigInModelRequest(
-          username: signupData.username!,
-          birthDate: signupData.birthDate!,
-          city: signupData.city!,
-          gender: signupData.gender!,
-          ProfileImage: signupData.profileImage,
-          email: signupData.email!,
-          password: signupData.password!,
-          phone: signupData.phone!,
-        );
 
-        final response = await signupRepository.signUp(requestModel.toJson());
+    emit(SignupLoading());
+    try {
+      final requestModel = SigInModelRequest(
+        username: signupData.username!,
+        birthDate: signupData.birthDate!,
+        city: signupData.city!,
+        gender: signupData.gender!,
+        ProfileImage: signupData.profileImage,
+        email: signupData.email!,
+        password: signupData.password!,
+        phone: signupData.phone!,
+      );
 
-        if (response is SignInResponseModel) {
-          emit(SignupSuccess(response.status, response.message));
-        } else if (response is SignUpErrorModel) {
-          emit(SignupError(response.message));
-        } else {
-          emit(SignupError("Unknown error occurred"));
-        }
-      } catch (e) {
-        emit(SignupError("Failed to sign up: ${e.toString()}"));
+      final response = await signupRepository.signUp(requestModel.toJson());
+
+      if (response is SignInResponseModel) {
+        emit(SignupSuccess(response.status, response.message));
+      } else if (response is SignUpErrorModel) {
+        emit(SignupError(response.message));
+      } else {
+        emit(SignupError("Unknown error occurred"));
       }
-    } else {
-      emit(SignupError("Invalid email, phone, or password format"));
+    } catch (e) {
+      emit(SignupError("Failed to sign up: ${e.toString()}"));
     }
   }
 }

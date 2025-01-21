@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,13 +29,14 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
+        // نجح في تسجيل الدخول يابية
         if (state is SignupSuccess) {
           log("Signup successful: ${state.message}");
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
           context.pushNamed(Routing.otpScreen);
-        } else if (state is SignupError) {
+
+        }
+        // ابتدينا عبط بقا
+        else if (state is SignupError) {
           log("Signup error: ${state.message}");
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("There is a problem")),
@@ -55,7 +57,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                       onTap: () async {
                         final imageHandler = ImageHandler();
                         String? imageBase64 =
-                        await imageHandler.pickImageAsBase64();
+                            await imageHandler.pickImageAsBase64();
 
                         if (imageBase64 != null) {
                           signupCubit.updateProfileImage(imageBase64);
@@ -86,14 +88,14 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                             child: ClipOval(
                               child: signupCubit.signupData.profileImage != null
                                   ? Image.memory(
-                                base64Decode(
-                                    signupCubit.signupData.profileImage!),
-                                fit: BoxFit.cover,
-                              )
+                                      base64Decode(
+                                          signupCubit.signupData.profileImage!),
+                                      fit: BoxFit.cover,
+                                    )
                                   : SvgPicture.asset(
-                                placeHolderImage,
-                                fit: BoxFit.cover,
-                              ),
+                                      placeHolderImage,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           );
                         },
@@ -119,7 +121,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                         if (!imageSelected) {
                           final imageHandler = ImageHandler();
                           String? imageBase64 =
-                          await imageHandler.pickImageAsBase64();
+                              await imageHandler.pickImageAsBase64();
 
                           if (imageBase64 != null) {
                             signupCubit.updateProfileImage(imageBase64);
@@ -156,6 +158,7 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
                       onTap: () {
                         log("Submitting signup data");
                         signupCubit.submitSignup();
+
                       },
                       child: CircleProgressBar(
                         animationDuration: const Duration(seconds: 1),

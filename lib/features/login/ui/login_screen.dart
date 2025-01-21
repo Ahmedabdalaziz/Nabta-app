@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         textStyle: CairoTextStyles.extraBold.copyWith(
                             fontSize: 20.sp, color: ColorsManager.white),
                         onPressed: () {
-                          _unfocus(); // إغلاق الكيبورد قبل تنفيذ عملية تسجيل الدخول
+                          _unfocus();
                           final email = emailController.text;
                           final password = passwordController.text;
                           context.read<LoginCubit>().login(email, password);
@@ -280,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontalSpace(50.w),
                     GestureDetector(
                       onTap: () {
-                        _unfocus(); // إغلاق الكيبورد قبل تنفيذ عملية تسجيل الدخول
+                        _unfocus();
                         signInWithGoogle();
                       },
                       child: Stack(
@@ -313,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        _unfocus(); // إغلاق الكيبورد قبل التنقل
+                        _unfocus();
                         context.pushNamed(Routing.signupScreen);
                       },
                       child: Text(

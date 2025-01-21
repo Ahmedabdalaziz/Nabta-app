@@ -8,8 +8,13 @@ import '../../../../core/theming/style_manager.dart';
 
 class SignupScreen extends StatefulWidget {
   final Widget customContent;
+  final String title;
 
-  const SignupScreen({super.key, required this.customContent});
+  const SignupScreen({
+    super.key,
+    required this.customContent,
+    this.title = "انشاء حساب",
+  });
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -40,7 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
               verticalSpace(20.h),
               Center(
                 child: Text(
-                  "إنشاء حساب",
+                  widget.title,
                   style: CairoTextStyles.extraBold.copyWith(
                       fontSize: 30.sp, color: ColorsManager.secondGreen),
                 ),

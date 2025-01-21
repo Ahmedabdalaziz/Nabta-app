@@ -61,13 +61,11 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
     _isObscured = widget.isPassword;
     _internalFocusNode = widget.focusNode ?? FocusNode();
 
-    // إضافة مستمع للفوكس
     _internalFocusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
-    // التأكد من عدم حدوث تسريب للذاكرة
     if (widget.focusNode == null) {
       _internalFocusNode.removeListener(_onFocusChange);
       _internalFocusNode.dispose();
@@ -95,7 +93,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
       focusNode: _internalFocusNode,
       autofocus: widget.autofocus,
       textInputAction: widget.textInputAction,
-      obscuringCharacter: '•',
+      obscuringCharacter: '●',
       controller: widget.controller,
       obscureText: widget.isPassword ? _isObscured : false,
       keyboardType: widget.keyboardType ??

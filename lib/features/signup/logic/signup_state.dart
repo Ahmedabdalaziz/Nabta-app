@@ -25,4 +25,6 @@ class SignupContactDetailsUpdated extends SignupState {}
 
 class SignupPasswordUpdated extends SignupState {}
 
+class SignupConfirmPasswordUpdated extends SignupState {}
+
 class SignupProfileImageUpdated extends SignupState {}
