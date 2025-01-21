@@ -8,43 +8,62 @@ import 'package:graduation_project/features/signup/data/repo/repo_active_code.da
 import 'package:graduation_project/features/signup/data/repo/repo_signin.dart';
 import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
+import 'package:graduation_project/features/weather/data/remote/weather_api_service.dart';
+import 'package:graduation_project/features/weather/data/repo/weather_repo.dart';
+import 'package:graduation_project/features/weather/logic/weather_cubit.dart';
 
 final getIt = GetIt.instance;
 
 Future<GetIt> setUpGetIt() async {
-  final Dio dio = DioFactory.getDio();
+  // Register Dio
+  getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
 
   // Register ApiService
-  getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
+  getIt.registerLazySingleton<ApiService>(() => ApiService(getIt<Dio>()));
 
   // Register LoginRepo
   getIt.registerLazySingleton<LoginRepository>(
-        () => LoginRepository(getIt<ApiService>()),
+    () => LoginRepository(getIt<ApiService>()),
   );
 
   // Register LoginCubit
   getIt.registerLazySingleton<LoginCubit>(
-        () => LoginCubit(getIt<LoginRepository>()),
+    () => LoginCubit(getIt<LoginRepository>()),
   );
 
   // Register SignupRepository
   getIt.registerLazySingleton<SignupRepository>(
-        () => SignupRepository(getIt<ApiService>()),
+    () => SignupRepository(getIt<ApiService>()),
   );
 
   // Register SignupCubit
   getIt.registerLazySingleton<SignupCubit>(
-        () => SignupCubit(getIt<SignupRepository>()),
+    () => SignupCubit(getIt<SignupRepository>()),
   );
 
   // Register ActivateAccountRepository
   getIt.registerLazySingleton<ActivateAccountRepository>(
-        () => ActivateAccountRepository(getIt<ApiService>()),
+    () => ActivateAccountRepository(getIt<ApiService>()),
   );
 
   // Register ActivateAccountCubit
   getIt.registerLazySingleton<ActiveCodeCubit>(
-        () => ActiveCodeCubit(getIt<ActivateAccountRepository>()),
+    () => ActiveCodeCubit(getIt<ActivateAccountRepository>()),
+  );
+
+  // Register WeatherApiService
+  getIt.registerLazySingleton<WeatherApiService>(
+    () => WeatherApiService(getIt<Dio>()),
+  );
+
+  // Register WeatherRepository
+  getIt.registerLazySingleton<WeatherRepository>(
+    () => WeatherRepository(getIt<WeatherApiService>()),
+  );
+
+  // Register WeatherCubit
+  getIt.registerLazySingleton<WeatherCubit>(
+    () => WeatherCubit(getIt<WeatherRepository>()),
   );
 
   return getIt;
