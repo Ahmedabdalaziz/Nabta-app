@@ -17,6 +17,7 @@ import 'package:graduation_project/features/signup/ui/screens/second_signup.dart
 import 'package:graduation_project/features/signup/ui/screens/start_screen.dart';
 import 'package:graduation_project/features/splash/ui/splash_screen.dart';
 import 'package:graduation_project/features/weather/ui.dart';
+import 'package:graduation_project/features/welcoming/welcomingScreen.dart';
 
 class AppRouter {
   final getIt = GetIt.instance;
@@ -89,6 +90,9 @@ class AppRouter {
 
       case Routing.homeScreen:
         return MaterialPageRoute(builder: (context) => const Home());
+
+      case Routing.WelcomingScreen:
+        return MaterialPageRoute(builder: (context) => Welcom());
 
       case Routing.WeatherScreen:
         return MaterialPageRoute(builder: (context) =>  WeatherScreen());
