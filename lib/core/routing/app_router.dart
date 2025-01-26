@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
+import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
@@ -87,7 +88,7 @@ class AppRouter {
         );
 
       case Routing.homeScreen:
-        return MaterialPageRoute(builder: (context) => const Column());
+        return MaterialPageRoute(builder: (context) => const Home());
 
       case Routing.WeatherScreen:
         return MaterialPageRoute(builder: (context) =>  WeatherScreen());
