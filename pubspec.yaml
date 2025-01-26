@@ -82,6 +82,7 @@ dependencies:
   internet_connection_checker_plus: ^2.7.0
   #icons
   iconify_flutter: ^0.0.7
+  image: ^4.0.17
 
 dev_dependencies:
   flutter_test:

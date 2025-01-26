@@ -41,15 +41,14 @@ class SignupCubit extends Cubit<SignupState> {
 
   bool _isCityValid(String city) => city.isNotEmpty;
 
-  bool _isEmailValid(String email) => isValidEmail(email);
+  bool _isEmailValid(String email) {
+    return isValidEmail(email);
+  }
 
   bool _isPhoneValid(String phone) {
-    if (phone.length != 11) {
-      emit(SignupError("رقم الهاتف يجب أن يكون 11 رقمًا"));
-      return false;
-    }
     return isValidPhoneNumber(phone);
   }
+
   bool _isPasswordValid(String password) {
     return password.length >= 8 &&
         password.contains(RegExp(r'(?=.*[a-z])(?=.*[A-Z])')) &&
@@ -94,8 +93,21 @@ class SignupCubit extends Cubit<SignupState> {
     emit(SignupProfileImageUpdated());
   }
 
-  void submitSignup() async {
+  void validateAndUpdateContactDetails(String email, String phone) {
+    if (!_isEmailValid(email)) {
+      emit(SignupError("البريد الإلكتروني غير صالح"));
+      return;
+    }
 
+    if (!_isPhoneValid(phone)) {
+      emit(SignupError("رقم الهاتف غير صالح"));
+      return;
+    }
+
+    updateContactDetails(email, phone);
+  }
+
+  void submitSignup() async {
     emit(SignupLoading());
     try {
       final requestModel = SigInModelRequest(

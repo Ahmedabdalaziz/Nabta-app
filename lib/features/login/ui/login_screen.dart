@@ -203,16 +203,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     builder: (context, state) {
                       if (state is LoginLoading) {
-                        return const Center(
-                            child: CircularProgressIndicator(
-                          color: ColorsManager.mainGreen,
-                        ));
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: ColorsManager.secondGreen,
+                            borderRadius: BorderRadius.circular(50.sp),
+                          ),
+                          child: Center(
+                            child: SizedBox(
+                              width: 30.w,
+                              height: 30.h,
+                              child: const CircularProgressIndicator(
+                                color: ColorsManager.moreWhite,
+                                strokeWidth: 3.5,
+                              ),
+                            ),
+                          ),
+                        );
                       }
 
                       return DarkCustomTextButton(
                         text: 'تسجيل الدخول',
                         textStyle: CairoTextStyles.extraBold.copyWith(
-                            fontSize: 20.sp, color: ColorsManager.white),
+                            fontSize: 20.sp, color: ColorsManager.moreWhite),
                         onPressed: () {
                           _unfocus();
                           final email = emailController.text;

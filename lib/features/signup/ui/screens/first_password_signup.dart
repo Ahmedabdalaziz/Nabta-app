@@ -77,7 +77,7 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
           context.pushNamed(Routing.uploadingImageScreen);
         } else if (state is SignupError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)), // Show error only here
+            SnackBar(content: Text(state.message)),
           );
         }
       },
@@ -195,11 +195,11 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
                         ),
                         horizontalSpace(8.sp),
                         Container(
-                          width: 10.sp, // حجم النقطة
+                          width: 10.sp,
                           height: 10.sp,
                           decoration: BoxDecoration(
                             color: _coloring(_isUpperAndLower(
-                                passwordController.text)), // لون النقطة
+                                passwordController.text)),
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -223,7 +223,7 @@ class _FirstPasswordSignupState extends State<FirstPasswordSignup> {
                         ),
                         horizontalSpace(8.sp),
                         Container(
-                          width: 10.sp, // حجم النقطة
+                          width: 10.sp,
                           height: 10.sp,
                           decoration: BoxDecoration(
                             color: _coloring(

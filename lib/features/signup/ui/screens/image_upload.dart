@@ -31,13 +31,11 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
       listener: (context, state) {
         // نجح في تسجيل الدخول يابية
         if (state is SignupSuccess) {
-          log("Signup successful: ${state.message}");
           context.pushNamed(Routing.otpScreen);
 
         }
         // ابتدينا عبط بقا
         else if (state is SignupError) {
-          log("Signup error: ${state.message}");
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("There is a problem")),
           );

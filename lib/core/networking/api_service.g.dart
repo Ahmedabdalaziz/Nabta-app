@@ -14,7 +14,7 @@ class _ApiService implements ApiService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://fk8bg654-5858.inc1.devtunnels.ms/api/';
+    baseUrl ??= 'https://graduation-project-hvey.onrender.com/api/';
   }
 
   final Dio _dio;

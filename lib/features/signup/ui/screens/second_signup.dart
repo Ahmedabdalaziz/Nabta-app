@@ -33,7 +33,10 @@ class _SecondSignupState extends State<SecondSignup> {
           context.pushNamed(Routing.firstPasswordSignupScreen);
         } else if (state is SignupError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: ${state.message}")),
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: ColorsManager.red,
+            ),
           );
         }
       },
@@ -62,7 +65,6 @@ class _SecondSignupState extends State<SecondSignup> {
                 height: 56.h,
                 child: DarkCustomTextField(
                   showError: isEmailEmpty,
-                  // Pass the error state
                   onChanged: (value) {
                     setState(() {
                       isEmailEmpty = value.isEmpty;
@@ -93,7 +95,6 @@ class _SecondSignupState extends State<SecondSignup> {
                 height: 56.h,
                 child: DarkCustomTextField(
                   showError: isPhoneEmpty,
-                  // Pass the error state
                   keyboardType: TextInputType.number,
                   labelText: "ادخل رقم الهاتف",
                   borderCircular: 50.sp,
@@ -112,17 +113,18 @@ class _SecondSignupState extends State<SecondSignup> {
                 height: 80.h,
                 child: GestureDetector(
                   onTap: () {
-                    setState(() {
-                      isEmailEmpty = emailController.text.isEmpty;
-                      isPhoneEmpty = phoneController.text.isEmpty;
-                    });
+                    final email = emailController.text.trim();
+                    final phone = phoneController.text.trim();
 
-                    if (!isEmailEmpty && !isPhoneEmpty) {
-                      signupCubit.updateContactDetails(
-                        emailController.text,
-                        phoneController.text,
-                      );
+                    if (email.isEmpty || phone.isEmpty) {
+                      setState(() {
+                        isEmailEmpty = email.isEmpty;
+                        isPhoneEmpty = phone.isEmpty;
+                      });
+                      return;
                     }
+
+                    signupCubit.validateAndUpdateContactDetails(email, phone);
                   },
                   child: CircleProgressBar(
                     animationDuration: const Duration(seconds: 1),

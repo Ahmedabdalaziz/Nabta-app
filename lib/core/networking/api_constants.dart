@@ -1,6 +1,6 @@
 class ApiConstants {
   static const String apiBaseUrl =
-      "https://fk8bg654-5858.inc1.devtunnels.ms/api/";
+      "https://graduation-project-hvey.onrender.com/api/";
   static const String login = "login";
   static const String logout = "logout";
   static const String singUp = "signup";
