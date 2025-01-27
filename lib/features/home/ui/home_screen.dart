@@ -85,39 +85,47 @@ class _HomeState extends State<Home> {
                     verticalSpace(56.h),
                     //الايقونة والصورة اللي فوق خالص
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Row(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      child: Stack(
                         children: [
-                          const Icon(
-                            CupertinoIcons.bell,
-                            color: ColorsManager.mainGreen,
-                            size: 31,
+                          Positioned(
+                            left: -4.w,
+                              child: SvgPicture.asset('assets/SVGs/home/Ellipse 33.svg')
                           ),
-                          const Spacer(),
-                          Text(
-                              'حمو',
-                              style: CairoTextStyles.bold.copyWith(fontSize: 20,color: ColorsManager.mainGreen)
-                          ),
-                          Text(
-                            '  , أهلا',
-                            style: CairoTextStyles.bold.copyWith(fontSize: 20,color: ColorsManager.black),
-                          ),
-                          horizontalSpace(16.w),
-                          Container(
-                            padding: EdgeInsets.all(8.sp),
-                            decoration:  const BoxDecoration(
-                              color: ColorsManager.mainGreen,
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipOval(
-                              child: SizedBox.fromSize(
-                                size: Size.fromRadius(20.r),
-                                child: Image.asset(
-                                  'assets/SVGs/home/test_avatar.png',
-                                  fit: BoxFit.cover,
+                          Row(
+                            children: [
+                              const Icon(
+                                CupertinoIcons.bell,
+                                color: ColorsManager.mainGreen,
+                                size: 31,
+                              ),
+                              const Spacer(),
+                              Text(
+                                  'حمو',
+                                  style: CairoTextStyles.bold.copyWith(fontSize: 20,color: ColorsManager.mainGreen)
+                              ),
+                              Text(
+                                '  , أهلا',
+                                style: CairoTextStyles.bold.copyWith(fontSize: 20,color: ColorsManager.black),
+                              ),
+                              horizontalSpace(16.w),
+                              SizedBox(
+                                width: 45.w,
+                                height: 45.h,
+                                child:  CircleAvatar(
+                                  radius: 5.r,
+                                  backgroundColor: ColorsManager.mainGreen,
+                                  child: CircleAvatar(
+                                    radius: 20.r,
+                                    backgroundColor: ColorsManager.moreWhite,
+                                    child: Image.asset(
+                                            'assets/SVGs/home/test_avatar.png',
+                                            fit: BoxFit.cover,
+                                           ),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),

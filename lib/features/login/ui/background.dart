@@ -65,14 +65,14 @@ class Background extends StatelessWidget {
             ),
             if (showCloseButton) // إذا كانت showCloseButton = true، سيظهر الزر
               Positioned(
-                top: 45.h,
+                top: 30.h,
                 left: 30.w,
                 child: GestureDetector(
                   onTap: () {
                     context.pushNamedAndRemoveUntil(Routing.loginScreen);
                   },
                   child: CustomPaint(
-                    size: Size(50.w, 50.h),
+                    size: Size(46.w, 50.h),
                     painter: TransparentCircleWithX(),
                   ),
                 ),

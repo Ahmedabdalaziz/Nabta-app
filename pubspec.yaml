@@ -119,6 +119,7 @@ flutter:
     - assets/SVGs/icons/
     - assets/SVGs/home/
     - assets/SVGs/welcome/
+    - assets/SVGs/password/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -25,7 +25,7 @@ class BottomSectionWithouCliprrect extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 20.h),
+            padding: EdgeInsets.only(top: 30.h),
             child: Image.asset(imgPath),
           ),
           Padding(

@@ -13,4 +13,5 @@ class Routing {
   static const String otpScreen = "/otpScreen";
   static const String WeatherScreen = "/WeatherScreen()";
   static const String WelcomingScreen = "/WelcomingScreen";
+  static const String testing = "/testing";
 }
