@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,8 +10,9 @@ import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
 
-class NewPassAssign extends StatefulWidget
-{
+class NewPassAssign extends StatefulWidget {
+  const NewPassAssign({super.key});
+
   @override
   State<NewPassAssign> createState() => _NewPassAssignState();
 }
@@ -38,11 +38,9 @@ class _NewPassAssignState extends State<NewPassAssign> {
   Color _coloring(bool condition) =>
       condition ? ColorsManager.mainGreen : ColorsManager.red;
 
-
   bool _isPasswordValid() {
     return isLengthValid && hasUpperAndLower && hasNumber && identical;
   }
-
 
   void checkPassword(String password) {
     setState(() {
@@ -52,7 +50,6 @@ class _NewPassAssignState extends State<NewPassAssign> {
       identical = password == confirmController.text;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +73,8 @@ class _NewPassAssignState extends State<NewPassAssign> {
           verticalSpace(16.h),
           Text(
             'تعيين كلمة مرور جديدة ',
-            style: CairoTextStyles.extraBold.copyWith(fontSize: 30.sp,color: ColorsManager.secondGreen),
+            style: CairoTextStyles.extraBold
+                .copyWith(fontSize: 30.sp, color: ColorsManager.secondGreen),
           ),
           verticalSpace(64.h),
           Row(
@@ -88,7 +86,7 @@ class _NewPassAssignState extends State<NewPassAssign> {
                 style: CairoTextStyles.extraBold.copyWith(
                     fontSize: 20.sp, color: ColorsManager.secondGreen),
               ),
-             horizontalSpace(32.sp),
+              horizontalSpace(32.sp),
             ],
           ),
           verticalSpace(20.sp),
@@ -142,144 +140,143 @@ class _NewPassAssignState extends State<NewPassAssign> {
           SizedBox(
             child: isChanged
                 ? Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 408.w,
-                      height: 22.5.h,
-                      child: Text(
-                        "كلمة المرور لا تقل عن 8 أحرف ",
-                        textAlign: TextAlign.right,
-                        style: CairoTextStyles.bold.copyWith(
-                          fontSize: 12.sp,
-                          color: _coloring(
-                              _isLength(passwordController.text)),
-                        ),
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 408.w,
+                            height: 22.5.h,
+                            child: Text(
+                              "كلمة المرور لا تقل عن 8 أحرف ",
+                              textAlign: TextAlign.right,
+                              style: CairoTextStyles.bold.copyWith(
+                                fontSize: 12.sp,
+                                color: _coloring(
+                                    _isLength(passwordController.text)),
+                              ),
+                            ),
+                          ),
+                          horizontalSpace(8.sp),
+                          Container(
+                            width: 10.sp,
+                            height: 10.sp,
+                            decoration: BoxDecoration(
+                              color:
+                                  _coloring(_isLength(passwordController.text)),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    horizontalSpace(8.sp),
-                    Container(
-                      width: 10.sp,
-                      height: 10.sp,
-                      decoration: BoxDecoration(
-                        color: _coloring(
-                            _isLength(passwordController.text)),
-                        shape: BoxShape.circle,
+                      verticalSpace(8.sp),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 408.w,
+                            height: 22.5.h,
+                            child: Text(
+                              "كلمة المرور تحتوي على حروف كبيرة وصغيرة ",
+                              textAlign: TextAlign.right,
+                              style: CairoTextStyles.bold.copyWith(
+                                fontSize: 12.sp,
+                                color: _coloring(
+                                    _isUpperAndLower(passwordController.text)),
+                              ),
+                            ),
+                          ),
+                          horizontalSpace(8.sp),
+                          Container(
+                            width: 10.sp,
+                            height: 10.sp,
+                            decoration: BoxDecoration(
+                              color: _coloring(
+                                  _isUpperAndLower(passwordController.text)),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace(8.sp),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 408.w,
-                      height: 22.5.h,
-                      child: Text(
-                        "كلمة المرور تحتوي على حروف كبيرة وصغيرة ",
-                        textAlign: TextAlign.right,
-                        style: CairoTextStyles.bold.copyWith(
-                          fontSize: 12.sp,
-                          color: _coloring(_isUpperAndLower(
-                              passwordController.text)),
-                        ),
+                      verticalSpace(8.sp),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 408.w,
+                            height: 22.5.h,
+                            child: Text(
+                              "كلمة المرور تحتوي على أرقام",
+                              textAlign: TextAlign.right,
+                              style: CairoTextStyles.bold.copyWith(
+                                fontSize: 12.sp,
+                                color: _coloring(
+                                    _isNumber(passwordController.text)),
+                              ),
+                            ),
+                          ),
+                          horizontalSpace(8.sp),
+                          Container(
+                            width: 10.sp,
+                            height: 10.sp,
+                            decoration: BoxDecoration(
+                              color:
+                                  _coloring(_isLength(passwordController.text)),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    horizontalSpace(8.sp),
-                    Container(
-                      width: 10.sp,
-                      height: 10.sp,
-                      decoration: BoxDecoration(
-                        color: _coloring(_isUpperAndLower(
-                            passwordController.text)),
-                        shape: BoxShape.circle,
+                      verticalSpace(8.sp),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 408.w,
+                            height: 22.5.h,
+                            child: Text(
+                              "كلمتا المرور متطابقتان ",
+                              textAlign: TextAlign.right,
+                              style: CairoTextStyles.bold.copyWith(
+                                fontSize: 12.sp,
+                                color: isMatch(passwordController.text,
+                                        confirmController.text)
+                                    ? ColorsManager.mainGreen
+                                    : ColorsManager.red,
+                              ),
+                            ),
+                          ),
+                          horizontalSpace(8.sp),
+                          Container(
+                            width: 10.sp,
+                            height: 10.sp,
+                            decoration: BoxDecoration(
+                              color: isMatch(passwordController.text,
+                                      confirmController.text)
+                                  ? ColorsManager.mainGreen
+                                  : ColorsManager.red,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace(8.sp),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 408.w,
-                      height: 22.5.h,
-                      child: Text(
-                        "كلمة المرور تحتوي على أرقام",
-                        textAlign: TextAlign.right,
-                        style: CairoTextStyles.bold.copyWith(
-                          fontSize: 12.sp,
-                          color: _coloring(
-                              _isNumber(passwordController.text)),
-                        ),
-                      ),
-                    ),
-                    horizontalSpace(8.sp),
-                    Container(
-                      width: 10.sp,
-                      height: 10.sp,
-                      decoration: BoxDecoration(
-                        color: _coloring(
-                            _isLength(passwordController.text)),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ],
-                ),
-                verticalSpace(8.sp),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 408.w,
-                      height: 22.5.h,
-                      child: Text(
-                        "كلمتا المرور متطابقتان ",
-                        textAlign: TextAlign.right,
-                        style: CairoTextStyles.bold.copyWith(
-                          fontSize: 12.sp,
-                          color: isMatch(passwordController.text,
-                              confirmController.text)
-                              ? ColorsManager.mainGreen
-                              : ColorsManager.red,
-                        ),
-                      ),
-                    ),
-                    horizontalSpace(8.sp),
-                    Container(
-                      width: 10.sp,
-                      height: 10.sp,
-                      decoration: BoxDecoration(
-                        color: isMatch(passwordController.text,
-                            confirmController.text)
-                            ? ColorsManager.mainGreen
-                            : ColorsManager.red,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            )
+                    ],
+                  )
                 : SizedBox(
-              height: 90.h,
-              width: 400.w,
-              child: SvgPicture.asset(warningBoxSvg),
-            ),
+                    height: 90.h,
+                    width: 400.w,
+                    child: SvgPicture.asset(warningBoxSvg),
+                  ),
           ),
           verticalSpace(30.sp),
           SizedBox(
             height: 56.h,
             width: 408.w,
             child: DarkCustomTextButton(
-              text: 'حفظ كلمة المرور',
-              textStyle: CairoTextStyles.extraBold.copyWith(
-                fontSize: 20.sp,
-                color: _isPasswordValid()
-                    ? ColorsManager.mainGreen
-                    : const Color(0xFF8AA5A4),
-              ),
-              onPressed:(){}
-            ),
+                text: 'حفظ كلمة المرور',
+                textStyle: CairoTextStyles.extraBold.copyWith(
+                  fontSize: 20.sp,
+                  color: _isPasswordValid()
+                      ? ColorsManager.mainGreen
+                      : const Color(0xFF8AA5A4),
+                ),
+                onPressed: () {}),
           ),
         ],
       ),

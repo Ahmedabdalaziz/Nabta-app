@@ -18,7 +18,6 @@ class LoginCubit extends Cubit<LoginState> {
       try {
         final response = await loginRepository.login(email, password);
         if (response is LoginResponseModel) {
-          //يتم حفظ token
           await TokenManager().saveToken(response.token);
 
           emit(LoginSuccess(response.token));

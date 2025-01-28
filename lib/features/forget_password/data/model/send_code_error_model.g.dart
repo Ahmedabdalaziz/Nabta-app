@@ -6,12 +6,14 @@ part of 'send_code_error_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SendCodeErrorModel _$SendCodeErrorModelFromJson(Map<String, dynamic> json) =>
-    SendCodeErrorModel(
+SendForgetPasswordErrorModel _$SendForgetPasswordErrorModelFromJson(
+        Map<String, dynamic> json) =>
+    SendForgetPasswordErrorModel(
       json['message'] as String,
     );
 
-Map<String, dynamic> _$SendCodeErrorModelToJson(SendCodeErrorModel instance) =>
+Map<String, dynamic> _$SendForgetPasswordErrorModelToJson(
+        SendForgetPasswordErrorModel instance) =>
     <String, dynamic>{
       'message': instance.message,
     };

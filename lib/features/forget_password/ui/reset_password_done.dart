@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,11 +7,9 @@ import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
 
-class ResetPassDone extends StatelessWidget
-{
+class ResetPassDone extends StatelessWidget {
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Background(
       customContent: Column(
         children: [
@@ -31,13 +28,13 @@ class ResetPassDone extends StatelessWidget
             ],
           ),
           Text(
-              'تمت اعادة تعيين كلمة المرور',
-            style: CairoTextStyles.extraBold.copyWith(fontSize: 30.sp,color: ColorsManager.secondGreen
-            ),
+            'تمت اعادة تعيين كلمة المرور',
+            style: CairoTextStyles.extraBold
+                .copyWith(fontSize: 30.sp, color: ColorsManager.secondGreen),
           ),
           verticalSpace(64.h),
           SizedBox(
-            width: 408.w ,
+            width: 408.w,
             height: 90.h,
             child: SvgPicture.asset('assets/SVGs/password/awoda.svg'),
           ),
@@ -45,7 +42,7 @@ class ResetPassDone extends StatelessWidget
           Stack(
             children: [
               SizedBox(
-                width: 150.w ,
+                width: 150.w,
                 height: 150.h,
                 child: CircleAvatar(
                   radius: 50.r,
@@ -71,7 +68,11 @@ class ResetPassDone extends StatelessWidget
           SizedBox(
             width: 408.w,
             height: 56.h,
-            child: DarkCustomTextButton(text: 'العودة لتسجيل الدخول', onPressed: (){}, textStyle: CairoTextStyles.extraBold.copyWith(fontSize: 20.sp,color: ColorsManager.white)),
+            child: DarkCustomTextButton(
+                text: 'العودة لتسجيل الدخول',
+                onPressed: () {},
+                textStyle: CairoTextStyles.extraBold
+                    .copyWith(fontSize: 20.sp, color: ColorsManager.white)),
           ),
         ],
       ),

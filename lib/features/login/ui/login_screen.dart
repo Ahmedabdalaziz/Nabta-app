@@ -291,9 +291,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     horizontalSpace(50.w),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         _unfocus();
-                        signInWithGoogle();
+                        final userCredential = await signInWithGoogle();
+                        if (userCredential.user != null) {
+                          context.pushNamedAndRemoveUntil(Routing.homeScreen);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    "عذرا، لم يتم التحقق من حسابك على Google.")),
+                          );
+                        }
                       },
                       child: Stack(
                         alignment: Alignment.center,

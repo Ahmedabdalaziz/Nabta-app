@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:graduation_project/core/widgets/token.dart';
 import 'package:graduation_project/features/signup/data/repo/repo_active_code.dart';
 import 'package:meta/meta.dart';
 
@@ -22,10 +23,12 @@ class ActiveCodeCubit extends Cubit<ActiveCodeState> {
     emit(ActiveCodeLoading());
     try {
       final result = await repository.activateAccount(email, activationCode);
-      if (result is String) {
-        emit(ActiveCodeSuccess(result));
+      if (result.token) {
+        await TokenManager().saveToken(result.token);
+        emit(ActiveCodeSuccess(result.token));
       } else {
-        emit(ActiveCodeFailure("An unknown error occurred"));
+        await TokenManager().saveToken(result.token);
+        emit(ActiveCodeSuccess(result.token));
       }
     } catch (e) {
       emit(ActiveCodeFailure(e.toString()));

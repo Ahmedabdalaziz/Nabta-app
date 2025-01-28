@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/networking/api_service.dart';
 import 'package:graduation_project/core/networking/dio_factory.dart';
+import 'package:graduation_project/features/forget_password/data/repo/forget_password_repo.dart';
+import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/login/data/repo/login_repo.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/signup/data/repo/repo_active_code.dart';
@@ -49,6 +51,16 @@ Future<GetIt> setUpGetIt() async {
   // Register ActivateAccountCubit
   getIt.registerLazySingleton<ActiveCodeCubit>(
     () => ActiveCodeCubit(getIt<ActivateAccountRepository>()),
+  );
+
+  // Register Send Forget Password Repository
+  getIt.registerLazySingleton<SendForgetPasswordRepo>(
+    () => SendForgetPasswordRepo(getIt<ApiService>()),
+  );
+
+  // Register Send Forget Password Cubit
+  getIt.registerLazySingleton<SendForgetPasswordCubit>(
+    () => SendForgetPasswordCubit(getIt<SendForgetPasswordRepo>()),
   );
 
   // Register WeatherApiService

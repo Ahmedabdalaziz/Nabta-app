@@ -6,14 +6,14 @@ part of 'send_code_response_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SendResponseModel _$SendResponseModelFromJson(Map<String, dynamic> json) =>
-    SendResponseModel(
+SendForgetPasswordResponseModel _$SendForgetPasswordResponseModelFromJson(
+        Map<String, dynamic> json) =>
+    SendForgetPasswordResponseModel(
       message: json['message'] as String,
-      success: json['success'] as String,
     );
 
-Map<String, dynamic> _$SendResponseModelToJson(SendResponseModel instance) =>
+Map<String, dynamic> _$SendForgetPasswordResponseModelToJson(
+        SendForgetPasswordResponseModel instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'success': instance.success,
     };

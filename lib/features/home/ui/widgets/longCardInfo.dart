@@ -8,6 +8,7 @@ class LongCardInfo extends StatelessWidget {
   final String cardLabel;
   final String cardHint;
   final String cardDescription;
+
   const LongCardInfo({
     super.key,
     required this.cardLabel,
@@ -21,27 +22,29 @@ class LongCardInfo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 8.h,right: 8.w),
+          padding: EdgeInsets.only(top: 8.h, right: 8.w),
           child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 cardLabel,
-                style: CairoTextStyles.bold.copyWith(fontSize: 16.sp,color: ColorsManager.secondGreen),
+                style: CairoTextStyles.bold.copyWith(
+                    fontSize: 16.sp, color: ColorsManager.secondGreen),
               ),
               verticalSpace(8.h),
               Text(
                 cardHint,
-                style: CairoTextStyles.bold.copyWith(fontSize: 12.sp,color: ColorsManager.secondGreen),
+                style: CairoTextStyles.bold.copyWith(
+                    fontSize: 12.sp, color: ColorsManager.secondGreen),
               ),
               verticalSpace(4.h),
-              Container(
+              SizedBox(
                 width: 233.w,
                 height: 36.h,
                 child: Text(
                   cardDescription,
-                  style: CairoTextStyles.semiBold.copyWith(fontSize: 12.sp,color: ColorsManager.secondGreen),
+                  style: CairoTextStyles.semiBold.copyWith(
+                      fontSize: 12.sp, color: ColorsManager.secondGreen),
                   textDirection: TextDirection.rtl,
                 ),
               ),

@@ -131,7 +131,7 @@ class SignupCubit extends Cubit<SignupState> {
         emit(SignupError("Unknown error occurred"));
       }
     } catch (e) {
-      emit(SignupError("Failed to sign up: ${e.toString()}"));
+      emit(SignupError("There is a problem signing"));
     }
   }
 }

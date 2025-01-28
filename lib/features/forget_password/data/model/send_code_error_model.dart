@@ -3,13 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'send_code_error_model.g.dart';
 
 @JsonSerializable()
-class SendCodeErrorModel {
+class SendForgetPasswordErrorModel {
   final String message;
 
-  SendCodeErrorModel(this.message);
+  SendForgetPasswordErrorModel(this.message);
 
-  factory SendCodeErrorModel.fromJson(Map<String, dynamic> json) =>
-      _$SendCodeErrorModelFromJson(json);
+  factory SendForgetPasswordErrorModel.fromJson(Map<String, dynamic> json) =>
+      _$SendForgetPasswordErrorModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SendCodeErrorModelToJson(this);
+  Map<String, dynamic> toJson() => _$SendForgetPasswordErrorModelToJson(this);
 }

@@ -31,13 +31,12 @@ class _OTPScreenState extends State<OTPScreen> {
         if (state is ActiveCodeSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.message),
+              content: Text(state.token),
               backgroundColor: Colors.green,
             ),
           );
-          context.pushNamedAndRemoveUntil(Routing.homeScreen);
-        }
-        else if (state is ActiveCodeFailure) {
+          context.pushNamed(Routing.homeScreen);
+        } else if (state is ActiveCodeFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),

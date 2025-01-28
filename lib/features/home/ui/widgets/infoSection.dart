@@ -8,13 +8,13 @@ class InfoSection extends StatelessWidget {
   final String cardLabel;
   final double topPadding;
   final double leftPadding;
+
   const InfoSection({
     super.key,
     required this.imgPath,
     required this.leftPadding,
     required this.topPadding,
-    required this.cardLabel
-
+    required this.cardLabel,
   });
 
   @override
@@ -23,37 +23,35 @@ class InfoSection extends StatelessWidget {
       height: 120.h,
       width: 120.w,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.sp),
-          color: const Color(0xffE0EAE4)),
+        borderRadius: BorderRadius.circular(20.sp),
+        color: ColorsManager.greenWhite,
+      ),
       child: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.only(
-                top: topPadding, left: leftPadding),
-            child: ClipRRect(
-                borderRadius:
-                BorderRadius.circular(20.sp),
+          Positioned(
+            top: topPadding,
+            left: leftPadding,
+            child: Padding(
+              padding: EdgeInsets.all(8.sp),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.sp),
                 child: Image.asset(
                   imgPath,
-                )),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 8.h, right: 8.w),
-                    child: Text(
-                      cardLabel,
-                      style: CairoTextStyles.bold.copyWith(fontSize: 16.sp,color: ColorsManager.secondGreen),
-                    ),
-                  )
-                ],
+                ),
               ),
-            ],
-          )
+            ),
+          ),
+          Positioned(
+            top: 8.h,
+            right: 8.w,
+            child: Text(
+              cardLabel,
+              style: CairoTextStyles.bold.copyWith(
+                fontSize: 16.sp,
+                color: ColorsManager.secondGreen,
+              ),
+            ),
+          ),
         ],
       ),
     );

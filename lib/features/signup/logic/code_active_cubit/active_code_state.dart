@@ -8,9 +8,9 @@ final class ActiveCodeInitial extends ActiveCodeState {}
 final class ActiveCodeLoading extends ActiveCodeState {}
 
 final class ActiveCodeSuccess extends ActiveCodeState {
-  final String message;
+  final String token;
 
-  ActiveCodeSuccess(this.message);
+  ActiveCodeSuccess(this.token);
 }
 
 final class ActiveCodeFailure extends ActiveCodeState {
