@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "279574771263",
-    "project_id": "nabta-f65ea",
-    "storage_bucket": "nabta-f65ea.firebasestorage.app"
+    "project_number": "150140078544",
+    "project_id": "nabta-app-12fa9",
+    "storage_bucket": "nabta-app-12fa9.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279574771263:android:b975e2949fa82588b2ea8a",
+        "mobilesdk_app_id": "1:150140078544:android:e00e04c0c99fd3354851d5",
         "android_client_info": {
           "package_name": "com.example.nabta_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "279574771263-hp07ea15ccfrkfoqv53oevlvgj51ddq9.apps.googleusercontent.com",
+          "client_id": "150140078544-38fuoja0gt74t5dg2ru729bmtb08h92d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.nabta_app",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "279574771263-avpcjnlt5gsfc89rii5svmlr4ldqrrn3.apps.googleusercontent.com",
+          "client_id": "150140078544-cqigt2hcs2bvhsn47muel56c42038fn2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAak1jh22DHcmNPjUst8W-df2-WSkZ-1zM"
+          "current_key": "AIzaSyD2f-dd3durrQX4y0WN8e2NbkFMq9k6uxA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "279574771263-avpcjnlt5gsfc89rii5svmlr4ldqrrn3.apps.googleusercontent.com",
+              "client_id": "150140078544-cqigt2hcs2bvhsn47muel56c42038fn2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

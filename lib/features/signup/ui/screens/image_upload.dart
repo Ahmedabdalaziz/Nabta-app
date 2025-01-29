@@ -18,6 +18,8 @@ import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
 
 class UploadingImageScreen extends StatefulWidget {
+  const UploadingImageScreen({super.key});
+
   @override
   _UploadingImageScreenState createState() => _UploadingImageScreenState();
 }
@@ -32,12 +34,11 @@ class _UploadingImageScreenState extends State<UploadingImageScreen> {
         // نجح في تسجيل الدخول يابية
         if (state is SignupSuccess) {
           context.pushNamed(Routing.otpScreen);
-
         }
         // ابتدينا عبط بقا
         else if (state is SignupError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("There is a problem")),
+            SnackBar(content: Text(state.message)),
           );
         }
       },

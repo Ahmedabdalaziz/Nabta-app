@@ -127,8 +127,6 @@ class SignupCubit extends Cubit<SignupState> {
         emit(SignupSuccess(response.status, response.message));
       } else if (response is SignUpErrorModel) {
         emit(SignupError(response.message));
-      } else {
-        emit(SignupError("Unknown error occurred"));
       }
     } catch (e) {
       emit(SignupError("There is a problem signing"));

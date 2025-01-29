@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
+import 'package:graduation_project/features/login/ui/facebook_signin.dart';
 import 'package:graduation_project/features/login/ui/google_signin.dart';
 
 import '../../../core/theming/style_manager.dart';
@@ -272,14 +274,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     Stack(
                       alignment: Alignment.center,
                       children: [
-                        Container(
-                          width: 50.w,
-                          height: 50.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: ColorsManager.secondGreen,
-                              width: 2.0.w,
+                        GestureDetector(
+                          onTap: () async {
+                            UserCredential? userCredential =
+                                await signInWithFacebook();
+                            if (userCredential != null) {
+                              context
+                                  .pushNamedAndRemoveUntil(Routing.homeScreen);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "عذراً لم نتمكن من التسجيل عبر الفيسبوك")),
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: 50.w,
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: ColorsManager.secondGreen,
+                                width: 2.0.w,
+                              ),
                             ),
                           ),
                         ),
@@ -293,14 +311,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       onTap: () async {
                         _unfocus();
-                        final userCredential = await signInWithGoogle();
-                        if (userCredential.user != null) {
+                        final userCredential =
+                            await signInWithGoogleAndSendData();
+                        if (userCredential?.user != null) {
                           context.pushNamedAndRemoveUntil(Routing.homeScreen);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text(
-                                    "عذرا، لم يتم التحقق من حسابك على Google.")),
+                              content: Text(
+                                  "عذرا، لم يتم التحقق من حسابك على Google."),
+                            ),
                           );
                         }
                       },

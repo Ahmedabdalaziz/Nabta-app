@@ -13,4 +13,7 @@ class Routing {
   static const String otpScreen = "/otpScreen";
   static const String weatherScreen = "/WeatherScreen";
   static const String welcomingScreen = "/WelcomingScreen";
+  static const String emailCheckedScreen = "/emailCheckedScreen";
+  static const String newPasswordScreen = "/newPasswordScreen";
+  static const String resetPasswordDoneScreen = "/resetPasswordDoneScreen";
 }

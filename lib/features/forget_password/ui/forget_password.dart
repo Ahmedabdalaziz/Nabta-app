@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
@@ -25,6 +27,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     return BlocConsumer<SendForgetPasswordCubit, SendForgetPasswordState>(
       listener: (context, state) {
         if (state is SendForgetPasswordSuccess) {
+          context.pushNamedAndRemoveUntil(Routing.otpScreen);
         } else if (state is ValidationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
@@ -56,7 +59,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     fontSize: 30.sp, color: ColorsManager.secondGreen),
               ),
             ),
-            verticalSpace(24.h),
+            verticalSpace(32.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
               child: Center(
@@ -65,7 +68,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   textAlign: TextAlign.center,
                   "الرجاء إدخال البريد الإلكتروني الذي تم تسجيله مسبقًا في حسابك، حتى نتمكن من إرسال الكود التأكيدي لاستعادة الوصول أو التحقق من حسابك .",
                   style: CairoTextStyles.bold.copyWith(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     color: ColorsManager.secondGreen,
                     height: 2.3.sp,
                   ),
@@ -119,7 +122,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   } else {
                     context
                         .read<SendForgetPasswordCubit>()
-                        .sendEmail(emailController.text);
+                        .sendForgetPasswordEmail(emailController.text);
                   }
                 },
               ),

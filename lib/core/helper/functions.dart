@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -38,14 +39,14 @@ class ImageHandler {
       final XFile? imageFile =
           await _picker.pickImage(source: ImageSource.gallery);
       if (imageFile == null) {
-        print("No image selected.");
+        log("No image selected.");
         return null;
       }
 
       final bytes = await File(imageFile.path).readAsBytes();
       return base64Encode(bytes);
     } catch (e) {
-      print("Error picking image: $e");
+      log("Error picking image: $e");
       return null;
     }
   }

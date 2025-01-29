@@ -10,14 +10,13 @@ import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/core/widgets/otp_input.dart';
-import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
-import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
+import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
 
 class OTPScreen extends StatefulWidget {
   final String email;
 
-  const OTPScreen({super.key, this.email = ""});
+  const OTPScreen({super.key, required this.email});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -28,14 +27,14 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ActiveCodeCubit, ActiveCodeState>(
+    return BlocConsumer<SendForgetPasswordCubit, SendForgetPasswordState>(
       listener: (context, state) {
-        if (state is ActiveCodeSuccess) {
+        if (state is SendForgetPasswordSuccess) {
           context.pushNamed(Routing.homeScreen);
-        } else if (state is ActiveCodeFailure) {
+        } else if (state is SendForgetPasswordFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.error),
+              content: Text(state.errorMessage),
               backgroundColor: Colors.red,
             ),
           );
@@ -95,12 +94,9 @@ class _OTPScreenState extends State<OTPScreen> {
                         textStyle: CairoTextStyles.extraBold.copyWith(
                             fontSize: 20.sp, color: ColorsManager.white),
                         onPressed: () {
-                          final email =
-                              context.read<SignupCubit>().signupData.email;
                           if (otpCode != null && otpCode!.isNotEmpty) {
-                            context
-                                .read<ActiveCodeCubit>()
-                                .activateAccount(email!, otpCode!);
+                            // تمرير البريد الإلكتروني مع كود التفعيل
+                            context.read<SendForgetPasswordCubit>().sendForgetPasswordEmail(widget.email);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -125,14 +121,14 @@ class _OTPScreenState extends State<OTPScreen> {
                           borderRadius: BorderRadius.circular(50.0.sp),
                         ),
                         child: DarkCustomTextButton(
-                          textColor: ColorsManager.secondGreen,
-                          bottomColor: ColorsManager.moreWhite,
-                          text: 'إعادة إرسال الرمز',
-                          textStyle: CairoTextStyles.extraBold.copyWith(
-                            fontSize: 20.sp,
-                            color: ColorsManager.white,
-                          ),
-                          onPressed: () {},
+                            textColor: ColorsManager.secondGreen,
+                            bottomColor: ColorsManager.moreWhite,
+                            text: 'إعادة إرسال الرمز',
+                            textStyle: CairoTextStyles.extraBold.copyWith(
+                              fontSize: 20.sp,
+                              color: ColorsManager.white,
+                            ),
+                            onPressed: () {} // وظيفة إعادة الإرسال
                         ),
                       ),
                     )

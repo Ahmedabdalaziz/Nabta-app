@@ -76,6 +76,7 @@ dependencies:
   firebase_storage: ^12.3.4
   firebase_messaging: ^15.1.3
   flutter_otp_text_field: ^1.2.0
+  flutter_facebook_auth: ^7.1.1
   # secure of storage
   flutter_secure_storage: ^9.2.3
   #internet check
@@ -87,6 +88,7 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   #home
   animated_bottom_navigation_bar: ^1.3.3
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

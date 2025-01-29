@@ -4,9 +4,11 @@ import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/strings.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
-import 'package:graduation_project/core/widgets/token.dart';
+import 'package:graduation_project/core/helper/token.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

@@ -10,10 +10,11 @@ class SendForgetPasswordRepo {
 
   SendForgetPasswordRepo(this.apiService);
 
-  Future<dynamic> sendEmailToForgetPass(String email) async {
+  Future<dynamic?> sendEmailToForgetPass(String email) async {
     final requestModel = SendForgetPasswordRequestModel(email: email);
     try {
-      return await apiService.sendForgetPasswordCode(requestModel.toJson());
+      final response = await apiService.sendForgetPasswordCode(requestModel);
+      return response;
     } catch (e) {
       log("Error during forgetPassword: $e");
       if (e is DioException) {

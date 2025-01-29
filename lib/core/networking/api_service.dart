@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networking/api_constants.dart';
+import 'package:graduation_project/features/forget_password/data/model/send_code_request_model.dart';
 import 'package:graduation_project/features/forget_password/data/model/send_code_response_model.dart';
 import 'package:graduation_project/features/login/data/models/respons_login_model.dart';
 import 'package:graduation_project/features/signup/data/model/custom/sigin_model_response.dart';
+import 'package:graduation_project/features/signup/data/model/custom/sign_request_activation_code.dart';
 import 'package:graduation_project/features/signup/data/model/custom/sign_response_activation_code.dart'; // استيراد الموديل
 import 'package:retrofit/retrofit.dart';
 
@@ -22,9 +24,9 @@ abstract class ApiService {
 
   @POST(ApiConstants.activateAccount)
   Future<ActivateAccountResponseModel> activateAccount(
-      @Body() Map<String, dynamic> body);
+      @Body() ActivateAccountRequestModel body);
 
   @POST(ApiConstants.sendForgetPasswordCode)
   Future<SendForgetPasswordResponseModel> sendForgetPasswordCode(
-      @Body() Map<String, dynamic> body);
+      @Body() SendForgetPasswordRequestModel body);
 }

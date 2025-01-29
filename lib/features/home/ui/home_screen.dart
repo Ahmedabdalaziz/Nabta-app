@@ -62,16 +62,19 @@ class _HomeState extends State<Home> {
     int animationIdx = 0;
     return Scaffold(
       backgroundColor: ColorsManager.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        elevation: 1,
-        backgroundColor: ColorsManager.backGreen,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
-        child: SvgPicture.asset('assets/SVGs/home/scan.svg'),
+      floatingActionButton: Transform.translate(
+        offset: const Offset(0, -7),
+        child: FloatingActionButton(
+          onPressed: () {},
+          elevation: 0,
+          backgroundColor: ColorsManager.backGreen,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+          child: SvgPicture.asset('assets/SVGs/home/scan.svg'),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      //navigation bar
+//navigation bar
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: icons,
         activeIndex: animationIdx,
@@ -84,7 +87,7 @@ class _HomeState extends State<Home> {
         inactiveColor: ColorsManager.secondGreen,
         height: 62.h,
         borderWidth: 424.w,
-        notchSmoothness: NotchSmoothness.smoothEdge,
+        notchSmoothness: NotchSmoothness.softEdge,
         iconSize: 35.sp,
       ),
       body: Stack(
@@ -144,7 +147,7 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-              verticalSpace(27.h),
+              verticalSpace(16.h),
               ///////////////////// كرت الطقس/////////////////////
               SizedBox(
                 height: 150.h,

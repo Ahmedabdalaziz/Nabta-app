@@ -93,12 +93,12 @@ class _ApiService implements ApiService {
 
   @override
   Future<ActivateAccountResponseModel> activateAccount(
-      Map<String, dynamic> body) async {
+      ActivateAccountRequestModel body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
+    _data.addAll(body.toJson());
     final _options = _setStreamType<ActivateAccountResponseModel>(Options(
       method: 'POST',
       headers: _headers,
@@ -128,12 +128,12 @@ class _ApiService implements ApiService {
 
   @override
   Future<SendForgetPasswordResponseModel> sendForgetPasswordCode(
-      Map<String, dynamic> body) async {
+      SendForgetPasswordRequestModel body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
+    _data.addAll(body.toJson());
     final _options = _setStreamType<SendForgetPasswordResponseModel>(Options(
       method: 'POST',
       headers: _headers,

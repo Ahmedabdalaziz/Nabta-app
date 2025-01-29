@@ -13,13 +13,13 @@ class CircleProgressBar extends StatefulWidget {
   final String iconPath;
 
   const CircleProgressBar({
-    Key? key,
+    super.key,
     this.animationDuration = const Duration(seconds: 1),
     this.backgroundColor = const Color(0x00000000),
     required this.foregroundColor,
     this.value = 0,
     this.iconPath = "assets/SVGs/icons/indcetor.svg",
-  }) : super(key: key);
+  });
 
   @override
   CircleProgressBarState createState() {
