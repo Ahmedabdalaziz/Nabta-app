@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
@@ -22,16 +23,26 @@ class WeatherCard extends StatelessWidget {
 
   // دالة لتحديد الصورة بناءً على حالة الطقس
   String _getImagePath() {
-    switch (condition.toLowerCase()) {
+    switch (condition) {
       case 'clear':
-      case 'sunny':
-        return 'assets/SVGs/home/Group 129.png'; // صورة للجو الصافي
+      case 'Cold':
+        return 'assets/SVGs/home/weather2.png'; // صورة للجو الصافي
       case 'cloudy':
+      case 'Partially cloudy':
+      case 'Fog':
+      case 'Mist':
       case 'overcast':
-        return 'assets/SVGs/home/weather2.png'; // صورة للجو الغائم
+        return 'assets/SVGs/home/1.5Group 127.png'; // صورة للجو الغائم
       case 'rain':
+      case 'Heavy Rain':
+      case 'Light Rain':
       case 'drizzle':
-        return 'assets/SVGs/home/weather3.png'; // صورة للجو الممطر
+        return 'assets/SVGs/home/weather3.png'; // الجو الممطر
+      case 'Sandstorm':
+      case 'Duststorm':
+      case 'Thunderstorm':
+      case 'Windy':
+        return 'assets/SVGs/home/Group 130.png';// الجو العاصف والرياح
       default:
         return 'assets/SVGs/home/Group 129.png'; // صورة افتراضية
     }
@@ -40,7 +51,6 @@ class WeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imagePath = _getImagePath();
-
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -56,7 +66,7 @@ class WeatherCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    condition,
+                    translatedCondition(condition),
                     style: CairoTextStyles.bold.copyWith(
                       fontSize: 13.sp,
                       color: ColorsManager.secondGreen,
@@ -70,7 +80,7 @@ class WeatherCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'الرطوبة : ${humidity.toStringAsFixed(0)}%',
+                    'الرطوبة : % ${humidity.toStringAsFixed(0)}',
                     style: CairoTextStyles.bold.copyWith(
                       fontSize: 13.sp,
                       color: ColorsManager.secondGreen,

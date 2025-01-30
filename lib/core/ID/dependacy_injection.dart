@@ -63,6 +63,8 @@ Future<GetIt> setUpGetIt() async {
     () => SendForgetPasswordCubit(getIt<SendForgetPasswordRepo>()),
   );
 
+   // .............................................................................
+
   // Register WeatherApiService
   getIt.registerLazySingleton<WeatherApiService>(
     () => WeatherApiService(getIt<Dio>()),

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
+
 import '../models/weather_response.dart';
 import '../remote/weather_api_service.dart';
 import 'package:graduation_project/core/networking/api_constants.dart';
@@ -10,8 +12,13 @@ class WeatherRepository {
 
   Future<WeatherResponse> getWeather(String location) async {
     final now = DateTime.now();
-    final startDate = "${now.year}-${now.month}-${now.day}";
-    final endDate = "${now.year}-${now.month}-${now.day + 2}";
+    final dateForamt = DateFormat('yyyy-MM-dd');
+
+    final startDate = dateForamt.format(now);
+    final endDate = dateForamt.format(now.add(const Duration(days: 2)));
+    // simple debug
+    print("Start Date: $startDate");
+    print("End Date: $endDate");
 
     try {
       final weatherResponse = await weatherApiService.getWeather(

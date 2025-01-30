@@ -72,5 +72,29 @@ Future<void> requestPermissions() async {
   }
 
 }
+Map<String,String> weatherCondition =
+{
+  'Clear':'صافي',
+  'Partially cloudy':'غائم جزئيا',
+  'Overcast':'غائم كليا',
+  'Fog':'ضباب',
+  'Mist':'شبورة مائية',
+  'Dust':'غبار',
+  'Sand':'رمال متحركه',
+  'Sandstorm':'عاصفة رملية',
+  'Duststorm':'عاصفة ترابية',
+  'Rain':'امطار',
+  'Heavy Rain':'امطار غزيرة',
+  'Light Rain':'امطار خفيفة',
+  'Drizzle':'رذاذ',
+  'Thunderstorm':'عاصفة رعدية',
+  'Windy':'رياح قوية',
+  'Cold':'بارد',
+  'Hot':'ساخن',
+  'Freezing':'تجمد',
+};
 
-
+String translatedCondition(String condition)
+{
+  return weatherCondition[condition] ?? 'not found';
+}

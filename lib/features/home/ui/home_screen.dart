@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
@@ -10,6 +11,7 @@ import 'package:graduation_project/features/home/ui/widgets/bottomSection.dart';
 import 'package:graduation_project/features/home/ui/widgets/bottomSectionWithoutClip.dart';
 import 'package:graduation_project/features/home/ui/widgets/infoSection.dart';
 import 'package:graduation_project/features/home/ui/widgets/longCardInfo.dart';
+import 'package:graduation_project/features/weather/logic/weather_cubit.dart';
 import 'package:graduation_project/features/weather/weather_widgets.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -25,6 +27,13 @@ class _HomeState extends State<Home> {
   final PageController _pageController = PageController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<WeatherCubit>().fetchWeather("alexandria");
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     //list for the special icons ya 3m 7amoooooooooooo
     final List<IconData> icons = [
@@ -34,47 +43,44 @@ class _HomeState extends State<Home> {
       HugeIcons.strokeRoundedMenu01,
     ];
 
-    final List<Map<String, dynamic>> weatherData = [
-      {
-        "condition": "صافي",
-        "humidity": 50.0,
-        "windSpeed": 18.0,
-        "temperature": 27.0,
-        "location": "مصر - اسيوط",
-      },
-      {
-        "condition": "غائم",
-        "humidity": 60.0,
-        "windSpeed": 20.0,
-        "temperature": 25.0,
-        "location": "مصر - اسيوط",
-      },
-      {
-        "condition": "ممطر",
-        "humidity": 70.0,
-        "windSpeed": 22.0,
-        "temperature": 23.0,
-        "location": "مصر - اسيوط",
-      },
-    ];
+    // final List<Map<String, dynamic>> weatherData = [
+    //   {
+    //     "condition": "صافي",
+    //     "humidity": 50.0,
+    //     "windSpeed": 18.0,
+    //     "temperature": 27.0,
+    //     "location": "مصر - اسيوط",
+    //   },
+    //   {
+    //     "condition": "غائم",
+    //     "humidity": 60.0,
+    //     "windSpeed": 20.0,
+    //     "temperature": 25.0,
+    //     "location": "مصر - اسيوط",
+    //   },
+    //   {
+    //     "condition": "ممطر",
+    //     "humidity": 70.0,
+    //     "windSpeed": 22.0,
+    //     "temperature": 23.0,
+    //     "location": "مصر - اسيوط",
+    //   },
+    // ];
 
     // index for the info cards about weather
     int animationIdx = 0;
     return Scaffold(
       backgroundColor: ColorsManager.white,
-      floatingActionButton: Transform.translate(
-        offset: const Offset(0, -7),
-        child: FloatingActionButton(
-          onPressed: () {},
-          elevation: 0,
-          backgroundColor: ColorsManager.backGreen,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
-          child: SvgPicture.asset('assets/SVGs/home/scan.svg'),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        elevation: 1,
+        backgroundColor: ColorsManager.backGreen,
+        shape:
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+        child: SvgPicture.asset('assets/SVGs/home/scan.svg'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-//navigation bar
+      //navigation bar
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: icons,
         activeIndex: animationIdx,
@@ -87,7 +93,7 @@ class _HomeState extends State<Home> {
         inactiveColor: ColorsManager.secondGreen,
         height: 62.h,
         borderWidth: 424.w,
-        notchSmoothness: NotchSmoothness.softEdge,
+        notchSmoothness: NotchSmoothness.smoothEdge,
         iconSize: 35.sp,
       ),
       body: Stack(
@@ -147,41 +153,66 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-              verticalSpace(16.h),
+              verticalSpace(27.h),
               ///////////////////// كرت الطقس/////////////////////
-              SizedBox(
-                height: 150.h,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 133.5.h,
-                      width: 392.w,
-                      child: PageView(
-                        controller: _pageController,
-                        children: weatherData.map((data) {
-                          return WeatherCard(
-                            condition: data["condition"],
-                            humidity: data["humidity"],
-                            windSpeed: data["windSpeed"],
-                            temperature: data["temperature"],
-                            location: data["location"],
-                          );
-                        }).toList(),
+              BlocBuilder<WeatherCubit, WeatherState>(
+                builder: (context, state) {
+                  if(state is WeatherLoading)
+                    {
+                      return SizedBox(
+                          height: 150.h,
+                          child: const Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    else if (state is WeatherLoaded) {
+                      final weatherData = state.weatherResponse.days;
+                    return SizedBox(
+                      height: 150.h,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 133.5.h,
+                            width: 392.w,
+                            child: PageView(
+                              controller: _pageController,
+                              children: weatherData.map((day) {
+                                return WeatherCard(
+                                  condition: day.conditions,
+                                  humidity: day.humidity,
+                                  windSpeed: day.windspeed,
+                                  temperature: day.temp,
+                                  location: 'الاسكندرية-مصر',
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          verticalSpace(10.h),
+                          SmoothPageIndicator(
+                            controller: _pageController,
+                            count: weatherData.length,
+                            effect: ExpandingDotsEffect(
+                              dotHeight: 8.h,
+                              dotWidth: 8.w,
+                              activeDotColor: ColorsManager.secondGreen,
+                              dotColor: ColorsManager.secondGreen,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    verticalSpace(10.h),
-                    SmoothPageIndicator(
-                      controller: _pageController,
-                      count: weatherData.length,
-                      effect: ExpandingDotsEffect(
-                        dotHeight: 8.h,
-                        dotWidth: 8.w,
-                        activeDotColor: ColorsManager.secondGreen,
-                        dotColor: ColorsManager.secondGreen,
-                      ),
-                    ),
-                  ],
-                ),
+                    );
+                  }
+                  else if (state is WeatherError) {
+                    return SizedBox(
+                      height: 150.h,
+                      child: Center(child: Text("Error: ${state.message}")),
+                    );
+                  }else {
+                    return SizedBox(
+                      height: 150.h,
+                      child: const Center(child: Text("No data available.")),
+                    );
+                  }
+                },
               ),
               verticalSpace(11.h),
               Padding(
@@ -226,13 +257,13 @@ class _HomeState extends State<Home> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20.0.sp),
                             child:
-                                Image.asset('assets/SVGs/home/ادوات_1.5.png'),
+                            Image.asset('assets/SVGs/home/ادوات_1.5.png'),
                           ),
                           const LongCardInfo(
                             cardLabel: 'السوق الزراعي',
                             cardHint: '!بيع واشتري منتجاتك الزراعية بسهولة',
                             cardDescription:
-                                'اضف منتجاتك وحدد السعر المناسب لك وتصف المنتجات المضافة حديثا',
+                            'اضف منتجاتك وحدد السعر المناسب لك وتصف المنتجات المضافة حديثا',
                           )
                         ],
                       ),
@@ -249,7 +280,7 @@ class _HomeState extends State<Home> {
                         Positioned(
                           left: 3.w,
                           child:
-                              Image.asset('assets/SVGs/home/Rectangle 75.png'),
+                          Image.asset('assets/SVGs/home/Rectangle 75.png'),
                         ),
                         Positioned(
                           bottom: 2.h,
@@ -266,7 +297,7 @@ class _HomeState extends State<Home> {
                           cardLabel: 'نشرة الزراعة',
                           cardHint: ' !الري تعلن خطة ترشيد استهلاك المياه',
                           cardDescription:
-                              'أطلقت وزارة الري حملة لترشيد استخدام المياه في الزراعة والصناعة، مع التركيز على تقنيات الري الحديث لتحسين الكفاءة وتقليل الفاقد.',
+                          'أطلقت وزارة الري حملة لترشيد استخدام المياه في الزراعة والصناعة، مع التركيز على تقنيات الري الحديث لتحسين الكفاءة وتقليل الفاقد.',
                         ),
                       ]),
                     ),
