@@ -31,7 +31,7 @@ class _OTPScreenState extends State<OTPScreen> {
     return BlocConsumer<ActiveCodeCubit, ActiveCodeState>(
       listener: (context, state) {
         if (state is ActiveCodeSuccess) {
-          context.pushNamed(Routing.homeScreen);
+          context.pushNamed(Routing.welcomingScreen);
         } else if (state is ActiveCodeFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

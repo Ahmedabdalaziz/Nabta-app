@@ -89,6 +89,7 @@ dependencies:
   #home
   animated_bottom_navigation_bar: ^1.3.3
   dartz: ^0.10.1
+  keyboard_avoider: ^0.2.0
 
 dev_dependencies:
   flutter_test:

@@ -11,6 +11,7 @@ import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
+import 'package:graduation_project/features/report/ui/screens/report_screen.dart';
 import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
@@ -31,53 +32,52 @@ class AppRouter {
 
     switch (settings.name) {
       case Routing.splashScreen:
-        return MaterialPageRoute(builder: (context) => SplashScreen());
+        return createRoute(const SplashScreen());
 
       case Routing.onBoarding:
-        return MaterialPageRoute(builder: (context) => OnboardingScreen());
+        return createRoute(OnboardingScreen());
 
       case Routing.loginScreen:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider(
+        return createRoute(
+          BlocProvider(
             create: (context) => getIt<LoginCubit>(),
             child: const LoginScreen(),
           ),
         );
 
       case Routing.signupScreen:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider(
+        return createRoute(
+          BlocProvider(
             create: (context) => getIt<SignupCubit>(),
             child: const FirstSignup(),
           ),
         );
 
       case Routing.secondSignUpScreen:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider.value(
+        return createRoute(
+          BlocProvider.value(
             value: getIt<SignupCubit>(),
             child: const SecondSignup(),
           ),
         );
 
       case Routing.uploadingImageScreen:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider(
+        return createRoute(
+          BlocProvider(
             create: (context) => getIt<SignupCubit>(),
-            child: UploadingImageScreen(),
+            child: const UploadingImageScreen(),
           ),
         );
 
       case Routing.otpScreen:
-        return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(
+        return createRoute(
+          MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: getIt<SignupCubit>(), // Provide the existing SignupCubit
+                value: getIt<SignupCubit>(),
               ),
               BlocProvider(
-                create: (context) =>
-                    getIt<ActiveCodeCubit>(), // Create a new ActiveCodeCubit
+                create: (context) => getIt<ActiveCodeCubit>(),
               ),
             ],
             child: const OTPScreen(),
@@ -85,48 +85,71 @@ class AppRouter {
         );
 
       case Routing.firstPasswordSignupScreen:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider.value(
+        return createRoute(
+          BlocProvider.value(
             value: getIt<SignupCubit>(),
             child: const FirstPasswordSignup(),
           ),
         );
 
       case Routing.forgetPasswordScreen:
-        return MaterialPageRoute(
-            builder: (context) => BlocProvider(
-                  create: (context) => getIt<SendForgetPasswordCubit>(),
-                  child: const ForgetPasswordScreen(),
-                ));
+        return createRoute(
+          BlocProvider(
+            create: (context) => getIt<SendForgetPasswordCubit>(),
+            child: const ForgetPasswordScreen(),
+          ),
+        );
 
       case Routing.emailCheckedScreen:
-        return MaterialPageRoute(builder: (context) => const EmailChecked());
+        return createRoute(const EmailChecked());
 
       case Routing.newPasswordScreen:
-        return MaterialPageRoute(builder: (context) => const NewPassAssign());
+        return createRoute(const NewPassAssign());
 
       case Routing.resetPasswordDoneScreen:
-        return MaterialPageRoute(builder: (context) => ResetPassDone());
+        return createRoute(ResetPassDone());
 
       case Routing.welcomingScreen:
-        return MaterialPageRoute(builder: (context) => const Welcom());
+        return createRoute(const Welcom());
 
       case Routing.startScreen:
-        return MaterialPageRoute(builder: (context) => const StartScreen());
+        return createRoute(const StartScreen());
+
+      case Routing.reportScreen:
+        return createRoute(const ReportScreen());
 
       case Routing.weatherScreen:
-        return MaterialPageRoute(builder: (context) => Container());
+        return createRoute(Container());
 
       case Routing.homeScreen:
-        return MaterialPageRoute(
-            builder: (context) => MultiBlocProvider(providers: [
-                  BlocProvider(
-                    create: (context) => getIt<WeatherCubit>(),
-                  ),
-                ], child: const Home()));
+        return createRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<WeatherCubit>(),
+              ),
+            ],
+            child: const Home(),
+          ),
+        );
 
       default:
-        return MaterialPageRoute(builder: (context) => const Column());
+        return createRoute(const Column());
     }
   }
 }
+
+Route createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 300),
+  );
+}
+
+

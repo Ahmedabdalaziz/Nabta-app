@@ -6,6 +6,7 @@ import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/helper/strings.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart'; // استيراد الحزمة
 
 class Background extends StatelessWidget {
   final Widget customContent;
@@ -18,66 +19,70 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.mainGreen,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                  child: Transform.translate(
-                    offset: Offset(0, 30.h),
-                    child: SvgPicture.asset(
-                      loginSVG,
-                      height: 250.35.h,
-                      width: 180.55.w,
+      body: KeyboardAvoider(
+        duration: const Duration(milliseconds: 300), // مدة الانتقال
+        autoScroll: true, // التمرير التلقائي
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                    child: Transform.translate(
+                      offset: Offset(0, 30.h),
+                      child: SvgPicture.asset(
+                        loginSVG,
+                        height: 250.35.h,
+                        width: 180.55.w,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 707.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(50.sp),
-                      topLeft: Radius.circular(50.sp),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 707.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(50.sp),
+                        topLeft: Radius.circular(50.sp),
+                      ),
                     ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0.sp,
-                        bottom: 0.sp,
-                        child: SvgPicture.asset(
-                          width: 300.w,
-                          height: 400.h,
-                          "assets/SVGs/login_screen/Plant Background.svg",
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0.sp,
+                          bottom: 0.sp,
+                          child: SvgPicture.asset(
+                            width: 300.w,
+                            height: 400.h,
+                            "assets/SVGs/login_screen/Plant Background.svg",
+                          ),
                         ),
-                      ),
-                      Column(
-                        children: [customContent, verticalSpace(10.h)],
-                      ),
-                    ],
+                        Column(
+                          children: [customContent, verticalSpace(10.h)],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            if (showCloseButton) // إذا كانت showCloseButton = true، سيظهر الزر
-              Positioned(
-                top: 30.h,
-                left: 30.w,
-                child: GestureDetector(
-                  onTap: () {
-                    context.pushNamedAndRemoveUntil(Routing.loginScreen);
-                  },
-                  child: CustomPaint(
-                    size: Size(46.w, 50.h),
-                    painter: TransparentCircleWithX(),
-                  ),
-                ),
+                ],
               ),
-          ],
+              if (showCloseButton) // إذا كانت showCloseButton = true، سيظهر الزر
+                Positioned(
+                  top: 30.h,
+                  left: 30.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.pushNamedAndRemoveUntil(Routing.loginScreen);
+                    },
+                    child: CustomPaint(
+                      size: Size(46.w, 50.h),
+                      painter: TransparentCircleWithX(),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
