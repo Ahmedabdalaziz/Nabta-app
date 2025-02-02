@@ -7,6 +7,7 @@ import 'package:graduation_project/core/theming/style_manager.dart';
 class DarkCustomTextField extends StatefulWidget {
   final Color textColor;
   final String? labelText;
+  final int? maxLines;
   final bool isPassword;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -44,6 +45,7 @@ class DarkCustomTextField extends StatefulWidget {
     this.autofocus = false,
     this.textInputAction,
     this.onFieldSubmitted,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -90,6 +92,7 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: widget.maxLines,
       focusNode: _internalFocusNode,
       autofocus: widget.autofocus,
       textInputAction: widget.textInputAction,
@@ -123,12 +126,12 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
         ),
         prefixIcon: widget.isPassword
             ? IconButton(
-          icon: Icon(
-            _isObscured ? Icons.visibility_off : Icons.visibility,
-            color: ColorsManager.secondGreen,
-          ),
-          onPressed: _toggleObscureText,
-        )
+                icon: Icon(
+                  _isObscured ? Icons.visibility_off : Icons.visibility,
+                  color: ColorsManager.secondGreen,
+                ),
+                onPressed: _toggleObscureText,
+              )
             : null,
         suffixIcon: widget.icon,
         errorText: widget.showError ? widget.errorMessage : null,
@@ -136,7 +139,8 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderCircular),
           borderSide: BorderSide(
-            color: widget.showError ? ColorsManager.red : ColorsManager.mainGreen,
+            color:
+                widget.showError ? ColorsManager.red : ColorsManager.mainGreen,
             width: 2.0.w,
           ),
         ),

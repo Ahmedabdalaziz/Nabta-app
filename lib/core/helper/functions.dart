@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project/core/helper/strings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -34,19 +35,45 @@ List<String> filterItems(String query, List<String> items) {
 class ImageHandler {
   final ImagePicker _picker = ImagePicker();
 
-  Future<String?> pickImageAsBase64() async {
+  // لاختيار صورة من الألبوم
+  Future<String?> pickImageFromGalleryAsBase64() async {
     try {
       final XFile? imageFile =
           await _picker.pickImage(source: ImageSource.gallery);
       if (imageFile == null) {
-        log("No image selected.");
+        if (kDebugMode) {
+          print("No image selected.");
+        }
         return null;
       }
 
       final bytes = await File(imageFile.path).readAsBytes();
       return base64Encode(bytes);
     } catch (e) {
-      log("Error picking image: $e");
+      if (kDebugMode) {
+        print("Error picking image: $e");
+      }
+      return null;
+    }
+  }
+
+  Future<String?> pickImageFromCameraAsBase64() async {
+    try {
+      final XFile? imageFile =
+          await _picker.pickImage(source: ImageSource.camera);
+      if (imageFile == null) {
+        if (kDebugMode) {
+          print("No image captured.");
+        }
+        return null;
+      }
+
+      final bytes = await File(imageFile.path).readAsBytes();
+      return base64Encode(bytes);
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error capturing image: $e");
+      }
       return null;
     }
   }
@@ -70,31 +97,8 @@ Future<void> requestPermissions() async {
   if (!audioStatus.isGranted) {
     await Permission.audio.request();
   }
-
 }
-Map<String,String> weatherCondition =
-{
-  'Clear':'صافي',
-  'Partially cloudy':'غائم جزئيا',
-  'Overcast':'غائم كليا',
-  'Fog':'ضباب',
-  'Mist':'شبورة مائية',
-  'Dust':'غبار',
-  'Sand':'رمال متحركه',
-  'Sandstorm':'عاصفة رملية',
-  'Duststorm':'عاصفة ترابية',
-  'Rain':'امطار',
-  'Heavy Rain':'امطار غزيرة',
-  'Light Rain':'امطار خفيفة',
-  'Drizzle':'رذاذ',
-  'Thunderstorm':'عاصفة رعدية',
-  'Windy':'رياح قوية',
-  'Cold':'بارد',
-  'Hot':'ساخن',
-  'Freezing':'تجمد',
-};
 
-String translatedCondition(String condition)
-{
+String translatedCondition(String condition) {
   return weatherCondition[condition] ?? 'not found';
 }

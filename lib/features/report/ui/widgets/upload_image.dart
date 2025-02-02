@@ -1,0 +1,176 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/functions.dart';
+import 'package:graduation_project/core/helper/spacing.dart';
+import 'package:graduation_project/core/theming/color.dart';
+import 'package:graduation_project/core/theming/style_manager.dart';
+import 'package:graduation_project/core/widgets/app_text_button.dart';
+
+import '../../../../core/widgets/dark_Custom_text_field.dart';
+
+class UploadImageSection extends StatefulWidget {
+  @override
+  _UploadImageSectionState createState() => _UploadImageSectionState();
+}
+
+class _UploadImageSectionState extends State<UploadImageSection> {
+  final ImageHandler _imageHandler = ImageHandler();
+  List<String> uploadedImages = [];
+  TextEditingController notesController = TextEditingController();
+  bool isType = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            "رفع الصورة",
+            style: CairoTextStyles.bold.copyWith(
+              fontSize: 22.sp,
+              color: ColorsManager.secondGreen,
+            ),
+          ),
+          verticalSpace(8.h),
+          Text(
+            "صور الحيوان في إضاءة جيدة وزاوية تُظهر الإصابة بوضوح، مع صورة مقربة وأخرى للجسم كاملًا و حافظ على ثبات الكاميرا.\nملاحظة: الحد الأقصى 3 صور فقط.",
+            style: CairoTextStyles.medium
+                .copyWith(fontSize: 16.sp, color: ColorsManager.secondGreen),
+            textAlign: TextAlign.end,
+          ),
+          verticalSpace(28.h),
+          Center(
+            child: SizedBox(
+              width: 250.w,
+              height: 56.h,
+              child: DarkCustomTextButton(
+                textStyle: CairoTextStyles.extraBold
+                    .copyWith(color: ColorsManager.white, fontSize: 20.sp),
+                text: "رفع صورة الحيوان",
+                onPressed: uploadedImages.length < 3 ? _pickImage : null,
+                bottomColor: uploadedImages.length < 3
+                    ? ColorsManager.mainGreen
+                    : ColorsManager.mainGreen.withOpacity(0.3),
+              ),
+            ),
+          ),
+          verticalSpace(12.h),
+          ...uploadedImages.map((image) => _imagePreview(image)),
+          verticalSpace(16.h),
+          Text(
+            "أضف ملاحظات",
+            style: CairoTextStyles.bold
+                .copyWith(fontSize: 20.sp, color: ColorsManager.secondGreen),
+          ),
+          verticalSpace(8.h),
+          DarkCustomTextField(
+            onChanged: (value) {
+              setState(() {
+                if (value.isNotEmpty) {
+                  isType = true;
+                } else {
+                  isType = false;
+                }
+              });
+            },
+            autofocus: false,
+            fillColor: ColorsManager.lightWhite,
+            labelText: "اكتب وصفًا مختصرًا للحالة وأي ملاحظات هنا",
+            controller: notesController,
+            maxLines: 6,
+            textColor: ColorsManager.secondGreen,
+          ),
+          verticalSpace(32.h),
+          Center(
+            child: SizedBox(
+              width: 400.w,
+              height: 70.h,
+              child: DarkCustomTextButton(
+                textStyle: CairoTextStyles.extraBold
+                    .copyWith(color: ColorsManager.white, fontSize: 26.sp),
+                text: "التالي",
+                onPressed: () {},
+                bottomColor: isType
+                    ? ColorsManager.mainGreen
+                    : ColorsManager.mainGreen.withOpacity(0.3),
+              ),
+            ),
+          ),
+          verticalSpace(64.h),
+        ],
+      ),
+    );
+  }
+
+  void _pickImage() async {
+    String? base64Image = await _imageHandler.pickImageFromGalleryAsBase64();
+    if (base64Image != null && uploadedImages.length < 3) {
+      setState(() {
+        uploadedImages.add(base64Image);
+      });
+    }
+  }
+
+  Widget _imagePreview(String base64Image) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () => _replaceImage(base64Image),
+              child: Text("استبدال الصورة",
+                  style: CairoTextStyles.bold
+                      .copyWith(color: ColorsManager.secondGreen)),
+            ),
+            TextButton(
+              onPressed: () => _removeImage(base64Image),
+              child: Text("حذف الصورة",
+                  style:
+                      CairoTextStyles.bold.copyWith(color: ColorsManager.red)),
+            ),
+          ],
+        ),
+        horizontalSpace(8.w),
+        Container(
+          width: 90.w,
+          height: 90.h,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16.r),
+            child: Image.memory(
+              base64Decode(base64Image),
+              width: 90.w,
+              height: 90.h,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _removeImage(String base64Image) {
+    setState(() {
+      uploadedImages.remove(base64Image);
+    });
+  }
+
+  void _replaceImage(String oldImage) async {
+    String? newBase64Image = await _imageHandler.pickImageFromGalleryAsBase64();
+    if (newBase64Image != null) {
+      setState(() {
+        int index = uploadedImages.indexOf(oldImage);
+        if (index != -1) {
+          uploadedImages[index] = newBase64Image;
+        }
+      });
+    }
+  }
+
+  void _submit() {}
+}

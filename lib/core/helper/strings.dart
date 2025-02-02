@@ -5,6 +5,7 @@ const String warningBoxSvg = "assets/SVGs/icons/warningLogo.svg";
 const String alertSvg = "assets/SVGs/icons/alert.svg";
 const String placeHolderImage = "assets/SVGs/icons/user_picture.svg";
 const String OTP = "assets/SVGs/sign_in/OTP.svg";
+const String arrowBack = "assets/SVGs/icons/arrow-back-outline.svg";
 const String cowIcon = "assets/SVGs/animals/cow.svg";
 const String chickenIcon = "assets/SVGs/animals/chicken.svg";
 const String donkeyIcon = "assets/SVGs/animals/donkey.svg";
@@ -41,4 +42,90 @@ List<String> cities = [
   "مرسى مطروح",
   "الوادي الجديد",
 ];
-List<String> citiesIcons = cities.map((gov) => 'assets/SVGs/icons/build.svg').toList();
+List<String> citiesIcons =
+    cities.map((gov) => 'assets/SVGs/icons/build.svg').toList();
+
+final Map<String, String> animals = {
+  "الماعز": goatIcon,
+  "الاغنام": sheepIcon,
+  "الجاموس": gamosIcon,
+  "الابقار": cowIcon,
+  "الحمير": donkeyIcon,
+  "الاحصنة": horseIcon,
+  "الدواجن": chickenIcon,
+  "الارانب": rabbitIcon,
+};
+final Map<String, List<String>> diseaseCategories = {
+  "الأمراض الناتجة عن لدغات الحشرات": [
+    "الحمى النزفية",
+    "الدودة القلبية",
+    "الجرب",
+    "غير متأكد"
+  ],
+  "الأمراض البكتيرية": [
+    "التسمم الغذائي",
+    "الإصابات والجروح",
+    "الأمراض الجلدية",
+    "غير متأكد"
+  ],
+  "الأمراض الفيروسية": [
+    "الحمى القلاعية",
+    "الجدري",
+    "التهاب الفم الحويصلي",
+    "غير متأكد"
+  ],
+  "الإصابات والجروح": [
+    "الجروح المفتوحة",
+    "الخراجات",
+    "تورم الأنسجة",
+    "غير متأكد"
+  ],
+  "الأمراض الجلدية": [
+    "الطفح الجلدي",
+    "القوباء الحلقية",
+    "التهابات الجلد",
+    "غير متأكد"
+  ],
+  "الأمراض الطفيلية": [
+    "الدودة الكبدية",
+    "الديدان المعوية",
+    "القراد",
+    "غير متأكد"
+  ],
+  "الأمراض التنفسية": ["التهاب الرئة", "نقص المناعة التنفسية"],
+  "التورمات والأورام": ["التورم الناتج عن العدوى", "تورم المفاصل", "غير متأكد"],
+};
+
+final List<String> questions = [
+  "الحيوان بياكل طبيعي؟",
+  "الحيوان بيشرب مياه كفاية؟",
+  "الحيوان بيتحرك زي ما تعودت عليه؟",
+  "بيتنفس طبيعي؟",
+  "الإخراج منتظم؟",
+  "فيه تساقط شعر أو بقع على الجلد؟",
+  "الحيوان كان تعرض لنفس الأعراض دي قبل كده؟",
+  "الحيوان خد تطعيماته كاملة؟",
+  "فيه أي تغيير في مكان الحيوان، أو أكله مؤخرًا؟",
+];
+
+Map<String,String> weatherCondition =
+{
+  'Clear':'صافي',
+  'Partially cloudy':'غائم جزئيا',
+  'Overcast':'غائم كليا',
+  'Fog':'ضباب',
+  'Mist':'شبورة مائية',
+  'Dust':'غبار',
+  'Sand':'رمال متحركه',
+  'Sandstorm':'عاصفة رملية',
+  'Duststorm':'عاصفة ترابية',
+  'Rain':'امطار',
+  'Heavy Rain':'امطار غزيرة',
+  'Light Rain':'امطار خفيفة',
+  'Drizzle':'رذاذ',
+  'Thunderstorm':'عاصفة رعدية',
+  'Windy':'رياح قوية',
+  'Cold':'بارد',
+  'Hot':'ساخن',
+  'Freezing':'تجمد',
+};

@@ -6,7 +6,7 @@ import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
-import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
+import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/indecator.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';

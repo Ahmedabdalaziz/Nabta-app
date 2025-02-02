@@ -16,5 +16,6 @@ class Routing {
   static const String emailCheckedScreen = "/emailCheckedScreen";
   static const String newPasswordScreen = "/newPasswordScreen";
   static const String resetPasswordDoneScreen = "/resetPasswordDoneScreen";
-  static const String reportScreen = "/reportScreen";
+  static const String firstReportScreen = "/reportScreen";
+  static const String secondReportScreen = "/reportScreen";
 }

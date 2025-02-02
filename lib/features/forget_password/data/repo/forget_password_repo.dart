@@ -10,7 +10,7 @@ class SendForgetPasswordRepo {
 
   SendForgetPasswordRepo(this.apiService);
 
-  Future<dynamic?> sendEmailToForgetPass(String email) async {
+  Future<dynamic> sendEmailToForgetPass(String email) async {
     final requestModel = SendForgetPasswordRequestModel(email: email);
     try {
       final response = await apiService.sendForgetPasswordCode(requestModel);

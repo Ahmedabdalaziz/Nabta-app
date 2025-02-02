@@ -16,7 +16,6 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // قائمة الأيقونات
     final List<IconData> icons = [
       HugeIcons.strokeRoundedHome05,
       HugeIcons.strokeRoundedPlant01,
@@ -25,15 +24,16 @@ class CustomBottomNavBar extends StatelessWidget {
     ];
 
     return AnimatedBottomNavigationBar(
+      elevation: 0,
       splashSpeedInMilliseconds: 1,
-      blurEffect: true,
+      blurEffect: false,
       icons: icons,
       activeIndex: currentIndex,
       onTap: onTap,
       gapLocation: GapLocation.center,
       leftCornerRadius: 25.r,
       rightCornerRadius: 25.r,
-      backgroundColor: ColorsManager.lightWhite,
+      backgroundColor: ColorsManager.lightWhite.withOpacity(0.7),
       activeColor: ColorsManager.mainGreen,
       inactiveColor: ColorsManager.secondGreen,
       height: 62.h,

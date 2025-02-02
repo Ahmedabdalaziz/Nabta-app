@@ -11,7 +11,8 @@ import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
-import 'package:graduation_project/features/report/ui/screens/report_screen.dart';
+import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
+import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
 import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
@@ -115,8 +116,11 @@ class AppRouter {
       case Routing.startScreen:
         return createRoute(const StartScreen());
 
-      case Routing.reportScreen:
-        return createRoute(const ReportScreen());
+      case Routing.firstReportScreen:
+        return createRoute(const FirstReportScreen());
+
+      case Routing.secondReportScreen:
+        return createRoute(const SecondReportScreen());
 
       case Routing.weatherScreen:
         return createRoute(Container());
@@ -148,8 +152,6 @@ Route createRoute(Widget page) {
         child: child,
       );
     },
-    transitionDuration: const Duration(milliseconds: 300),
+    transitionDuration: const Duration(milliseconds: 500),
   );
 }
-
-

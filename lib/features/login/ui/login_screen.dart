@@ -8,7 +8,7 @@ import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
-import 'package:graduation_project/core/widgets/Dark_Custom_text_field.dart';
+import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
@@ -156,12 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderCircular: 50.sp,
                     controller: passwordController,
                     focusNode: passwordFocusNode,
-                    // إضافة FocusNode
                     textColor: ColorsManager.grey,
                     isPassword: true,
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) {
-                      _unfocus(); // إغلاق الكيبورد عند الضغط على زر Done
+                      _unfocus();
                     },
                   ),
                 ),
@@ -172,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontalSpace(32.sp),
                     GestureDetector(
                       onTap: () {
-                        _unfocus(); // إغلاق الكيبورد قبل التنقل
+                        _unfocus();
                         context.pushNamed(Routing.forgetPasswordScreen);
                       },
                       child: Text(

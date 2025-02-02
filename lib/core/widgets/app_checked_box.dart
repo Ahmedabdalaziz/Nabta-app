@@ -1,34 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/theming/color.dart';
 
-import '../theming/color.dart';
-
-class CustomCheckbox extends StatelessWidget {
-  final bool value;
-  final Function(bool?) onChanged;
-  final Color? checkColor;
-  final Color? activeColor;
-  final BorderSide? borderSide;
-  final double splashRadius;
-
-  const CustomCheckbox({
-    super.key,
-    required this.value,
-    required this.onChanged,
-    this.checkColor = Colors.white,
-    this.activeColor = ColorsManager.mainGreen,
-    this.borderSide,
-    this.splashRadius = 0,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      splashRadius: splashRadius,
-      side: borderSide,
-      value: value,
-      onChanged: onChanged,
-      checkColor: checkColor,
-      activeColor: activeColor,
-    );
-  }
+Widget customCheckBox({
+  required bool isChecked,
+  required VoidCallback onTap,
+  required double size,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      width: size.w,
+      height: size.h,
+      decoration: BoxDecoration(
+        color: isChecked ? ColorsManager.mainGreen : Colors.transparent,
+        borderRadius: BorderRadius.circular(size * 0.2),
+        border: Border.all(color: ColorsManager.mainGreen, width: size * 0.03),
+      ),
+      child: isChecked
+          ? Icon(Icons.check, color: ColorsManager.white, size: size * 0.6)
+          : null,
+    ),
+  );
 }

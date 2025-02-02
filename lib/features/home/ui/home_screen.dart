@@ -76,19 +76,20 @@ class _HomeState extends State<Home> {
                             'assets/SVGs/home/Ellipse 33.svg')),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           CupertinoIcons.bell,
                           color: ColorsManager.mainGreen,
-                          size: 31,
+                          size: 38.sp,
                         ),
                         const Spacer(),
                         Text('حمو',
                             style: CairoTextStyles.bold.copyWith(
-                                fontSize: 20, color: ColorsManager.mainGreen)),
+                                fontSize: 24.sp,
+                                color: ColorsManager.mainGreen)),
                         Text(
                           '  , أهلا',
                           style: CairoTextStyles.bold.copyWith(
-                              fontSize: 20, color: ColorsManager.black),
+                              fontSize: 24.sp, color: ColorsManager.black),
                         ),
                         horizontalSpace(16.w),
                         SizedBox(
@@ -119,7 +120,9 @@ class _HomeState extends State<Home> {
                   if (state is WeatherLoading) {
                     return SizedBox(
                       height: 150.h,
-                      child: const Center(child: CircularProgressIndicator()),
+                      child: const Center(child: CircularProgressIndicator(
+                        color: ColorsManager.mainGreen,
+                      )),
                     );
                   } else if (state is WeatherLoaded) {
                     final weatherData = state.weatherResponse.days;
@@ -129,7 +132,7 @@ class _HomeState extends State<Home> {
                         children: [
                           SizedBox(
                             height: 133.5.h,
-                            width: 392.w,
+                            width: 400.w,
                             child: PageView(
                               controller: _pageController,
                               children: weatherData.map((day) {
@@ -268,7 +271,7 @@ class _HomeState extends State<Home> {
                         horizontalSpace(16.w),
                         GestureDetector(
                           onTap: () {
-                            context.pushNamed(Routing.reportScreen);
+                            context.pushNamed(Routing.firstReportScreen);
                           },
                           child: const BottomSectionWithouCliprrect(
                             imgPath: 'assets/SVGs/home/Group 150.png',
