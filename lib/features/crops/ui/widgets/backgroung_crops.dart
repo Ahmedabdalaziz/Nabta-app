@@ -9,7 +9,14 @@ class backgroundCrops extends StatelessWidget {
     return HomeBackground(
       child: Column(
         children: [
-
+          Stack(
+            children: [
+              Image.asset(
+                "assets/SVGs/home/cropBackGround.png",
+                width: 200,
+              )
+            ],
+          ),
         ],
       ),
     );
