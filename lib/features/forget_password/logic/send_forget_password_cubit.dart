@@ -20,12 +20,8 @@ class SendForgetPasswordCubit extends Cubit<SendForgetPasswordState> {
     } else if (response is SendForgetPasswordErrorModel) {
       emit(SendForgetPasswordFailure(errorMessage: response.message));
     } else {
-      emit(SendForgetPasswordFailure(errorMessage: "Unexpected error occurred"));
+      emit(
+          SendForgetPasswordFailure(errorMessage: "Unexpected error occurred"));
     }
-  }
-
-  bool _isEmailValid(String email) {
-    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-    return emailRegex.hasMatch(email);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/features/chat/ui/screens/chat_screen.dart';
 import 'package:graduation_project/features/crops/ui/widgets/backgroung_crops.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/forget_password/ui/email_checked.dart';
@@ -129,6 +130,9 @@ class AppRouter {
 
       case Routing.cropScreen:
         return createRoute(backgroundCrops());
+
+      case Routing.chatScreen:
+        return createRoute(ChatScreen());
 
       case Routing.homeScreen:
         return createRoute(

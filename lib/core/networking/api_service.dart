@@ -22,10 +22,12 @@ abstract class ApiService {
   @POST(ApiConstants.singUp)
   Future<SignInResponseModel> signUp(@Body() Map<String, dynamic> body);
 
+  //ابعت ايميل وكود
   @POST(ApiConstants.activateAccount)
   Future<ActivateAccountResponseModel> activateAccount(
       @Body() ActivateAccountRequestModel body);
 
+  // هنبعت الكود علي الجيميل ياكوتش
   @POST(ApiConstants.sendForgetPasswordCode)
   Future<SendForgetPasswordResponseModel> sendForgetPasswordCode(
       @Body() SendForgetPasswordRequestModel body);

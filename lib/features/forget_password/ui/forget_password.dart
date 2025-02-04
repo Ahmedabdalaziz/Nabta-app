@@ -6,8 +6,8 @@ import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
-import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
+import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
 
@@ -27,14 +27,21 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     return BlocConsumer<SendForgetPasswordCubit, SendForgetPasswordState>(
       listener: (context, state) {
         if (state is SendForgetPasswordSuccess) {
-          context.pushNamedAndRemoveUntil(Routing.otpScreen);
-        } else if (state is ValidationError) {
+          context.pushNamed(Routing.otpScreen);
+        }
+        else if (state is ValidationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
-        } else if (state is SendForgetPasswordFailure) {
+        }
+        else if (state is SendForgetPasswordFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.errorMessage)),
+          );
+        }
+        else if (state is SendForgetPasswordLoading) {
+          CircularProgressIndicator(
+            color: ColorsManager.mainGreen,
           );
         }
       },
