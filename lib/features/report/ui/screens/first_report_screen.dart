@@ -19,7 +19,7 @@ class FirstReportScreen extends StatefulWidget {
 
 class _FirstReportScreenState extends State<FirstReportScreen> {
   bool isPet = false;
-  bool isSelected = false;
+  String? selectedAnimal;
   Map<String, bool> selectedMain = {};
   Map<String, Map<String, bool>> selectedSub = {};
 
@@ -55,6 +55,7 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
     List<MapEntry<String, String>> secondRow = animalList.sublist(4, 8);
 
     return ReportScreen(
+      details: true,
       customWidget: Expanded(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -82,13 +83,22 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
                       children: firstRow.map((entry) {
                         return GestureDetector(
                           onTap: () {
-                            isSelected = !isSelected;
+                            setState(() {
+                              if (selectedAnimal == entry.key) {
+                                selectedAnimal = null;
+                              } else {
+                                selectedAnimal = entry.key;
+                              }
+                            });
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.w),
                             child: AnimalCard(
                               animalIcon: entry.value,
                               animalName: entry.key,
+                              isSelected: selectedAnimal == entry.key,
+                              isDisabled: selectedAnimal != null &&
+                                  selectedAnimal != entry.key,
                             ),
                           ),
                         );
@@ -98,11 +108,25 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: secondRow.map((entry) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: AnimalCard(
-                            animalIcon: entry.value,
-                            animalName: entry.key,
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (selectedAnimal == entry.key) {
+                                selectedAnimal = null;
+                              } else {
+                                selectedAnimal = entry.key;
+                              }
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: AnimalCard(
+                              animalIcon: entry.value,
+                              animalName: entry.key,
+                              isSelected: selectedAnimal == entry.key,
+                              isDisabled: selectedAnimal != null &&
+                                  selectedAnimal != entry.key,
+                            ),
                           ),
                         );
                       }).toList(),
@@ -143,7 +167,7 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
               ),
               DiagnosticQuestions(),
               verticalSpace(20.h),
-              UploadImageSection()
+              UploadImageSection(),
             ],
           ),
         ),

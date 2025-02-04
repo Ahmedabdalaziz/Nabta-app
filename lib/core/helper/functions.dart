@@ -79,26 +79,38 @@ class ImageHandler {
   }
 }
 
+String translatedCondition(String condition) {
+  return weatherCondition[condition] ?? 'not found';
+}
+
 Future<void> requestPermissions() async {
+  //storage
   var status = await Permission.storage.status;
   if (!status.isGranted) {
     await Permission.storage.request();
   }
 
+  //camera
   var cameraStatus = await Permission.camera.status;
   if (!cameraStatus.isGranted) {
     await Permission.camera.request();
   }
+
+  //microphone
   var microphoneStatus = await Permission.microphone.status;
   if (!microphoneStatus.isGranted) {
     await Permission.microphone.request();
   }
+
+  //audio
   var audioStatus = await Permission.audio.status;
   if (!audioStatus.isGranted) {
     await Permission.audio.request();
   }
-}
 
-String translatedCondition(String condition) {
-  return weatherCondition[condition] ?? 'not found';
+  //location
+  var locationStatus = await Permission.location.status;
+  if (!locationStatus.isGranted) {
+    await Permission.location.status;
+  }
 }

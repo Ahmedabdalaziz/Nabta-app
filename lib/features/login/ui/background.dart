@@ -20,8 +20,8 @@ class Background extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorsManager.mainGreen,
       body: KeyboardAvoider(
-        duration: const Duration(milliseconds: 300), // مدة الانتقال
-        autoScroll: true, // التمرير التلقائي
+        duration: const Duration(milliseconds: 300),
+        autoScroll: true,
         child: SingleChildScrollView(
           child: Stack(
             children: [
@@ -67,7 +67,7 @@ class Background extends StatelessWidget {
                   ),
                 ],
               ),
-              if (showCloseButton) // إذا كانت showCloseButton = true، سيظهر الزر
+              if (showCloseButton)
                 Positioned(
                   top: 30.h,
                   left: 30.w,

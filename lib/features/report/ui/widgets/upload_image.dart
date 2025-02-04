@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
@@ -68,6 +70,8 @@ class _UploadImageSectionState extends State<UploadImageSection> {
           ),
           verticalSpace(8.h),
           DarkCustomTextField(
+            borderColor: ColorsManager.mainGreen,
+            textInputAction: TextInputAction.next,
             onChanged: (value) {
               setState(() {
                 if (value.isNotEmpty) {
@@ -93,7 +97,9 @@ class _UploadImageSectionState extends State<UploadImageSection> {
                 textStyle: CairoTextStyles.extraBold
                     .copyWith(color: ColorsManager.white, fontSize: 26.sp),
                 text: "التالي",
-                onPressed: () {},
+                onPressed: () {
+                  context.pushNamed(Routing.secondReportScreen);
+                },
                 bottomColor: isType
                     ? ColorsManager.mainGreen
                     : ColorsManager.mainGreen.withOpacity(0.3),
@@ -107,7 +113,72 @@ class _UploadImageSectionState extends State<UploadImageSection> {
   }
 
   void _pickImage() async {
-    String? base64Image = await _imageHandler.pickImageFromGalleryAsBase64();
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              verticalSpace(10),
+              Container(
+                width: 50.w,
+                height: 6.sp,
+                decoration: BoxDecoration(
+                  color: ColorsManager.secondGreen,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              verticalSpace(10),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                trailing: Icon(Icons.camera_alt_outlined,
+                    color: ColorsManager.mainGreen),
+                title: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "التقاط صورة بالكاميرا",
+                    style: CairoTextStyles.bold
+                        .copyWith(color: ColorsManager.secondGreen),
+                  ),
+                ),
+                onTap: () async {
+                  Navigator.pop(context);
+                  String? base64Image =
+                      await _imageHandler.pickImageFromCameraAsBase64();
+                  _addImage(base64Image);
+                },
+              ),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                trailing: Icon(Icons.image, color: ColorsManager.mainGreen),
+                title: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "اختيار من المعرض",
+                    style: CairoTextStyles.bold
+                        .copyWith(color: ColorsManager.secondGreen),
+                  ),
+                ),
+                onTap: () async {
+                  Navigator.pop(context);
+                  String? base64Image =
+                      await _imageHandler.pickImageFromGalleryAsBase64();
+                  _addImage(base64Image);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _addImage(String? base64Image) {
     if (base64Image != null && uploadedImages.length < 3) {
       setState(() {
         uploadedImages.add(base64Image);

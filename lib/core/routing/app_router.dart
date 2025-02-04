@@ -13,6 +13,7 @@ import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
+import 'package:graduation_project/features/report/ui/widgets/done_report.dart';
 import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
@@ -120,7 +121,10 @@ class AppRouter {
         return createRoute(const FirstReportScreen());
 
       case Routing.secondReportScreen:
-        return createRoute(const SecondReportScreen());
+        return createRoute(SecondReportScreen());
+
+      case Routing.doneReportScreen:
+        return createRoute(DoneReport());
 
       case Routing.weatherScreen:
         return createRoute(Container());
