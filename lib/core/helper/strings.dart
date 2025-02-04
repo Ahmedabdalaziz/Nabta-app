@@ -108,8 +108,7 @@ final List<String> questions = [
   "فيه أي تغيير في مكان الحيوان، أو أكله مؤخرًا؟",
 ];
 
-Map<String,String> weatherCondition =
-{
+Map<String,String> weatherCondition = {
   'Clear':'صافي',
   'Partially cloudy':'غائم جزئيا',
   'Overcast':'غائم كليا',

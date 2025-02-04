@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/features/crops/ui/widgets/backgroung_crops.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/forget_password/ui/email_checked.dart';
 import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
@@ -13,6 +14,7 @@ import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
+import 'package:graduation_project/features/report/ui/widgets/done_report.dart';
 import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
@@ -120,10 +122,13 @@ class AppRouter {
         return createRoute(const FirstReportScreen());
 
       case Routing.secondReportScreen:
-        return createRoute(const SecondReportScreen());
+        return createRoute(SecondReportScreen());
 
-      case Routing.weatherScreen:
-        return createRoute(Container());
+      case Routing.doneReportScreen:
+        return createRoute(DoneReport());
+
+      case Routing.cropScreen:
+        return createRoute(backgroundCrops());
 
       case Routing.homeScreen:
         return createRoute(

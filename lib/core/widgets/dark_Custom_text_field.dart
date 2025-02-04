@@ -6,8 +6,13 @@ import 'package:graduation_project/core/theming/style_manager.dart';
 
 class DarkCustomTextField extends StatefulWidget {
   final Color textColor;
+  final Color hintTextColor;
+  final Color borderColor;
   final String? labelText;
   final int? maxLines;
+  final double borderWides;
+  final double hintTextFontSize;
+
   final bool isPassword;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -46,6 +51,10 @@ class DarkCustomTextField extends StatefulWidget {
     this.textInputAction,
     this.onFieldSubmitted,
     this.maxLines = 1,
+    this.borderColor = ColorsManager.secondGreen,
+    this.borderWides = 2,
+    this.hintTextColor = ColorsManager.grey,
+    this.hintTextFontSize = 16,
   }) : super(key: key);
 
   @override
@@ -116,8 +125,8 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
         fillColor: widget.fillColor,
         hintText: widget.labelText,
         hintStyle: CairoTextStyles.regular.copyWith(
-          color: ColorsManager.grey,
-          fontSize: 16.0.sp,
+          color: widget.hintTextColor,
+          fontSize: widget.hintTextFontSize.sp,
         ),
         contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
         border: OutlineInputBorder(
@@ -147,10 +156,8 @@ class _DarkCustomTextFieldState extends State<DarkCustomTextField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderCircular),
           borderSide: BorderSide(
-            color: widget.showError
-                ? ColorsManager.red
-                : ColorsManager.secondGreen,
-            width: 2.0.w,
+            color: widget.showError ? ColorsManager.red : widget.borderColor,
+            width: widget.borderWides,
           ),
         ),
       ),

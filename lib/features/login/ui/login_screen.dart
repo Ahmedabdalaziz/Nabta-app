@@ -8,8 +8,8 @@ import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
-import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
+import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
 import 'package:graduation_project/features/login/ui/facebook_signin.dart';
@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
-  bool _showExitMessage = false; // Flag to track the exit message state
+  bool _showExitMessage = false;
 
   @override
   void initState() {

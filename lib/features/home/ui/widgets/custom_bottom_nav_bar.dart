@@ -33,7 +33,7 @@ class CustomBottomNavBar extends StatelessWidget {
       gapLocation: GapLocation.center,
       leftCornerRadius: 25.r,
       rightCornerRadius: 25.r,
-      backgroundColor: ColorsManager.lightWhite.withOpacity(0.7),
+      backgroundColor: ColorsManager.lightWhite,
       activeColor: ColorsManager.mainGreen,
       inactiveColor: ColorsManager.secondGreen,
       height: 62.h,

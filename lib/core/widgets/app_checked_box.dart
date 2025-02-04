@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/color.dart';
 
 Widget customCheckBox({
-  required bool isChecked,
+  bool isChecked = false,
   required VoidCallback onTap,
   required double size,
 }) {

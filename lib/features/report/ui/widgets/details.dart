@@ -11,7 +11,6 @@ class DiagnosticQuestions extends StatefulWidget {
 }
 
 class _DiagnosticQuestionsState extends State<DiagnosticQuestions> {
-
   Map<String, String?> answers = {};
 
   @override
