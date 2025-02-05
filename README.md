@@ -1,6 +1,4 @@
-### README - Nabta Agricultural App
 
----
 
 ## Overview
 Nabta is a mobile application developed to assist farmers, veterinarians, and anyone interested in agriculture. The app provides several features that aim to improve farming practices, livestock health, and crop management. These features include plant disease detection using AI, veterinary reporting for sick animals, educational content on plants, animals, and chemicals, as well as daily weather forecasts for the local area. Additionally, the app offers a specialized AI chatbot, **Nabta AI**, to assist users with their queries and tasks.
