@@ -94,8 +94,6 @@ dependencies:
   #maps
   flutter_map: ^7.0.2
   geolocator: ^9.0.0
-  progress_circle: ^1.0.1
-  percent_indicator: ^4.2.4
 
 dev_dependencies:
   flutter_test:
@@ -130,7 +128,6 @@ flutter:
     - assets/SVGs/welcome/
     - assets/SVGs/password/
     - assets/SVGs/animals/
-    - assets/SVGs/plants/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
