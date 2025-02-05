@@ -12,6 +12,8 @@ import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
+import 'package:graduation_project/features/plant/plant_report.dart';
+import 'package:graduation_project/features/plant/plant_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
 import 'package:graduation_project/features/report/ui/widgets/done_report.dart';
@@ -121,14 +123,21 @@ class AppRouter {
       case Routing.firstReportScreen:
         return createRoute(const FirstReportScreen());
 
+      case Routing.plantScreen:
+        return createRoute( const PlantsScreen());
+
+      case Routing.plantReport:
+        return createRoute(PlantReport());
+
+
       case Routing.secondReportScreen:
         return createRoute(SecondReportScreen());
 
       case Routing.doneReportScreen:
         return createRoute(DoneReport());
 
-      case Routing.cropScreen:
-        return createRoute(backgroundCrops());
+      // case Routing.cropScreen:
+      //   return createRoute(backgroundCrops());
 
       case Routing.homeScreen:
         return createRoute(

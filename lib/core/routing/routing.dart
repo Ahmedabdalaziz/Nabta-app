@@ -19,5 +19,6 @@ class Routing {
   static const String firstReportScreen = "/reportScreen";
   static const String secondReportScreen = "/secondReportScreen";
   static const String doneReportScreen = "/doneReportScreen";
-  static const String cropScreen = "/cropScreen";
+  static const String plantScreen = "/plantScreen";
+  static const String plantReport = "/plantReport";
 }
