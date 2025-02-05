@@ -8,7 +8,6 @@ import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/features/crops/ui/widgets/backgroung_crops.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:progress_circle/progress_circle.dart';
 
 class PlantReport extends StatelessWidget {
   @override
