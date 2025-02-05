@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
-import 'package:graduation_project/features/chat/ui/screens/chat_screen.dart';
-import 'package:graduation_project/features/crops/ui/widgets/backgroung_crops.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/forget_password/ui/email_checked.dart';
 import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
@@ -13,8 +11,8 @@ import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
-import 'package:graduation_project/features/plant/plant_report.dart';
-import 'package:graduation_project/features/plant/plant_screen.dart';
+import 'package:graduation_project/features/plant/ui/screens/plant_report.dart';
+import 'package:graduation_project/features/plant/ui/screens/plant_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
 import 'package:graduation_project/features/report/ui/widgets/done_report.dart';
@@ -125,23 +123,16 @@ class AppRouter {
         return createRoute(const FirstReportScreen());
 
       case Routing.plantScreen:
-        return createRoute( const PlantsScreen());
+        return createRoute(const PlantsScreen());
 
       case Routing.plantReport:
         return createRoute(PlantReport());
-
 
       case Routing.secondReportScreen:
         return createRoute(SecondReportScreen());
 
       case Routing.doneReportScreen:
         return createRoute(DoneReport());
-
-      // case Routing.cropScreen:
-      //   return createRoute(backgroundCrops());
-
-      case Routing.chatScreen:
-        return createRoute(ChatScreen());
 
       case Routing.homeScreen:
         return createRoute(

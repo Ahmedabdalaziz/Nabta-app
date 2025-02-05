@@ -236,11 +236,16 @@ class _HomeState extends State<Home> {
                                 topPadding: 45.h,
                                 cardLabel: 'الحيوانات',
                               ),
-                              InfoSection(
-                                imgPath: 'assets/SVGs/home/npta_0.75.png',
-                                leftPadding: 24.w,
-                                topPadding: 40.h,
-                                cardLabel: 'النباتات',
+                              GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(Routing.plantScreen);
+                                },
+                                child: InfoSection(
+                                  imgPath: 'assets/SVGs/home/npta_0.75.png',
+                                  leftPadding: 24.w,
+                                  topPadding: 40.h,
+                                  cardLabel: 'النباتات',
+                                ),
                               ),
                             ],
                           ),
