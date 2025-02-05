@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:graduation_project/core/helper/extension.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/features/home/ui/widgets/custom_bottom_nav_bar.dart';
 
 import '../../../core/theming/color.dart';
@@ -24,7 +26,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
           extendBody: true,
           backgroundColor: ColorsManager.white,
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            heroTag: null,
+            onPressed: () {
+            },
             elevation: 0,
             backgroundColor: ColorsManager.backGreen.withOpacity(0),
           ),
@@ -55,7 +59,10 @@ class _HomeBackgroundState extends State<HomeBackground> {
           bottom: 35.h,
           right: MediaQuery.of(context).size.width / 2 - 34.w,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed(Routing.cameraScreen);
+
+            },
             elevation: 3,
             backgroundColor: ColorsManager.backGreen,
             shape: RoundedRectangleBorder(

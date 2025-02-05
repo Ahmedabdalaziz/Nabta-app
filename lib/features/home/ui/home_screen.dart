@@ -9,9 +9,9 @@ import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
+import 'package:graduation_project/features/home/ui/home_background.dart';
 import 'package:graduation_project/features/home/ui/widgets/bottomSection.dart';
 import 'package:graduation_project/features/home/ui/widgets/bottomSectionWithoutClip.dart';
-import 'package:graduation_project/features/home/ui/widgets/custom_bottom_nav_bar.dart';
 import 'package:graduation_project/features/home/ui/widgets/infoSection.dart';
 import 'package:graduation_project/features/home/ui/widgets/longCardInfo.dart';
 import 'package:graduation_project/features/weather/logic/weather_cubit.dart';
@@ -69,286 +69,242 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return HomeBackground(
       child: Stack(
         children: [
-          Scaffold(
-            backgroundColor: ColorsManager.white,
-            floatingActionButton: FloatingActionButton(
-              tooltip: "انقر للكشف عن الامراض",
-              onPressed: () {},
-              elevation: 0,
-              backgroundColor: ColorsManager.backGreen.withOpacity(0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.r)),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: CustomBottomNavBar(
-              currentIndex: _currentIndex,
-              onTap: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
-            body: Stack(
-              children: [
-                Image.asset(
-                  "assets/SVGs/home/مقاس موبايلي (1).png",
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
-                Column(
+          Image.asset(
+            "assets/SVGs/home/مقاس موبايلي (1).png",
+            fit: BoxFit.cover,
+            width: double.infinity,
+          ),
+          Column(
+            children: [
+              verticalSpace(10.h),
+              //الايقونة والصورة اللي فوق خالص
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Stack(
                   children: [
-                    verticalSpace(56.h),
-                    //الايقونة والصورة اللي فوق خالص
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                              left: -4.w,
-                              child: SvgPicture.asset(
-                                  'assets/SVGs/home/Ellipse 33.svg')),
-                          Row(
-                            children: [
-                              Icon(
-                                CupertinoIcons.bell,
-                                color: ColorsManager.mainGreen,
-                                size: 38.sp,
+                    Positioned(
+                        left: -4.w,
+                        child: SvgPicture.asset(
+                            'assets/SVGs/home/Ellipse 33.svg')),
+                    Row(
+                      children: [
+                        Icon(
+                          CupertinoIcons.bell,
+                          color: ColorsManager.mainGreen,
+                          size: 38.sp,
+                        ),
+                        const Spacer(),
+                        Text('حمو',
+                            style: CairoTextStyles.bold.copyWith(
+                                fontSize: 24.sp,
+                                color: ColorsManager.mainGreen)),
+                        Text(
+                          '  , أهلا',
+                          style: CairoTextStyles.bold.copyWith(
+                              fontSize: 24.sp, color: ColorsManager.black),
+                        ),
+                        horizontalSpace(16.w),
+                        SizedBox(
+                          width: 45.w,
+                          height: 45.h,
+                          child: CircleAvatar(
+                            radius: 5.r,
+                            backgroundColor: ColorsManager.mainGreen,
+                            child: CircleAvatar(
+                              radius: 20.r,
+                              backgroundColor: ColorsManager.moreWhite,
+                              child: Image.asset(
+                                'assets/SVGs/home/test_avatar.png',
+                                fit: BoxFit.cover,
                               ),
-                              const Spacer(),
-                              Text('حمو',
-                                  style: CairoTextStyles.bold.copyWith(
-                                      fontSize: 24.sp,
-                                      color: ColorsManager.mainGreen)),
-                              Text(
-                                '  , أهلا',
-                                style: CairoTextStyles.bold.copyWith(
-                                    fontSize: 24.sp,
-                                    color: ColorsManager.black),
-                              ),
-                              horizontalSpace(16.w),
-                              SizedBox(
-                                width: 45.w,
-                                height: 45.h,
-                                child: CircleAvatar(
-                                  radius: 5.r,
-                                  backgroundColor: ColorsManager.mainGreen,
-                                  child: CircleAvatar(
-                                    radius: 20.r,
-                                    backgroundColor: ColorsManager.moreWhite,
-                                    child: Image.asset(
-                                      'assets/SVGs/home/test_avatar.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    verticalSpace(27.h),
-                    ///////////////////// كرت الطقس/////////////////////
-                    BlocBuilder<WeatherCubit, WeatherState>(
-                      builder: (context, state) {
-                        if (state is WeatherLoading) {
-                          return SizedBox(
-                            height: 150.h,
-                            child: const Center(
-                                child: CircularProgressIndicator(
-                              color: ColorsManager.mainGreen,
-                            )),
-                          );
-                        } else if (state is WeatherLoaded) {
-                          final weatherData = state.weatherResponse.days;
-                          return SizedBox(
-                            height: 150.h,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 133.5.h,
-                                  width: 400.w,
-                                  child: PageView(
-                                    controller: _pageController,
-                                    children: weatherData.map((day) {
-                                      return WeatherCard(
-                                        condition: day.conditions,
-                                        humidity: day.humidity,
-                                        windSpeed: day.windspeed,
-                                        temperature: day.temp,
-                                        location: 'القاهر-مصر',
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                                verticalSpace(10.h),
-                                SmoothPageIndicator(
-                                  controller: _pageController,
-                                  count: weatherData.length,
-                                  effect: ExpandingDotsEffect(
-                                    dotHeight: 8.h,
-                                    dotWidth: 8.w,
-                                    activeDotColor: ColorsManager.secondGreen,
-                                    dotColor: ColorsManager.secondGreen,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        } else if (state is WeatherError) {
-                          return SizedBox(
-                            height: 150.h,
-                            child:
-                                Center(child: Text("Error: ${state.message}")),
-                          );
-                        } else {
-                          return SizedBox(
-                            height: 150.h,
-                            child:
-                                const Center(child: Text("No data available.")),
-                          );
-                        }
-                      },
-                    ),
-                    verticalSpace(11.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 23.9.w),
-                      child: Column(
-                        children: [
-                          // plants with animal and chemical cards
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              InfoSection(
-                                imgPath: 'assets/SVGs/home/kemi_ka_0.75.png',
-                                leftPadding: 24.w,
-                                topPadding: 34.h,
-                                cardLabel: 'الكيماويات',
-                              ),
-                              InfoSection(
-                                imgPath: 'assets/SVGs/home/cow_0.75.png',
-                                leftPadding: 20.w,
-                                topPadding: 45.h,
-                                cardLabel: 'الحيوانات',
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  context.pushNamed(Routing.plantScreen);
-                                },
-                                child: InfoSection(
-                                  imgPath: 'assets/SVGs/home/npta_0.75.png',
-                                  leftPadding: 24.w,
-                                  topPadding: 40.h,
-                                  cardLabel: 'النباتات',
-                                ),
-                              ),
-                            ],
-                          ),
-                          verticalSpace(20.h),
-                          ///////////////////// soke zera3yy /////////////////////
-                          Container(
-                            width: double.infinity.w,
-                            height: 128.h,
-                            decoration: BoxDecoration(
-                              color: ColorsManager.greenWhite,
-                              borderRadius: BorderRadius.circular(20.sp),
-                            ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20.0.sp),
-                                  child: Image.asset(
-                                      'assets/SVGs/home/ادوات_1.5.png'),
-                                ),
-                                const LongCardInfo(
-                                  cardLabel: 'السوق الزراعي',
-                                  cardHint:
-                                      '!بيع واشتري منتجاتك الزراعية بسهولة',
-                                  cardDescription:
-                                      'اضف منتجاتك وحدد السعر المناسب لك وتصف المنتجات المضافة حديثا',
-                                )
-                              ],
                             ),
                           ),
-                          verticalSpace(20.h),
-                          SizedBox(
-                            width: double.infinity.w,
-                            height: 128.h,
-                            child: Stack(fit: StackFit.expand, children: [
-                              Image.asset(
-                                'assets/SVGs/home/card_background2.png',
-                                fit: BoxFit.fill,
-                              ),
-                              Positioned(
-                                left: 3.w,
-                                child: Image.asset(
-                                    'assets/SVGs/home/Rectangle 75.png'),
-                              ),
-                              Positioned(
-                                bottom: 2.h,
-                                left: 4.w,
-                                child: Image.asset(
-                                    'assets/SVGs/home/Group 111.png'),
-                              ),
-                              Positioned(
-                                bottom: 5.h,
-                                left: 6.w,
-                                child: const Icon(Icons.star_border,
-                                    color: ColorsManager.mainGreen),
-                              ),
-                              const LongCardInfo(
-                                cardLabel: 'نشرة الزراعة',
-                                cardHint:
-                                    ' !الري تعلن خطة ترشيد استهلاك المياه',
-                                cardDescription:
-                                    'أطلقت وزارة الري حملة لترشيد استخدام المياه في الزراعة والصناعة، مع التركيز على تقنيات الري الحديث لتحسين الكفاءة وتقليل الفاقد.',
-                              ),
-                            ]),
-                          ),
-                          verticalSpace(20.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const BottomSections(
-                                imgPath: 'assets/SVGs/home/Group 149.png',
-                                sectionLabel: 'أمراض الحيوانات',
-                              ),
-                              horizontalSpace(16.w),
-                              GestureDetector(
-                                onTap: () {
-                                  context.pushNamed(Routing.firstReportScreen);
-                                },
-                                child: const BottomSectionWithouCliprrect(
-                                  imgPath: 'assets/SVGs/home/Group 150.png',
-                                  sectionLabel: 'إبلاغ بيطري',
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 35.h,
-            right: MediaQuery.of(context).size.width / 2 - 34.w,
-            child: FloatingActionButton(
-              onPressed: () {},
-              elevation: 1,
-              backgroundColor: ColorsManager.backGreen,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.r)),
-              child: SvgPicture.asset('assets/SVGs/home/scan.svg'),
-            ),
+              ),
+              verticalSpace(27.h),
+              ///////////////////// كرت الطقس/////////////////////
+              BlocBuilder<WeatherCubit, WeatherState>(
+                builder: (context, state) {
+                  if (state is WeatherLoading) {
+                    return SizedBox(
+                      height: 150.h,
+                      child: const Center(
+                          child: CircularProgressIndicator(
+                        color: ColorsManager.mainGreen,
+                      )),
+                    );
+                  } else if (state is WeatherLoaded) {
+                    final weatherData = state.weatherResponse.days;
+                    return SizedBox(
+                      height: 150.h,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 133.5.h,
+                            width: 400.w,
+                            child: PageView(
+                              controller: _pageController,
+                              children: weatherData.map((day) {
+                                return WeatherCard(
+                                  condition: day.conditions,
+                                  humidity: day.humidity,
+                                  windSpeed: day.windspeed,
+                                  temperature: day.temp,
+                                  location: 'القاهر-مصر',
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          verticalSpace(10.h),
+                          SmoothPageIndicator(
+                            controller: _pageController,
+                            count: weatherData.length,
+                            effect: ExpandingDotsEffect(
+                              dotHeight: 8.h,
+                              dotWidth: 8.w,
+                              activeDotColor: ColorsManager.secondGreen,
+                              dotColor: ColorsManager.secondGreen,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (state is WeatherError) {
+                    return SizedBox(
+                      height: 150.h,
+                      child: Center(child: Text("Error: ${state.message}")),
+                    );
+                  } else {
+                    return SizedBox(
+                      height: 150.h,
+                      child: const Center(child: Text("No data available.")),
+                    );
+                  }
+                },
+              ),
+              verticalSpace(11.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 23.9.w),
+                child: Column(
+                  children: [
+                    // plants with animal and chemical cards
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InfoSection(
+                          imgPath: 'assets/SVGs/home/kemi_ka_0.75.png',
+                          leftPadding: 24.w,
+                          topPadding: 34.h,
+                          cardLabel: 'الكيماويات',
+                        ),
+                        InfoSection(
+                          imgPath: 'assets/SVGs/home/cow_0.75.png',
+                          leftPadding: 20.w,
+                          topPadding: 45.h,
+                          cardLabel: 'الحيوانات',
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.pushNamed(Routing.plantScreen);
+                          },
+                          child: InfoSection(
+                            imgPath: 'assets/SVGs/home/npta_0.75.png',
+                            leftPadding: 24.w,
+                            topPadding: 40.h,
+                            cardLabel: 'النباتات',
+                          ),
+                        ),
+                      ],
+                    ),
+                    verticalSpace(20.h),
+                    ///////////////////// soke zera3yy /////////////////////
+                    Container(
+                      width: double.infinity.w,
+                      height: 128.h,
+                      decoration: BoxDecoration(
+                        color: ColorsManager.greenWhite,
+                        borderRadius: BorderRadius.circular(20.sp),
+                      ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0.sp),
+                            child:
+                                Image.asset('assets/SVGs/home/ادوات_1.5.png'),
+                          ),
+                          const LongCardInfo(
+                            cardLabel: 'السوق الزراعي',
+                            cardHint: '!بيع واشتري منتجاتك الزراعية بسهولة',
+                            cardDescription:
+                                'اضف منتجاتك وحدد السعر المناسب لك وتصف المنتجات المضافة حديثا',
+                          )
+                        ],
+                      ),
+                    ),
+                    verticalSpace(20.h),
+                    SizedBox(
+                      width: double.infinity.w,
+                      height: 128.h,
+                      child: Stack(fit: StackFit.expand, children: [
+                        Image.asset(
+                          'assets/SVGs/home/card_background2.png',
+                          fit: BoxFit.fill,
+                        ),
+                        Positioned(
+                          left: 3.w,
+                          child:
+                              Image.asset('assets/SVGs/home/Rectangle 75.png'),
+                        ),
+                        Positioned(
+                          bottom: 2.h,
+                          left: 4.w,
+                          child: Image.asset('assets/SVGs/home/Group 111.png'),
+                        ),
+                        Positioned(
+                          bottom: 5.h,
+                          left: 6.w,
+                          child: const Icon(Icons.star_border,
+                              color: ColorsManager.mainGreen),
+                        ),
+                        const LongCardInfo(
+                          cardLabel: 'نشرة الزراعة',
+                          cardHint: ' !الري تعلن خطة ترشيد استهلاك المياه',
+                          cardDescription:
+                              'أطلقت وزارة الري حملة لترشيد استخدام المياه في الزراعة والصناعة، مع التركيز على تقنيات الري الحديث لتحسين الكفاءة وتقليل الفاقد.',
+                        ),
+                      ]),
+                    ),
+                    verticalSpace(20.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const BottomSections(
+                          imgPath: 'assets/SVGs/home/Group 149.png',
+                          sectionLabel: 'أمراض الحيوانات',
+                        ),
+                        horizontalSpace(16.w),
+                        GestureDetector(
+                          onTap: () {
+                            context.pushNamed(Routing.firstReportScreen);
+                          },
+                          child: const BottomSectionWithouCliprrect(
+                            imgPath: 'assets/SVGs/home/Group 150.png',
+                            sectionLabel: 'إبلاغ بيطري',
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
