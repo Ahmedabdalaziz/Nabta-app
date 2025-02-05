@@ -121,4 +121,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-This **README** provides a basic overview of the **Nabta Agricultural App**, outlining the core features, security measures, installation steps, and more. Let me know if you'd like to add any more details or modify any section!
