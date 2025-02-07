@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:camera/camera.dart';
@@ -16,23 +17,24 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  late CameraHelper _cameraHelper;
-  late Future<void> _cameraInitialization; // تخزين Future لمنع إعادة التهيئة
+  late CameraHelper cameraHelper;
+  late Future<void> _cameraInitialization;
   bool _showPlantSelection = true;
   int selectedCategoryIndex = 1;
   XFile? selectedImage;
+  String? _capturedImageBase64;
+  String? _pickedImageBase64;
 
   @override
   void initState() {
     super.initState();
-    _cameraHelper = CameraHelper();
-    _cameraInitialization =
-        _cameraHelper.initCamera(); // تشغيل الكاميرا مرة واحدة فقط
+    cameraHelper = CameraHelper();
+    _cameraInitialization = cameraHelper.initCamera();
   }
 
   @override
   void dispose() {
-    _cameraHelper.dispose();
+    cameraHelper.dispose();
     super.dispose();
   }
 
@@ -40,7 +42,7 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: _cameraInitialization, // استخدم الـ Future المحفوظ
+        future: _cameraInitialization,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -56,7 +58,7 @@ class _CameraScreenState extends State<CameraScreen> {
             return Stack(
               children: [
                 Positioned.fill(
-                  child: CameraPreview(_cameraHelper.controller),
+                  child: CameraPreview(cameraHelper.controller),
                 ),
                 Positioned(
                   bottom: 0,
@@ -78,8 +80,8 @@ class _CameraScreenState extends State<CameraScreen> {
                   ),
                 ),
                 CameraTopBar(
-                  isFlashOn: _cameraHelper.isFlashOn,
-                  onFlashPressed: _cameraHelper.toggleFlash,
+                  isFlashOn: cameraHelper.isFlashOn,
+                  onFlashPressed: cameraHelper.toggleFlash,
                 ),
                 if (_showPlantSelection)
                   PlantSelectionWidget(
@@ -109,14 +111,65 @@ class _CameraScreenState extends State<CameraScreen> {
                     ],
                   ),
                 ),
+                // محتوى الشاشة
                 CameraBottomBar(
-                  onCapture: _cameraHelper.takePicture,
-                  onPickImage: _cameraHelper.pickImagee,
+                  onCapture: (imageBase64) {
+                    setState(() {
+                      _capturedImageBase64 = imageBase64;
+                    });
+                    if (imageBase64 != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ImagePreviewScreen(imageBase64: imageBase64),
+                        ),
+                      );
+                    }
+                  },
+                  onPickImage: (imageBase64) {
+                    setState(() {
+                      _pickedImageBase64 = imageBase64;
+                    });
+                    if (imageBase64 != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ImagePreviewScreen(imageBase64: imageBase64),
+                        ),
+                      );
+                    }
+                  },
+                  cameraHelper: cameraHelper,
                 ),
               ],
             );
           }
         },
+      ),
+    );
+  }
+}
+
+class ImagePreviewScreen extends StatelessWidget {
+  final String imageBase64;
+
+  const ImagePreviewScreen({super.key, required this.imageBase64});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Preview Image'),
+      ),
+      body: Center(
+        child: Image.memory(
+          base64Decode(imageBase64),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
