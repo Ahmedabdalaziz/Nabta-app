@@ -36,16 +36,39 @@ class Welcom extends StatelessWidget {
             style: CairoTextStyles.extraBold
                 .copyWith(fontSize: 30, color: ColorsManager.secondGreen),
           ),
-          verticalSpace(50.h),
+          verticalSpace(30.h),
           SizedBox(
             width: 408.w,
             height: 148.h,
-            child: Image.asset(
-              'assets/SVGs/welcome/tarheb.png',
-              fit: BoxFit.fitWidth,
+            child: Column(
+              children: [
+                Text(
+                    textAlign: TextAlign.center,
+                    "تم إنشاء حسابك بنجاح . استعد لاكتشاف أدوات",
+                    style: CairoTextStyles.bold.copyWith(
+                        fontSize: 20.sp, color: ColorsManager.secondGreen)),
+                verticalSpace(10.h),
+                Text(
+                    textAlign: TextAlign.center,
+                    "مبتكرة ومعلومات موثوقة لمساعدتك في",
+                    style: CairoTextStyles.bold.copyWith(
+                        fontSize: 20.sp, color: ColorsManager.secondGreen)),
+                verticalSpace(10.h),
+                Text(
+                    textAlign: TextAlign.center,
+                    "رعاية مزروعاتك وتحقيق إنتاج أفضل. نحن هنا ",
+                    style: CairoTextStyles.bold.copyWith(
+                        fontSize: 20.sp, color: ColorsManager.secondGreen)),
+                verticalSpace(10.h),
+                Text(
+                    textAlign: TextAlign.center,
+                    " ! لدعمك في كل خطوة",
+                    style: CairoTextStyles.bold.copyWith(
+                        fontSize: 20.sp, color: ColorsManager.secondGreen)),
+              ],
             ),
           ),
-          verticalSpace(30.h),
+          verticalSpace(20.h),
           SizedBox(
             width: 341.w,
             height: 276.h,

@@ -37,6 +37,8 @@ class InfoSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.sp),
                 child: Image.asset(
                   imgPath,
+                  height: 100.h,
+                  width: 100.w,
                 ),
               ),
             ),

@@ -20,7 +20,8 @@ class CameraHelper {
   Future<void> takePicture() async {
     if (!controller.value.isInitialized) return;
     try {
-      final XFile image = await controller.takePicture();
+      final XFile
+      image = await controller.takePicture();
     } catch (e) {
       print("Error taking picture: $e");
     }

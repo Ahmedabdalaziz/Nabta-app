@@ -193,14 +193,19 @@ class _UploadImageSectionState extends State<UploadImageSection> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            TextButton(
-              onPressed: () => _replaceImage(base64Image),
+            GestureDetector(
+              onTap: () {
+                _replaceImage(base64Image);
+              },
               child: Text("استبدال الصورة",
                   style: CairoTextStyles.bold
                       .copyWith(color: ColorsManager.secondGreen)),
             ),
-            TextButton(
-              onPressed: () => _removeImage(base64Image),
+            verticalSpace(20.h),
+            GestureDetector(
+              onTap: () {
+                _removeImage(base64Image);
+              },
               child: Text("حذف الصورة",
                   style:
                       CairoTextStyles.bold.copyWith(color: ColorsManager.red)),
@@ -208,7 +213,7 @@ class _UploadImageSectionState extends State<UploadImageSection> {
           ],
         ),
         horizontalSpace(8.w),
-        Container(
+        SizedBox(
           width: 90.w,
           height: 90.h,
           child: ClipRRect(

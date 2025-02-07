@@ -1,9 +1,10 @@
-import 'dart:developer';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/core/helper/extension.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
+import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/widget/camera_bottom_bar.dart';
 import 'package:graduation_project/features/disease_detection/ui/widget/camera_helper.dart';
 import 'package:graduation_project/features/disease_detection/ui/widget/camera_top_bar.dart';
@@ -16,23 +17,23 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  late CameraHelper _cameraHelper;
-  late Future<void> _cameraInitialization; // تخزين Future لمنع إعادة التهيئة
+  late CameraHelper cameraHelper;
+  late Future<void> _cameraInitialization;
   bool _showPlantSelection = true;
   int selectedCategoryIndex = 1;
-  XFile? selectedImage;
+  String? _capturedImageBase64;
+  String selectedPlant = '';
 
   @override
   void initState() {
     super.initState();
-    _cameraHelper = CameraHelper();
-    _cameraInitialization =
-        _cameraHelper.initCamera(); // تشغيل الكاميرا مرة واحدة فقط
+    cameraHelper = CameraHelper();
+    _cameraInitialization = cameraHelper.initCamera();
   }
 
   @override
   void dispose() {
-    _cameraHelper.dispose();
+    cameraHelper.dispose();
     super.dispose();
   }
 
@@ -40,52 +41,26 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: _cameraInitialization, // استخدم الـ Future المحفوظ
+        future: _cameraInitialization,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: ColorsManager.mainGreen,
-              ),
-            );
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
-              child: Text('Error initializing camera: ${snapshot.error}'),
-            );
+                child: Text('Error initializing camera: ${snapshot.error}'));
           } else {
             return Stack(
               children: [
-                Positioned.fill(
-                  child: CameraPreview(_cameraHelper.controller),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 250.h,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      boxShadow: [
-                        BoxShadow(
-                          color: ColorsManager.mainGreen.withOpacity(0.3),
-                          spreadRadius: 15.r,
-                          blurRadius: 700.r,
-                          offset: const Offset(0, -10),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                Positioned.fill(child: CameraPreview(cameraHelper.controller)),
                 CameraTopBar(
-                  isFlashOn: _cameraHelper.isFlashOn,
-                  onFlashPressed: _cameraHelper.toggleFlash,
+                  isFlashOn: cameraHelper.isFlashOn,
+                  onFlashPressed: cameraHelper.toggleFlash,
                 ),
                 if (_showPlantSelection)
                   PlantSelectionWidget(
                     onSelect: (plantName) {
-                      log(plantName);
                       setState(() {
+                        selectedPlant = plantName;
                         _showPlantSelection = false;
                       });
                     },
@@ -109,9 +84,48 @@ class _CameraScreenState extends State<CameraScreen> {
                     ],
                   ),
                 ),
-                CameraBottomBar(
-                  onCapture: _cameraHelper.takePicture,
-                  onPickImage: _cameraHelper.pickImagee,
+                BlocConsumer<DiseaseCubit, DiseaseState>(
+                  listener: (context, state) {
+                    if (state is DiseaseSuccess) {
+                      context.pushNamed(Routing.imagePreviewScreen, arguments: {
+                        'imageBase64': _capturedImageBase64,
+                        'plantType': selectedPlant
+                      });
+                    } else if (state is DiseaseFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.message)),
+                      );
+                    } else if (state is DiseaseLoading) {
+                      CircularProgressIndicator(
+                        color: ColorsManager.mainGreen,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return CameraBottomBar(
+                      onCapture: (imageBase64) {
+                        setState(() {
+                          _capturedImageBase64 = imageBase64;
+                        });
+                        if (imageBase64 != null) {
+                          context
+                              .read<DiseaseCubit>()
+                              .detectDisease(selectedPlant, imageBase64);
+                        }
+                      },
+                      onPickImage: (imageBase64) {
+                        setState(() {
+                          _capturedImageBase64 = imageBase64;
+                        });
+                        if (imageBase64 != null) {
+                          context
+                              .read<DiseaseCubit>()
+                              .detectDisease(selectedPlant, imageBase64);
+                        }
+                      },
+                      cameraHelper: cameraHelper,
+                    );
+                  },
                 ),
               ],
             );

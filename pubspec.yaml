@@ -97,7 +97,7 @@ dependencies:
   expandable_text: ^2.3.0
   simple_circular_progress_bar: ^1.0.2
   toggle_switch: ^2.3.0
-
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:

@@ -4,13 +4,58 @@ import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 
+class PlantModel {
+  final String arabicName;
+  final String englishName;
+  final String imagePath;
+
+  PlantModel({
+    required this.arabicName,
+    required this.englishName,
+    required this.imagePath,
+  });
+}
+
 class PlantSelectionWidget extends StatelessWidget {
   final Function(String) onSelect;
 
-  const PlantSelectionWidget({
-    Key? key,
+  PlantSelectionWidget({
+    super.key,
     required this.onSelect,
-  }) : super(key: key);
+  });
+
+  final List<PlantModel> plants = [
+    PlantModel(
+      arabicName: "ذرة",
+      englishName: "corn",
+      imagePath: "assets/SVGs/plants/cane.png",
+    ),
+    PlantModel(
+      arabicName: "قمح",
+      englishName: "wheat",
+      imagePath: "assets/SVGs/plants/corn2.png",
+    ),
+    PlantModel(
+      arabicName: "قطن",
+      englishName: "cotton",
+      imagePath: "assets/SVGs/plants/cotton.png",
+    ),
+    PlantModel(
+      arabicName: "أرز",
+      englishName: "rice",
+      imagePath: "assets/SVGs/plants/cane.png",
+    ),
+    PlantModel(
+      arabicName: "طماطم",
+      englishName: "tomato",
+      imagePath: "assets/SVGs/plants/cotton.png",
+    ),
+    PlantModel(
+      arabicName: "بطاطس",
+      englishName: "potato",
+      imagePath: "assets/SVGs/plants/onion.png",
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +85,14 @@ class PlantSelectionWidget extends StatelessWidget {
               Wrap(
                 spacing: 40.w,
                 runSpacing: 15.h,
-                children: [
-                  _buildPlantOption(
-                      "ذرة", "assets/SVGs/plants/cane.png", onSelect),
-                  _buildPlantOption(
-                      "قمح", "assets/SVGs/plants/corn2.png", onSelect),
-                  _buildPlantOption(
-                      "قمح", "assets/SVGs/plants/cotton.png", onSelect),
-                  _buildPlantOption(
-                      "أرز", "assets/SVGs/plants/cane.png", onSelect),
-                  _buildPlantOption(
-                      "أرز", "assets/SVGs/plants/cotton.png", onSelect),
-                  _buildPlantOption(
-                      "بصل", "assets/SVGs/plants/onion.png", onSelect),
-                ],
+                children: plants
+                    .map((plant) => _buildPlantOption(
+                          plant.arabicName,
+                          plant.englishName,
+                          plant.imagePath,
+                          onSelect,
+                        ))
+                    .toList(),
               ),
             ],
           ),
@@ -63,9 +102,13 @@ class PlantSelectionWidget extends StatelessWidget {
   }
 
   Widget _buildPlantOption(
-      String label, String image, Function(String) onSelect) {
+    String arabicLabel,
+    String englishLabel,
+    String image,
+    Function(String) onSelect,
+  ) {
     return GestureDetector(
-      onTap: () => onSelect(label),
+      onTap: () => onSelect(englishLabel), // Pass the English name to backend
       child: Container(
         width: 100,
         height: 100,
@@ -93,7 +136,7 @@ class PlantSelectionWidget extends StatelessWidget {
               top: 10,
               left: 10,
               child: Text(
-                label,
+                arabicLabel, // Display Arabic name in UI
                 style: CairoTextStyles.bold.copyWith(
                   color: ColorsManager.secondGreen,
                   fontSize: 20.sp,

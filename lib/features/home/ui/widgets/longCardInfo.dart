@@ -35,16 +35,16 @@ class LongCardInfo extends StatelessWidget {
               Text(
                 cardHint,
                 style: CairoTextStyles.bold.copyWith(
-                    fontSize: 12.sp, color: ColorsManager.secondGreen),
+                    fontSize: 14.sp, color: ColorsManager.secondGreen),
               ),
               verticalSpace(4.h),
               SizedBox(
                 width: 233.w,
-                height: 36.h,
+                height: 40.h,
                 child: Text(
                   cardDescription,
                   style: CairoTextStyles.semiBold.copyWith(
-                      fontSize: 12.sp, color: ColorsManager.secondGreen),
+                      fontSize: 16.sp, color: ColorsManager.secondGreen),
                   textDirection: TextDirection.rtl,
                 ),
               ),

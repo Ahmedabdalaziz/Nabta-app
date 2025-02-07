@@ -24,4 +24,5 @@ class Routing {
   static const String plantReport = "/plantReport";
   static const String chatScreen = "/chatScreen";
   static const String cameraScreen = "/cameraScreen";
+  static const String  imagePreviewScreen= "/imagePreviewScreen";
 }

@@ -48,7 +48,7 @@ class _SecondReportScreenState extends State<SecondReportScreen> {
                 ),
                 verticalSpace(22.h),
                 NameWithPhone(
-                  name: "سيدي احمد البدوي",
+                  name: "احمد عبد العزيز",
                   option: "اضف اسم اخر",
                   keyboardType: TextInputType.name,
                   labelString: "إدخال الاسم الثلاثي",

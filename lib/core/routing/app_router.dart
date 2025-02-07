@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/camera_screen.dart';
+import 'package:graduation_project/features/disease_detection/ui/screen/result_screen.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/forget_password/ui/email_checked.dart';
 import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
@@ -132,8 +134,17 @@ class AppRouter {
       case Routing.secondReportScreen:
         return createRoute(SecondReportScreen());
 
-        case Routing.cameraScreen:
-        return createRoute(CameraScreen());
+      case Routing.cameraScreen:
+        return createRoute(BlocProvider(
+          create: (context) => getIt<DiseaseCubit>(),
+          child: CameraScreen(),
+        ));
+
+      case Routing.imagePreviewScreen:
+        return createRoute(BlocProvider(
+          create: (context) => getIt<DiseaseCubit>(),
+          child: ImagePreviewScreen(),
+        ));
 
       case Routing.doneReportScreen:
         return createRoute(DoneReport());

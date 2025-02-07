@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/networking/api_service.dart';
 import 'package:graduation_project/core/networking/dio_factory.dart';
+import 'package:graduation_project/features/disease_detection/data/remote/disease_api_service.dart';
+import 'package:graduation_project/features/disease_detection/data/repo/disease_detction_repo.dart';
+import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/forget_password/data/repo/forget_password_repo.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/login/data/repo/login_repo.dart';
@@ -63,7 +66,7 @@ Future<GetIt> setUpGetIt() async {
     () => SendForgetPasswordCubit(getIt<SendForgetPasswordRepo>()),
   );
 
-   // .............................................................................
+  // .............................................................................
 
   // Register WeatherApiService
   getIt.registerLazySingleton<WeatherApiService>(
@@ -78,6 +81,22 @@ Future<GetIt> setUpGetIt() async {
   // Register WeatherCubit
   getIt.registerLazySingleton<WeatherCubit>(
     () => WeatherCubit(getIt<WeatherRepository>()),
+  );
+/////////////////////////////// Disease Detection////////////
+
+  //Api services
+  getIt.registerLazySingleton<PlantDiseaseApiService>(
+    () => PlantDiseaseApiService(getIt<Dio>()),
+  );
+
+  // Repository
+  getIt.registerLazySingleton<PlantDiseaseDetectionRepository>(
+    () => PlantDiseaseDetectionRepository(getIt<PlantDiseaseApiService>()),
+  );
+
+  // Cubit
+  getIt.registerLazySingleton<DiseaseCubit>(
+    () => DiseaseCubit(getIt<PlantDiseaseDetectionRepository>()),
   );
 
   return getIt;

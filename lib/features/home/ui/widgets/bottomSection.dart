@@ -18,7 +18,7 @@ class BottomSections extends StatelessWidget {
       width: 188.w,
       height: 128.h,
       decoration: BoxDecoration(
-        color: const Color(0xffE0EAE4),
+        color:ColorsManager.greenWhite,
         borderRadius: BorderRadius.circular(20.sp),
       ),
       child: Stack(

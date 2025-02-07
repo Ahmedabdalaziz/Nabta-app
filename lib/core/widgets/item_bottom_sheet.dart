@@ -151,10 +151,14 @@ class _SelectionListState extends State<SelectionList> {
   }
 
   void _filterItems() {
+    String normalize(String text) {
+      return text.replaceAll(RegExp(r"[أإآ]"), "ا");
+    }
+
     setState(() {
       _filteredItems = widget.items
           .where((item) =>
-              item.toLowerCase().contains(_searchController.text.toLowerCase()))
+          normalize(item).contains(normalize(_searchController.text)))
           .toList();
     });
   }

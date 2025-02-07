@@ -157,7 +157,7 @@ class _HomeState extends State<Home> {
                                   humidity: day.humidity,
                                   windSpeed: day.windspeed,
                                   temperature: day.temp,
-                                  location: 'القاهر-مصر',
+                                  location: 'اسيوط-مصر',
                                 );
                               }).toList(),
                             ),
@@ -199,15 +199,15 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InfoSection(
-                          imgPath: 'assets/SVGs/home/kemi_ka_0.75.png',
-                          leftPadding: 24.w,
-                          topPadding: 34.h,
+                          imgPath: 'assets/SVGs/home/kemia_home.png',
+                          leftPadding: 8.w,
+                          topPadding: 18.h,
                           cardLabel: 'الكيماويات',
                         ),
                         InfoSection(
-                          imgPath: 'assets/SVGs/home/cow_0.75.png',
-                          leftPadding: 20.w,
-                          topPadding: 45.h,
+                          imgPath: 'assets/SVGs/home/cow_on_home.png',
+                          leftPadding: 12.w,
+                          topPadding: 28.h,
                           cardLabel: 'الحيوانات',
                         ),
                         GestureDetector(
@@ -215,9 +215,9 @@ class _HomeState extends State<Home> {
                             context.pushNamed(Routing.plantScreen);
                           },
                           child: InfoSection(
-                            imgPath: 'assets/SVGs/home/npta_0.75.png',
-                            leftPadding: 24.w,
-                            topPadding: 40.h,
+                            imgPath: 'assets/SVGs/home/plants_onhome.png',
+                            leftPadding: 12.w,
+                            topPadding: 20.h,
                             cardLabel: 'النباتات',
                           ),
                         ),
@@ -236,8 +236,7 @@ class _HomeState extends State<Home> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20.0.sp),
-                            child:
-                                Image.asset('assets/SVGs/home/ادوات_1.5.png'),
+                            child: Image.asset('assets/SVGs/home/tools.png'),
                           ),
                           const LongCardInfo(
                             cardLabel: 'السوق الزراعي',
@@ -258,9 +257,13 @@ class _HomeState extends State<Home> {
                           fit: BoxFit.fill,
                         ),
                         Positioned(
-                          left: 3.w,
-                          child:
-                              Image.asset('assets/SVGs/home/Rectangle 75.png'),
+                          left: 0.w,
+                          top: 4.h,
+                          child: Image.asset(
+                            'assets/SVGs/home/small_water.png',
+                            width: 80.w,
+                            height: 80.h,
+                          ),
                         ),
                         Positioned(
                           bottom: 2.h,
@@ -286,7 +289,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const BottomSections(
-                          imgPath: 'assets/SVGs/home/Group 149.png',
+                          imgPath: 'assets/SVGs/home/disease.png',
                           sectionLabel: 'أمراض الحيوانات',
                         ),
                         horizontalSpace(16.w),
@@ -295,7 +298,7 @@ class _HomeState extends State<Home> {
                             context.pushNamed(Routing.firstReportScreen);
                           },
                           child: const BottomSectionWithouCliprrect(
-                            imgPath: 'assets/SVGs/home/Group 150.png',
+                            imgPath: 'assets/SVGs/home/report_on_home.png',
                             sectionLabel: 'إبلاغ بيطري',
                           ),
                         )
