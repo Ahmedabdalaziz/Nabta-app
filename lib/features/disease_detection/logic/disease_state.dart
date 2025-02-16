@@ -12,6 +12,7 @@ final class DiseaseSuccess extends DiseaseState {
 }
 
 final class DiseaseLoading extends DiseaseState {}
+final class DiseaseDataCached extends DiseaseState {}
 
 final class DiseaseFailure extends DiseaseState {
   final String message;

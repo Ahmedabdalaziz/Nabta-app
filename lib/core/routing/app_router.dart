@@ -135,7 +135,8 @@ class AppRouter {
         return createRoute(SecondReportScreen());
 
       case Routing.cameraScreen:
-        return createRoute(BlocProvider(
+        return createRoute(
+            BlocProvider(
           create: (context) => getIt<DiseaseCubit>(),
           child: CameraScreen(),
         ));

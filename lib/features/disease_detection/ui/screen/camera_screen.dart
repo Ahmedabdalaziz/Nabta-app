@@ -44,90 +44,87 @@ class _CameraScreenState extends State<CameraScreen> {
         future: _cameraInitialization,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child:
+                    CircularProgressIndicator(color: ColorsManager.mainGreen));
           } else if (snapshot.hasError) {
             return Center(
                 child: Text('Error initializing camera: ${snapshot.error}'));
           } else {
-            return Stack(
-              children: [
-                Positioned.fill(child: CameraPreview(cameraHelper.controller)),
-                CameraTopBar(
-                  isFlashOn: cameraHelper.isFlashOn,
-                  onFlashPressed: cameraHelper.toggleFlash,
-                ),
-                if (_showPlantSelection)
-                  PlantSelectionWidget(
-                    onSelect: (plantName) {
-                      setState(() {
-                        selectedPlant = plantName;
-                        _showPlantSelection = false;
-                      });
-                    },
-                  ),
-                Positioned(
-                  bottom: 150,
-                  left: 20,
-                  right: 20,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomToggleSwitch(
-                        selectedIndex: selectedCategoryIndex,
-                        onToggle: (index) {
+            return BlocConsumer<DiseaseCubit, DiseaseState>(
+              listener: (context, state) {
+                if (state is DiseaseDataCached) {
+                  print(
+                      "✅ Data Cached Successfully! Navigating to Image Preview...");
+                  context.pushNamed(Routing.imagePreviewScreen);
+                }
+              },
+              builder: (context, state) {
+                return Stack(
+                  children: [
+                    Positioned.fill(
+                        child: CameraPreview(cameraHelper.controller)),
+                    CameraTopBar(
+                      isFlashOn: cameraHelper.isFlashOn,
+                      onFlashPressed: cameraHelper.toggleFlash,
+                    ),
+                    if (_showPlantSelection)
+                      PlantSelectionWidget(
+                        onSelect: (plantName) {
                           setState(() {
-                            selectedCategoryIndex = index;
-                            _showPlantSelection = index != 0;
+                            selectedPlant = plantName;
+                            _showPlantSelection = false;
                           });
                         },
                       ),
-                    ],
-                  ),
-                ),
-                BlocConsumer<DiseaseCubit, DiseaseState>(
-                  listener: (context, state) {
-                    if (state is DiseaseSuccess) {
-                      context.pushNamed(Routing.imagePreviewScreen, arguments: {
-                        'imageBase64': _capturedImageBase64,
-                        'plantType': selectedPlant
-                      });
-                    } else if (state is DiseaseFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.message)),
-                      );
-                    } else if (state is DiseaseLoading) {
-                      CircularProgressIndicator(
-                        color: ColorsManager.mainGreen,
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    return CameraBottomBar(
+                    Positioned(
+                      bottom: 150,
+                      left: 20,
+                      right: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomToggleSwitch(
+                            selectedIndex: selectedCategoryIndex,
+                            onToggle: (index) {
+                              setState(() {
+                                selectedCategoryIndex = index;
+                                _showPlantSelection = index != 0;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    CameraBottomBar(
                       onCapture: (imageBase64) {
-                        setState(() {
-                          _capturedImageBase64 = imageBase64;
-                        });
-                        if (imageBase64 != null) {
+                        if (imageBase64!.isNotEmpty) {
+                          print('📤 Sending Image to Cubit: $imageBase64');
                           context
                               .read<DiseaseCubit>()
-                              .detectDisease(selectedPlant, imageBase64);
+                              .cacheDiseaseData(selectedPlant, imageBase64);
+                          context.pushNamed(Routing.imagePreviewScreen);
+                        } else {
+                          print('❌ Captured image is empty!');
                         }
                       },
                       onPickImage: (imageBase64) {
+                        print(
+                            "🖼️ Picked Image Base64: ${imageBase64?.substring(0, 50)}...");
                         setState(() {
                           _capturedImageBase64 = imageBase64;
                         });
                         if (imageBase64 != null) {
                           context
                               .read<DiseaseCubit>()
-                              .detectDisease(selectedPlant, imageBase64);
+                              .cacheDiseaseData(selectedPlant, imageBase64);
                         }
                       },
                       cameraHelper: cameraHelper,
-                    );
-                  },
-                ),
-              ],
+                    ),
+                  ],
+                );
+              },
             );
           }
         },
