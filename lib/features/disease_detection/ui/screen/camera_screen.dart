@@ -54,8 +54,6 @@ class _CameraScreenState extends State<CameraScreen> {
             return BlocConsumer<DiseaseCubit, DiseaseState>(
               listener: (context, state) {
                 if (state is DiseaseDataCached) {
-                  print(
-                      "✅ Data Cached Successfully! Navigating to Image Preview...");
                   context.pushNamed(Routing.imagePreviewScreen);
                 }
               },
@@ -99,18 +97,13 @@ class _CameraScreenState extends State<CameraScreen> {
                     CameraBottomBar(
                       onCapture: (imageBase64) {
                         if (imageBase64!.isNotEmpty) {
-                          print('📤 Sending Image to Cubit: $imageBase64');
                           context
                               .read<DiseaseCubit>()
                               .cacheDiseaseData(selectedPlant, imageBase64);
                           context.pushNamed(Routing.imagePreviewScreen);
-                        } else {
-                          print('❌ Captured image is empty!');
-                        }
+                        } else {}
                       },
                       onPickImage: (imageBase64) {
-                        print(
-                            "🖼️ Picked Image Base64: ${imageBase64?.substring(0, 50)}...");
                         setState(() {
                           _capturedImageBase64 = imageBase64;
                         });

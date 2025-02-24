@@ -14,34 +14,31 @@ class DiseaseCubit extends Cubit<DiseaseState> {
   String? _cachedImage;
 
   void cacheDiseaseData(String plantType, String image) {
-    print(
-        '🔹 Caching Data - Plant: $plantType, Image: ${image.substring(0, 50)}...');
     _cachedPlantType = plantType;
     _cachedImage = image;
     emit(DiseaseDataCached());
   }
 
+  String? getCachedImage() {
+    return _cachedImage;
+  }
+
   Future<void> submitDiseaseData() async {
     if (_cachedPlantType == null || _cachedImage == null) {
-      print('⚠️ No cached data to submit!');
       emit(DiseaseFailure(message: "No data cached to submit."));
       return;
     }
 
-    print(
-        '📤 Submitting data - Plant: $_cachedPlantType, Image: ${_cachedImage!.substring(0, 50)}...');
     emit(DiseaseLoading());
 
     try {
       final response =
-          await repository.detectDisease(_cachedPlantType!, _cachedImage!);
-      print('✅ Received Response: $response');
+      await repository.detectDisease(_cachedPlantType!, _cachedImage!);
       emit(DiseaseSuccess(response));
 
       _cachedPlantType = null;
       _cachedImage = null;
     } catch (e) {
-      print('❌ Error submitting data: $e');
       emit(DiseaseFailure(message: e.toString()));
     }
   }

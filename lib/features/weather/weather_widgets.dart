@@ -25,6 +25,7 @@ class WeatherCard extends StatelessWidget {
   String _getImagePath() {
     switch (condition) {
       case 'clear':
+        return 'assets/SVGs/home/Group 129.png';
       case 'Cold':
         return 'assets/SVGs/home/weather2.png';
       case 'cloudy':

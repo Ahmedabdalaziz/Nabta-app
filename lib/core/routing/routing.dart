@@ -25,4 +25,5 @@ class Routing {
   static const String chatScreen = "/chatScreen";
   static const String cameraScreen = "/cameraScreen";
   static const String  imagePreviewScreen= "/imagePreviewScreen";
+  static const String  resultImageDetection= "/resultImageDetection";
 }

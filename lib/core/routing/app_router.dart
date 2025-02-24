@@ -4,7 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/camera_screen.dart';
-import 'package:graduation_project/features/disease_detection/ui/screen/result_screen.dart';
+import 'package:graduation_project/features/disease_detection/ui/screen/image_preview_screen.dart';
+import 'package:graduation_project/features/disease_detection/ui/screen/result_done.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/forget_password/ui/email_checked.dart';
 import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
@@ -135,8 +136,7 @@ class AppRouter {
         return createRoute(SecondReportScreen());
 
       case Routing.cameraScreen:
-        return createRoute(
-            BlocProvider(
+        return createRoute(BlocProvider(
           create: (context) => getIt<DiseaseCubit>(),
           child: CameraScreen(),
         ));
@@ -147,17 +147,19 @@ class AppRouter {
           child: ImagePreviewScreen(),
         ));
 
+      case Routing.resultImageDetection:
+        return createRoute(BlocProvider(
+          create: (context) => getIt<DiseaseCubit>(),
+          child: ResultDone(),
+        ));
+
       case Routing.doneReportScreen:
         return createRoute(DoneReport());
 
       case Routing.homeScreen:
         return createRoute(
-          MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => getIt<WeatherCubit>(),
-              ),
-            ],
+          BlocProvider(
+            create: (context) => getIt<WeatherCubit>(),
             child: const Home(),
           ),
         );
