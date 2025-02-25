@@ -15,6 +15,7 @@ import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
+import 'package:graduation_project/features/plant/logic/plant_cubit.dart';
 import 'package:graduation_project/features/plant/ui/screens/plant_report.dart';
 import 'package:graduation_project/features/plant/ui/screens/plant_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
@@ -127,10 +128,19 @@ class AppRouter {
         return createRoute(const FirstReportScreen());
 
       case Routing.plantScreen:
-        return createRoute(const PlantsScreen());
+        return createRoute(
+            const PlantsScreen()
+        );
 
       case Routing.plantReport:
-        return createRoute(PlantReport());
+        return createRoute(
+
+            BlocProvider(
+              create: (context) => getIt<PlantCubit>(),
+              child: const PlantReport(),
+            )
+
+        );
 
       case Routing.secondReportScreen:
         return createRoute(SecondReportScreen());

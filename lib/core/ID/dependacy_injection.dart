@@ -9,6 +9,8 @@ import 'package:graduation_project/features/forget_password/data/repo/forget_pas
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/login/data/repo/login_repo.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
+import 'package:graduation_project/features/plant/data/repo/plant_repo.dart';
+import 'package:graduation_project/features/plant/logic/plant_cubit.dart';
 import 'package:graduation_project/features/signup/data/repo/repo_active_code.dart';
 import 'package:graduation_project/features/signup/data/repo/repo_signin.dart';
 import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
@@ -64,6 +66,16 @@ Future<GetIt> setUpGetIt() async {
   // Register Send Forget Password Cubit
   getIt.registerLazySingleton<SendForgetPasswordCubit>(
     () => SendForgetPasswordCubit(getIt<SendForgetPasswordRepo>()),
+  );
+
+  // plant repo
+  getIt.registerLazySingleton<PlantRepository>(
+      ()=> PlantRepository(getIt<ApiService>())
+  );
+
+  // plant cubit
+  getIt.registerLazySingleton<PlantCubit>(
+      ()=> PlantCubit(getIt<PlantRepository>())
   );
 
   // .............................................................................

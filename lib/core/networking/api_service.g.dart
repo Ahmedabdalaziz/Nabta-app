@@ -14,7 +14,7 @@ class _ApiService implements ApiService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://graduation-project-hvey.onrender.com/api/';
+    baseUrl ??= 'https://graduation-project-hvey.onrender.com/';
   }
 
   final Dio _dio;
@@ -37,7 +37,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'login',
+          'api/login',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -71,7 +71,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'signup',
+          'api/signup',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -106,7 +106,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'activateAccount',
+          'api/activateAccount',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -141,7 +141,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'auth/sendforgetpasswordcode',
+          'api/auth/sendforgetpasswordcode',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -154,6 +154,40 @@ class _ApiService implements ApiService {
     late SendForgetPasswordResponseModel _value;
     try {
       _value = SendForgetPasswordResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<PlantResponse> getAllPlants(String token) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<PlantResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'plant/viewall',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PlantResponse _value;
+    try {
+      _value = PlantResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

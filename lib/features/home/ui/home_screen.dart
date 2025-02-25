@@ -140,7 +140,8 @@ class _HomeState extends State<Home> {
                         color: ColorsManager.mainGreen,
                       )),
                     );
-                  } else if (state is WeatherLoaded) {
+                  }
+                  else if (state is WeatherLoaded) {
                     final weatherData = state.weatherResponse.days;
                     return SizedBox(
                       height: 150.h,
@@ -176,12 +177,14 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     );
-                  } else if (state is WeatherError) {
+                  }
+                  else if (state is WeatherError) {
                     return SizedBox(
                       height: 150.h,
                       child: Center(child: Text("Error: ${state.message}")),
                     );
-                  } else {
+                  }
+                  else {
                     return SizedBox(
                       height: 150.h,
                       child: const Center(child: Text("No data available.")),
