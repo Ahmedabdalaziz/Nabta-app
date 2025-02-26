@@ -4,7 +4,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 class DioFactory {
   DioFactory._();
 
-  static const Duration timeOut = Duration(seconds: 30);
+  static const Duration timeOut = Duration(seconds: 80);
   static Dio? _dio;
 
   static Dio getDio() {

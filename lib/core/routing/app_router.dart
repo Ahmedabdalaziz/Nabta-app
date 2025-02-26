@@ -129,7 +129,10 @@ class AppRouter {
 
       case Routing.plantScreen:
         return createRoute(
-            const PlantsScreen()
+            BlocProvider(
+              create: (context) => getIt<PlantCubit>(),
+              child: const PlantsScreen(),
+            )
         );
 
       case Routing.plantReport:
