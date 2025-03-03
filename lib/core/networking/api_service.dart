@@ -33,12 +33,6 @@ abstract class ApiService {
   Future<SendForgetPasswordResponseModel> sendForgetPasswordCode(
       @Body() SendForgetPasswordRequestModel body);
 
-
   @GET(ApiConstants.plantApi)
-
-  Future<PlantResponse> getAllPlants(
-
-      @Header('Authorization') String token
-
-      );
+  Future<PlantResponse> getAllPlants(@Header('Authorization') String token);
 }

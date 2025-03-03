@@ -29,8 +29,6 @@ Future<UserCredential?> signInWithGoogleAndSendData() async {
       return null;
     }
 
-    log("تم تسجيل الدخول بنجاح: ${user.email}");
-
     final userData = {
       "email": user.email,
       "displayName": user.displayName,
@@ -39,16 +37,14 @@ Future<UserCredential?> signInWithGoogleAndSendData() async {
       "idToken": googleAuth.idToken,
       "accessToken": googleAuth.accessToken,
     };
-
-    log("إرسال البيانات إلى الباك اند: ${jsonEncode(userData)}");
+    log("إرسال البيانات إلى الباك اند");
 
     final response = await http.post(
-      Uri.parse("${ApiConstants.apiBaseUrl}auth/googleoauth"),
+      Uri.parse("${ApiConstants.apiBaseUrl}api/auth/googleoauth"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(userData),
     );
 
-    log("استجابة الباك اند: ${response.statusCode} - ${response.body}");
 
     if (response.statusCode == 200) {
       try {

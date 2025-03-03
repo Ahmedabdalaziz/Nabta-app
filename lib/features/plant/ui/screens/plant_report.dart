@@ -26,7 +26,9 @@ class _PlantReportState extends State<PlantReport> {
   @override
   void initState() {
     super.initState();
-    context.read<PlantCubit>().fetchPlants(); // استدعاء البيانات عند تحميل الشاشة
+    context
+        .read<PlantCubit>()
+        .fetchPlants(); // استدعاء البيانات عند تحميل الشاشة
   }
 
   @override
@@ -41,11 +43,18 @@ class _PlantReportState extends State<PlantReport> {
       },
       builder: (context, state) {
         if (state is plantLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                color: ColorsManager.mainGreen,
+              ),
+            ),
+          );
         } else if (state is PlantSuccess) {
           final plantData = state.plantResponse.data?.first;
           if (plantData == null) {
-            return const Center(child: Text("لا توجد بيانات متاحة"));
+            return Scaffold(
+                body: const Center(child: Text("لا توجد بيانات متاحة")));
           }
           return HomeBackground(
             child: SingleChildScrollView(
@@ -75,7 +84,8 @@ class _PlantReportState extends State<PlantReport> {
                                       context.pop();
                                     },
                                     child: CircleAvatar(
-                                      backgroundColor: ColorsManager.white.withOpacity(0.2),
+                                      backgroundColor:
+                                          ColorsManager.white.withOpacity(0.2),
                                       radius: 26.r,
                                       child: SvgPicture.asset(
                                         arrowBack,
@@ -97,7 +107,8 @@ class _PlantReportState extends State<PlantReport> {
                                       });
                                     },
                                     child: CircleAvatar(
-                                      backgroundColor: ColorsManager.mainGreen.withOpacity(0.2),
+                                      backgroundColor: ColorsManager.mainGreen
+                                          .withOpacity(0.2),
                                       radius: 26.r,
                                       child: Icon(
                                         size: 35.sp,
@@ -119,7 +130,8 @@ class _PlantReportState extends State<PlantReport> {
                         child: SizedBox(
                           width: 180.w,
                           height: 200.h,
-                          child: Image.network(plantData.images![1].url.toString()),
+                          child: Image.network(
+                              plantData.images![1].url.toString()),
                         ),
                       ),
                       Column(
@@ -129,7 +141,8 @@ class _PlantReportState extends State<PlantReport> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 22.h, horizontal: 40.w),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 22.h, horizontal: 40.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -159,10 +172,12 @@ class _PlantReportState extends State<PlantReport> {
                                     Container(
                                       height: 40.h,
                                       width: 120.w,
-                                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w, vertical: 4.h),
                                       decoration: BoxDecoration(
                                         color: ColorsManager.greenWhite,
-                                        borderRadius: BorderRadius.circular(20.r),
+                                        borderRadius:
+                                            BorderRadius.circular(20.r),
                                       ),
                                       child: Center(
                                         child: Text(
@@ -184,9 +199,18 @@ class _PlantReportState extends State<PlantReport> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              InfoProgress(title: "رطوبة الهواء", degree: 50, stringDegree: "متوسط"),
-                              InfoProgress(title: "احتياج الماء", degree: 30, stringDegree: "منخفض"),
-                              InfoProgress(title: "احتياج الضوء", degree: 80, stringDegree: "عالي"),
+                              InfoProgress(
+                                  title: "رطوبة الهواء",
+                                  degree: 50,
+                                  stringDegree: "متوسط"),
+                              InfoProgress(
+                                  title: "احتياج الماء",
+                                  degree: 30,
+                                  stringDegree: "منخفض"),
+                              InfoProgress(
+                                  title: "احتياج الضوء",
+                                  degree: 80,
+                                  stringDegree: "عالي"),
                             ],
                           ),
                           verticalSpace(16.h),
@@ -234,10 +258,12 @@ class _PlantReportState extends State<PlantReport> {
                               ),
                             ],
                           ),
-                          ...List.generate(5, (index) => Padding(
-                            padding: EdgeInsets.only(bottom: 16.h),
-                            child: GuideLinesCards(),
-                          )),
+                          ...List.generate(
+                              5,
+                              (index) => Padding(
+                                    padding: EdgeInsets.only(bottom: 16.h),
+                                    child: GuideLinesCards(),
+                                  )),
                         ],
                       ),
                     ],
@@ -247,7 +273,12 @@ class _PlantReportState extends State<PlantReport> {
             ),
           );
         } else {
-          return const Center(child: Text("حدث خطأ غير متوقع"));
+          return Scaffold(
+              body: Center(
+                  child: Text(
+            "حدث خطأ غير متوقع",
+            style: CairoTextStyles.bold,
+          )));
         }
       },
     );

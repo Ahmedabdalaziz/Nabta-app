@@ -28,9 +28,9 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
   void initState() {
     super.initState();
     _textTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      _buttonTextNotifier.value = _buttonTextNotifier.value == "إرسال الصورة..."
-          ? "تحليل الحالة وتحديد التشخيص..."
-          : "إرسال الصورة...";
+      _buttonTextNotifier.value = _buttonTextNotifier.value == "...إرسال الصورة"
+          ? "...تحديد التشخيص"
+          : "...إرسال الصورة";
     });
   }
 

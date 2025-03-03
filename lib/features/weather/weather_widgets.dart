@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
+import 'package:graduation_project/core/helper/strings.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 
@@ -21,37 +22,9 @@ class WeatherCard extends StatelessWidget {
     required this.location,
   });
 
-  // دالة لتحديد الصورة بناءً على حالة الطقس
-  String _getImagePath() {
-    switch (condition) {
-      case 'clear':
-        return 'assets/SVGs/home/Group 129.png';
-      case 'Cold':
-        return 'assets/SVGs/home/weather2.png';
-      case 'cloudy':
-      case 'Partially cloudy':
-      case 'Fog':
-      case 'Mist':
-      case 'overcast':
-        return 'assets/SVGs/home/1.5Group 127.png';
-      case 'rain':
-      case 'Heavy Rain':
-      case 'Light Rain':
-      case 'drizzle':
-        return 'assets/SVGs/home/weather3.png';
-      case 'Sandstorm':
-      case 'Duststorm':
-      case 'Thunderstorm':
-      case 'Windy':
-        return 'assets/SVGs/home/Group 130.png';
-      default:
-        return 'assets/SVGs/home/Group 129.png';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final imagePath = _getImagePath();
+    final imagePath = getImagePath(condition);
     return Stack(
       fit: StackFit.expand,
       children: [

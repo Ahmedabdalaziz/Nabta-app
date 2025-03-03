@@ -128,3 +128,31 @@ Map<String,String> weatherCondition = {
   'Hot':'ساخن',
   'Freezing':'تجمد',
 };
+
+// دالة لتحديد الصورة بناءً على حالة الطقس
+String getImagePath(String condition) {
+  switch (condition) {
+    case 'clear':
+      return 'assets/SVGs/home/Group 129.png';
+    case 'Cold':
+      return 'assets/SVGs/home/weather2.png';
+    case 'cloudy':
+    case 'Partially cloudy':
+    case 'Fog':
+    case 'Mist':
+    case 'overcast':
+      return 'assets/SVGs/home/1.5Group 127.png';
+    case 'rain':
+    case 'Heavy Rain':
+    case 'Light Rain':
+    case 'drizzle':
+      return 'assets/SVGs/home/weather3.png';
+    case 'Sandstorm':
+    case 'Duststorm':
+    case 'Thunderstorm':
+    case 'Windy':
+      return 'assets/SVGs/home/Group 130.png';
+    default:
+      return 'assets/SVGs/home/Group 129.png';
+  }
+}
