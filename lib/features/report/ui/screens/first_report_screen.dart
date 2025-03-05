@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/helper/strings.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
-import 'package:graduation_project/core/widgets/app_checked_box.dart';
+import 'package:graduation_project/features/report/logic/report_cubit.dart';
 import 'package:graduation_project/features/report/ui/screens/report_screen.dart';
-import 'package:graduation_project/features/report/ui/widgets/animalCard.dart';
+import 'package:graduation_project/features/report/ui/widgets/animal_selection_widget.dart';
 import 'package:graduation_project/features/report/ui/widgets/details.dart';
+import 'package:graduation_project/features/report/ui/widgets/disease_selection_widget.dart';
+import 'package:graduation_project/features/report/ui/widgets/notes_widget.dart';
 import 'package:graduation_project/features/report/ui/widgets/upload_image.dart';
+
+import '../../../../core/widgets/app_text_button.dart';
 
 class FirstReportScreen extends StatefulWidget {
   const FirstReportScreen({super.key});
@@ -18,10 +25,13 @@ class FirstReportScreen extends StatefulWidget {
 }
 
 class _FirstReportScreenState extends State<FirstReportScreen> {
-  bool isPet = false;
   String? selectedAnimal;
   Map<String, bool> selectedMain = {};
   Map<String, Map<String, bool>> selectedSub = {};
+  Map<String, String?> answers = {};
+  List<String> uploadedImages = [];
+  String notes = "";
+  bool hasImages = false;
 
   @override
   void initState() {
@@ -29,31 +39,71 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
     for (var category in diseaseCategories.keys) {
       selectedMain[category] = false;
       selectedSub[category] = {};
-      for (var sub in diseaseCategories[category]!) {
-        selectedSub[category]![sub] = false;
+      for (var subCategory in diseaseCategories[category]!) {
+        selectedSub[category]![subCategory] = false;
       }
     }
   }
 
-  void _toggleMainCategory(String category) {
+  void updateUploadedImages(List<String> images) {
     setState(() {
-      selectedMain[category] = !(selectedMain[category] ?? false);
+      uploadedImages = images;
+      hasImages = images.isNotEmpty;
+      print("Uploaded Images: $uploadedImages");
     });
   }
 
-  void _toggleSubCategory(String category, String subCategory) {
+  void updateSelectedAnimal(String? animal) {
+    setState(() {
+      selectedAnimal = animal;
+      print("Selected Animal: $selectedAnimal");
+    });
+    context.read<ReportCubit>().updateAnimalType(animal);
+  }
+
+  void updateMainCategory(String category) {
+    setState(() {
+      selectedMain[category] = !(selectedMain[category] ?? false);
+      print("Selected Main Categories: $selectedMain");
+    });
+    context.read<ReportCubit>().updateDiseases(selectedMain, selectedSub);
+  }
+
+  void updateSubCategory(String category, String subCategory) {
     setState(() {
       selectedSub[category]![subCategory] =
-          !(selectedSub[category]![subCategory] ?? false);
+      !(selectedSub[category]![subCategory] ?? false);
+      print("Selected Sub Categories: $selectedSub");
     });
+    context.read<ReportCubit>().updateDiseases(selectedMain, selectedSub);
+  }
+
+  void updateAnswer(String question, String? answer) {
+    setState(() {
+      answers[question] = answer;
+      print("Answers: $answers");
+    });
+    context.read<ReportCubit>().updateDiagnosticQuestions(answers);
+  }
+
+  void updateNotes(String newNotes) {
+    setState(() {
+      notes = newNotes;
+      print("Notes: $notes");
+    });
+    context.read<ReportCubit>().updateNotes(notes);
+  }
+
+  void removeImage(int index) {
+    setState(() {
+      uploadedImages.removeAt(index);
+      hasImages = uploadedImages.isNotEmpty;
+    });
+    context.read<ReportCubit>().updateImages(uploadedImages);
   }
 
   @override
   Widget build(BuildContext context) {
-    List<MapEntry<String, String>> animalList = animals.entries.toList();
-    List<MapEntry<String, String>> firstRow = animalList.sublist(0, 4);
-    List<MapEntry<String, String>> secondRow = animalList.sublist(4, 8);
-
     return ReportScreen(
       details: true,
       customWidget: Expanded(
@@ -61,170 +111,52 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              verticalSpace(22.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text("نوع الحيوان",
-                        style: CairoTextStyles.bold.copyWith(
-                            fontSize: 28.sp, color: ColorsManager.secondGreen)),
-                  ],
+              AnimalSelectionWidget(
+                selectedAnimal: selectedAnimal,
+                onAnimalSelected: updateSelectedAnimal,
+              ),
+              DiseaseSelectionWidget(
+                selectedMain: selectedMain,
+                selectedSub: selectedSub,
+                onMainCategoryToggle: updateMainCategory,
+                onSubCategoryToggle: updateSubCategory,
+              ),
+              DiagnosticQuestions(
+                answers: answers,
+                onAnswerSelected: updateAnswer,
+              ),
+              UploadImageSection(
+                uploadedImages: uploadedImages,
+                onImagesUpdated: updateUploadedImages,
+              ),
+              NotesWidget(
+                notes: notes,
+                onNotesChanged: updateNotes,
+              ),
+              verticalSpace(32.h),
+              SizedBox(
+                width: 400.w,
+                height: 65.h,
+                child: DarkCustomTextButton(
+                  bottomColor: hasImages
+                      ? ColorsManager.mainGreen
+                      : ColorsManager.greenWhite,
+                  textColor: ColorsManager.white,
+                  text: "التالي",
+                  onPressed: hasImages
+                      ? () {
+                    context.pushNamed(Routing.secondReportScreen);
+                  }
+                      : null,
+                  textStyle:
+                  CairoTextStyles.extraBold.copyWith(fontSize: 20.sp),
                 ),
               ),
-              verticalSpace(26.h),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: firstRow.map((entry) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (selectedAnimal == entry.key) {
-                                selectedAnimal = null;
-                              } else {
-                                selectedAnimal = entry.key;
-                              }
-                            });
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: AnimalCard(
-                              animalIcon: entry.value,
-                              animalName: entry.key,
-                              isSelected: selectedAnimal == entry.key,
-                              isDisabled: selectedAnimal != null &&
-                                  selectedAnimal != entry.key,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                    verticalSpace(20.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: secondRow.map((entry) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (selectedAnimal == entry.key) {
-                                selectedAnimal = null;
-                              } else {
-                                selectedAnimal = entry.key;
-                              }
-                            });
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: AnimalCard(
-                              animalIcon: entry.value,
-                              animalName: entry.key,
-                              isSelected: selectedAnimal == entry.key,
-                              isDisabled: selectedAnimal != null &&
-                                  selectedAnimal != entry.key,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              verticalSpace(20.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 26.w),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("تحديد الأصابة",
-                            style: CairoTextStyles.bold.copyWith(
-                                fontSize: 28.sp,
-                                color: ColorsManager.secondGreen)),
-                      ],
-                    ),
-                    verticalSpace(22.h),
-                    Column(
-                      children: diseaseCategories.keys.map((category) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            mainCategory(category),
-                            if (selectedMain[category] == true)
-                              ...subCategories(category),
-                            verticalSpace(12.h),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              DiagnosticQuestions(),
-              verticalSpace(20.h),
-              UploadImageSection(),
+              verticalSpace(80.h),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Widget mainCategory(String category) {
-    return GestureDetector(
-      onTap: () => _toggleMainCategory(category),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            category,
-            style: CairoTextStyles.bold.copyWith(
-              fontSize: 18.sp,
-              color: ColorsManager.secondGreen,
-            ),
-          ),
-          horizontalSpace(8.w),
-          customCheckBox(
-            isChecked: selectedMain[category] ?? false,
-            onTap: () => _toggleMainCategory(category),
-            size: 42.w,
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<Widget> subCategories(String category) {
-    return diseaseCategories[category]!.map((subCategory) {
-      return Padding(
-        padding: EdgeInsets.only(right: 20.w, top: 16.h),
-        child: GestureDetector(
-          onTap: () => _toggleSubCategory(category, subCategory),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                subCategory,
-                style: CairoTextStyles.medium.copyWith(
-                  fontSize: 18.sp,
-                  color: ColorsManager.secondGreen,
-                ),
-              ),
-              horizontalSpace(8.w),
-              customCheckBox(
-                isChecked: selectedSub[category]![subCategory] ?? false,
-                onTap: () => _toggleSubCategory(category, subCategory),
-                size: 24.w,
-              ),
-            ],
-          ),
-        ),
-      );
-    }).toList();
   }
 }

@@ -5,34 +5,39 @@ import 'package:graduation_project/core/helper/strings.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 
-class DiagnosticQuestions extends StatefulWidget {
-  @override
-  _DiagnosticQuestionsState createState() => _DiagnosticQuestionsState();
-}
+class DiagnosticQuestions extends StatelessWidget {
+  final Map<String, String?> answers;
+  final Function(String, String?) onAnswerSelected;
 
-class _DiagnosticQuestionsState extends State<DiagnosticQuestions> {
-  Map<String, String?> answers = {};
+  const DiagnosticQuestions({
+    super.key,
+    required this.answers,
+    required this.onAnswerSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: 24.w,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
             "أسئلة تشخيصية",
-            style: CairoTextStyles.bold.copyWith(
-              fontSize: 24.sp,
-              color: ColorsManager.secondGreen,
-            ),
+            style: CairoTextStyles.bold
+                .copyWith(fontSize: 22.sp, color: ColorsManager.secondGreen),
           ),
-          verticalSpace(20.h),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: questions.map((question) {
-              return diagnosticQuestionItem(question);
-            }).toList(),
+          verticalSpace(28.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: questions.map((question) {
+                return diagnosticQuestionItem(question);
+              }).toList(),
+            ),
           ),
         ],
       ),
@@ -47,10 +52,8 @@ class _DiagnosticQuestionsState extends State<DiagnosticQuestions> {
         children: [
           Text(
             question,
-            style: CairoTextStyles.bold.copyWith(
-              fontSize: 18.sp,
-              color: ColorsManager.secondGreen,
-            ),
+            style: CairoTextStyles.bold
+                .copyWith(fontSize: 18.sp, color: ColorsManager.secondGreen),
           ),
           verticalSpace(24.h),
           Row(
@@ -75,11 +78,8 @@ class _DiagnosticQuestionsState extends State<DiagnosticQuestions> {
         horizontalSpace(8.w),
         cCheckBox(
           isChecked: answers[question] == option,
-          onTap: () {
-            setState(() {
-              answers[question] = answers[question] == option ? null : option;
-            });
-          },
+          onTap: () => onAnswerSelected(
+              question, answers[question] == option ? null : option),
           size: 28.w,
         ),
       ],

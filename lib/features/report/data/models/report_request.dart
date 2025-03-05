@@ -8,7 +8,7 @@ class ReportRequest {
   final OriginDetermination? originDetermination;
   final DiagnosticQuestions? diagnosticQuestions;
   final ContactInformation? contactInformation;
-  final List<Images>? images;
+  final List<String>? images;
   final String? notes;
 
   ReportRequest({
@@ -20,7 +20,9 @@ class ReportRequest {
     this.notes,
   });
 
-  factory ReportRequest.fromJson(Map<String, dynamic> json) => _$ReportRequestFromJson(json);
+  factory ReportRequest.fromJson(Map<String, dynamic> json) =>
+      _$ReportRequestFromJson(json);
+
   Map<String, dynamic> toJson() => _$ReportRequestToJson(this);
 }
 
@@ -46,7 +48,9 @@ class OriginDetermination {
     this.notDetermined,
   });
 
-  factory OriginDetermination.fromJson(Map<String, dynamic> json) => _$OriginDeterminationFromJson(json);
+  factory OriginDetermination.fromJson(Map<String, dynamic> json) =>
+      _$OriginDeterminationFromJson(json);
+
   Map<String, dynamic> toJson() => _$OriginDeterminationToJson(this);
 }
 
@@ -74,7 +78,9 @@ class DiagnosticQuestions {
     this.recentBehaviorChange,
   });
 
-  factory DiagnosticQuestions.fromJson(Map<String, dynamic> json) => _$DiagnosticQuestionsFromJson(json);
+  factory DiagnosticQuestions.fromJson(Map<String, dynamic> json) =>
+      _$DiagnosticQuestionsFromJson(json);
+
   Map<String, dynamic> toJson() => _$DiagnosticQuestionsToJson(this);
 }
 
@@ -92,7 +98,9 @@ class ContactInformation {
     this.caseLocation,
   });
 
-  factory ContactInformation.fromJson(Map<String, dynamic> json) => _$ContactInformationFromJson(json);
+  factory ContactInformation.fromJson(Map<String, dynamic> json) =>
+      _$ContactInformationFromJson(json);
+
   Map<String, dynamic> toJson() => _$ContactInformationToJson(this);
 }
 
@@ -103,7 +111,9 @@ class CaseLocation {
 
   CaseLocation({this.type, this.coordinates});
 
-  factory CaseLocation.fromJson(Map<String, dynamic> json) => _$CaseLocationFromJson(json);
+  factory CaseLocation.fromJson(Map<String, dynamic> json) =>
+      _$CaseLocationFromJson(json);
+
   Map<String, dynamic> toJson() => _$CaseLocationToJson(this);
 }
 
@@ -114,5 +124,6 @@ class Images {
   Images({this.based64});
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
+
   Map<String, dynamic> toJson() => _$ImagesToJson(this);
 }

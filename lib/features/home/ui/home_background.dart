@@ -27,8 +27,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
           backgroundColor: ColorsManager.white,
           floatingActionButton: FloatingActionButton(
             heroTag: null,
-            onPressed: () {
-            },
+            onPressed: () {},
             elevation: 0,
             backgroundColor: ColorsManager.backGreen.withOpacity(0),
           ),
@@ -61,7 +60,6 @@ class _HomeBackgroundState extends State<HomeBackground> {
           child: FloatingActionButton(
             onPressed: () {
               context.pushNamed(Routing.cameraScreen);
-
             },
             elevation: 3,
             backgroundColor: ColorsManager.backGreen,

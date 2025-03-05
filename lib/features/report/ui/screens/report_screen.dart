@@ -34,7 +34,7 @@ class _ReportScreenState extends State<ReportScreen> {
     return HomeBackground(
         child: Column(
       children: [
-        verticalSpace(75.h),
+        verticalSpace(55.h),
         Row(
           children: [
             horizontalSpace(15.w),

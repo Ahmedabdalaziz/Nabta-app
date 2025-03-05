@@ -9,18 +9,20 @@ import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatefulWidget {
+  final Function(LatLng)? onLocationSelected;
+
+  MapScreen({this.onLocationSelected});
+
   @override
   _MapScreenState createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-  LatLng? _currentLocation;
+  LatLng? currentLocation;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3));
-
     _checkGpsStatus();
   }
 
@@ -42,7 +44,7 @@ class _MapScreenState extends State<MapScreen> {
     );
 
     setState(() {
-      _currentLocation = LatLng(position.latitude, position.longitude);
+      currentLocation = LatLng(position.latitude, position.longitude);
     });
   }
 
@@ -51,6 +53,8 @@ class _MapScreenState extends State<MapScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          elevation: 1,
+          backgroundColor: ColorsManager.greenWhite,
           title: Text(
             textDirection: TextDirection.rtl,
             "الوصول الي الموقع",
@@ -93,8 +97,12 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onMapTapped(LatLng latLng) {
     setState(() {
-      _currentLocation = latLng;
+      currentLocation = latLng;
     });
+
+    if (widget.onLocationSelected != null) {
+      widget.onLocationSelected!(latLng);
+    }
   }
 
   @override
@@ -105,7 +113,7 @@ class _MapScreenState extends State<MapScreen> {
           border: Border.all(color: ColorsManager.mainGreen, width: 1.5.w)),
       height: 400.h,
       width: 390.w,
-      child: _currentLocation == null
+      child: currentLocation == null
           ? Center(
               child: CircularProgressIndicator(
                 color: ColorsManager.mainGreen,
@@ -115,8 +123,8 @@ class _MapScreenState extends State<MapScreen> {
               borderRadius: BorderRadius.circular(25.r),
               child: FlutterMap(
                 options: MapOptions(
-                  initialCenter: _currentLocation!,
-                  initialZoom: 15.0,
+                  initialCenter: currentLocation!,
+                  initialZoom: 20.0,
                   onTap: (tapPosition, latLng) {
                     _onMapTapped(latLng);
                   },
@@ -124,15 +132,14 @@ class _MapScreenState extends State<MapScreen> {
                 children: [
                   TileLayer(
                     urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'],
+                        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                   ),
                   MarkerLayer(
                     markers: [
                       Marker(
                         width: 30.0.w,
                         height: 30.0.h,
-                        point: _currentLocation!,
+                        point: currentLocation!,
                         child: SvgPicture.asset(
                           "assets/SVGs/home/locationPoint.svg",
                         ),

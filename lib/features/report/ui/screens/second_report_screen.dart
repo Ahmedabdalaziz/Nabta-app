@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/core/helper/extension.dart';
@@ -8,9 +9,11 @@ import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
+import 'package:graduation_project/features/report/logic/report_cubit.dart';
 import 'package:graduation_project/features/report/ui/screens/report_screen.dart';
 import 'package:graduation_project/features/report/ui/widgets/map.dart';
 import 'package:graduation_project/features/report/ui/widgets/name_with_phone.dart';
+import 'package:latlong2/latlong.dart';
 
 class SecondReportScreen extends StatefulWidget {
   const SecondReportScreen({super.key});
@@ -20,11 +23,10 @@ class SecondReportScreen extends StatefulWidget {
 }
 
 class _SecondReportScreenState extends State<SecondReportScreen> {
-  Map<String, String?> answers = {};
-  bool isChecked = false;
-  bool showAdditionalField = false;
   TextEditingController nameController = TextEditingController();
-  TextEditingController additionController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  LatLng? currentLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class _SecondReportScreenState extends State<SecondReportScreen> {
                 ),
                 verticalSpace(22.h),
                 NameWithPhone(
+                  controller: nameController,
                   name: "احمد عبد العزيز",
                   option: "اضف اسم اخر",
                   keyboardType: TextInputType.name,
@@ -64,6 +67,7 @@ class _SecondReportScreenState extends State<SecondReportScreen> {
                 ),
                 verticalSpace(22.h),
                 NameWithPhone(
+                  controller: phoneController,
                   name: "01221039065",
                   option: "اضف رقم اخر",
                   keyboardType: TextInputType.phone,
@@ -80,8 +84,9 @@ class _SecondReportScreenState extends State<SecondReportScreen> {
                 ),
                 verticalSpace(22.h),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 8.w),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: DarkCustomTextField(
+                    controller: addressController,
                     borderWides: 1,
                     borderColor: ColorsManager.mainGreen,
                     textInputAction: TextInputAction.next,
@@ -94,11 +99,20 @@ class _SecondReportScreenState extends State<SecondReportScreen> {
                   ),
                 ),
                 verticalSpace(22.h),
-                MapScreen(),
+                MapScreen(
+                  onLocationSelected: (LatLng location) {
+                    setState(() {
+                      currentLocation = location;
+                    });
+                    context
+                        .read<ReportCubit>()
+                        .updateLocation(location.latitude, location.longitude);
+                  },
+                ),
                 verticalSpace(12.h),
                 SvgPicture.asset("assets/SVGs/home/location order.svg"),
                 verticalSpace(32.h),
-                Center  (
+                Center(
                   child: SizedBox(
                     width: 400.w,
                     height: 70.h,
@@ -107,7 +121,19 @@ class _SecondReportScreenState extends State<SecondReportScreen> {
                           color: ColorsManager.white, fontSize: 26.sp),
                       text: "التالي",
                       onPressed: () {
-                        context.pushNamed(Routing.doneReportScreen);
+                        try {
+                          context.read<ReportCubit>().updateContactInformation(
+                                nameController.text,
+                                phoneController.text,
+                                addressController.text,
+                              );
+
+                          context.read<ReportCubit>().submitReport();
+
+                          context.pushNamed(Routing.doneReportScreen);
+                        } catch (e) {
+                          print(e);
+                        }
                       },
                       bottomColor: ColorsManager.mainGreen.withOpacity(0.3),
                     ),

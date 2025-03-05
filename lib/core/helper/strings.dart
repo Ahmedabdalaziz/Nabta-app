@@ -1,3 +1,4 @@
+////////////////////////////الصور////////////////////////
 const String firstLogoSVG = "assets/SVGs/splash_screen/1splash.svg";
 const String secondLogoSVG = "assets/SVGs/splash_screen/2splash.svg";
 const String loginSVG = "assets/SVGs/login_screen/login.svg";
@@ -14,6 +15,11 @@ const String goatIcon = "assets/SVGs/animals/goat.svg";
 const String horseIcon = "assets/SVGs/animals/horse.svg";
 const String rabbitIcon = "assets/SVGs/animals/rabbit.svg";
 const String sheepIcon = "assets/SVGs/animals/sheep.svg";
+
+////////////////////////////المحافظات////////////////////////
+
+List<String> citiesIcons =
+    cities.map((gov) => 'assets/SVGs/icons/build.svg').toList();
 
 List<String> cities = [
   "القاهرة",
@@ -42,8 +48,8 @@ List<String> cities = [
   "مرسى مطروح",
   "الوادي الجديد",
 ];
-List<String> citiesIcons =
-    cities.map((gov) => 'assets/SVGs/icons/build.svg').toList();
+
+////////////////////////////ابلاغ بيطري////////////////////////
 
 final Map<String, String> animals = {
   "الماعز": goatIcon,
@@ -55,6 +61,7 @@ final Map<String, String> animals = {
   "الدواجن": chickenIcon,
   "الارانب": rabbitIcon,
 };
+
 final Map<String, List<String>> diseaseCategories = {
   "الأمراض الناتجة عن لدغات الحشرات": [
     "الحمى النزفية",
@@ -108,27 +115,28 @@ final List<String> questions = [
   "فيه أي تغيير في مكان الحيوان، أو أكله مؤخرًا؟",
 ];
 
-Map<String,String> weatherCondition = {
-  'Clear':'صافي',
-  'Partially cloudy':'غائم جزئيا',
-  'Overcast':'غائم كليا',
-  'Fog':'ضباب',
-  'Mist':'شبورة مائية',
-  'Dust':'غبار',
-  'Sand':'رمال متحركه',
-  'Sandstorm':'عاصفة رملية',
-  'Duststorm':'عاصفة ترابية',
-  'Rain':'امطار',
-  'Heavy Rain':'امطار غزيرة',
-  'Light Rain':'امطار خفيفة',
-  'Drizzle':'رذاذ',
-  'Thunderstorm':'عاصفة رعدية',
-  'Windy':'رياح قوية',
-  'Cold':'بارد',
-  'Hot':'ساخن',
-  'Freezing':'تجمد',
-};
+////////////////////////////الطقس////////////////////////
 
+Map<String, String> weatherCondition = {
+  'Clear': 'صافي',
+  'Partially cloudy': 'غائم جزئيا',
+  'Overcast': 'غائم كليا',
+  'Fog': 'ضباب',
+  'Mist': 'شبورة مائية',
+  'Dust': 'غبار',
+  'Sand': 'رمال متحركه',
+  'Sandstorm': 'عاصفة رملية',
+  'Duststorm': 'عاصفة ترابية',
+  'Rain': 'امطار',
+  'Heavy Rain': 'امطار غزيرة',
+  'Light Rain': 'امطار خفيفة',
+  'Drizzle': 'رذاذ',
+  'Thunderstorm': 'عاصفة رعدية',
+  'Windy': 'رياح قوية',
+  'Cold': 'بارد',
+  'Hot': 'ساخن',
+  'Freezing': 'تجمد',
+};
 // دالة لتحديد الصورة بناءً على حالة الطقس
 String getImagePath(String condition) {
   switch (condition) {

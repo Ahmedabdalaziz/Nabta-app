@@ -1,27 +1,31 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/functions.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
-import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
-
-import '../../../../core/widgets/dark_Custom_text_field.dart';
+import 'package:graduation_project/features/report/logic/report_cubit.dart';
 
 class UploadImageSection extends StatefulWidget {
+  final List<String> uploadedImages;
+  final Function(List<String>) onImagesUpdated;
+
+  const UploadImageSection({
+    super.key,
+    required this.uploadedImages,
+    required this.onImagesUpdated,
+  });
+
   @override
   _UploadImageSectionState createState() => _UploadImageSectionState();
 }
 
 class _UploadImageSectionState extends State<UploadImageSection> {
   final ImageHandler _imageHandler = ImageHandler();
-  List<String> uploadedImages = [];
-  TextEditingController notesController = TextEditingController();
-  bool isType = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class _UploadImageSectionState extends State<UploadImageSection> {
           ),
           verticalSpace(8.h),
           Text(
-            "صور الحيوان في إضاءة جيدة وزاوية تُظهر الإصابة بوضوح، مع صورة مقربة وأخرى للجسم كاملًا و حافظ على ثبات الكاميرا.\nملاحظة: الحد الأقصى 3 صور فقط.",
+            "صور الحيوان في إضاءة جيدة وزاوية تُظهر الإصابة بوضوح، مع صورة مقربة وأخرى للجسم كاملًا. الحد الأقصى 3 صور فقط.",
             style: CairoTextStyles.medium
                 .copyWith(fontSize: 16.sp, color: ColorsManager.secondGreen),
             textAlign: TextAlign.end,
@@ -53,60 +57,16 @@ class _UploadImageSectionState extends State<UploadImageSection> {
                 textStyle: CairoTextStyles.extraBold
                     .copyWith(color: ColorsManager.white, fontSize: 20.sp),
                 text: "رفع صورة الحيوان",
-                onPressed: uploadedImages.length < 3 ? _pickImage : null,
-                bottomColor: uploadedImages.length < 3
+                onPressed: widget.uploadedImages.length < 3 ? _pickImage : null,
+                bottomColor: widget.uploadedImages.length < 3
                     ? ColorsManager.mainGreen
                     : ColorsManager.mainGreen.withOpacity(0.3),
               ),
             ),
           ),
           verticalSpace(12.h),
-          ...uploadedImages.map((image) => _imagePreview(image)),
+          ...widget.uploadedImages.map((image) => _imagePreview(image)),
           verticalSpace(16.h),
-          Text(
-            "أضف ملاحظات",
-            style: CairoTextStyles.bold
-                .copyWith(fontSize: 20.sp, color: ColorsManager.secondGreen),
-          ),
-          verticalSpace(8.h),
-          DarkCustomTextField(
-            borderColor: ColorsManager.mainGreen,
-            textInputAction: TextInputAction.next,
-            onChanged: (value) {
-              setState(() {
-                if (value.isNotEmpty) {
-                  isType = true;
-                } else {
-                  isType = false;
-                }
-              });
-            },
-            autofocus: false,
-            fillColor: ColorsManager.lightWhite,
-            labelText: "اكتب وصفًا مختصرًا للحالة وأي ملاحظات هنا",
-            controller: notesController,
-            maxLines: 6,
-            textColor: ColorsManager.secondGreen,
-          ),
-          verticalSpace(32.h),
-          Center(
-            child: SizedBox(
-              width: 400.w,
-              height: 70.h,
-              child: DarkCustomTextButton(
-                textStyle: CairoTextStyles.extraBold
-                    .copyWith(color: ColorsManager.white, fontSize: 26.sp),
-                text: "التالي",
-                onPressed: () {
-                  context.pushNamed(Routing.secondReportScreen);
-                },
-                bottomColor: isType
-                    ? ColorsManager.mainGreen
-                    : ColorsManager.mainGreen.withOpacity(0.3),
-              ),
-            ),
-          ),
-          verticalSpace(64.h),
         ],
       ),
     );
@@ -116,8 +76,7 @@ class _UploadImageSectionState extends State<UploadImageSection> {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
-      ),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30.r))),
       builder: (context) {
         return Padding(
           padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
@@ -179,10 +138,37 @@ class _UploadImageSectionState extends State<UploadImageSection> {
   }
 
   void _addImage(String? base64Image) {
-    if (base64Image != null && uploadedImages.length < 3) {
-      setState(() {
-        uploadedImages.add(base64Image);
-      });
+    if (base64Image != null && widget.uploadedImages.length < 3) {
+      List<String> updatedImages = List.from(widget.uploadedImages)
+        ..add(base64Image);
+      widget.onImagesUpdated(updatedImages);
+      context
+          .read<ReportCubit>()
+          .updateImages(updatedImages);
+    }
+  }
+
+  void _removeImage(String base64Image) {
+    List<String> updatedImages = List.from(widget.uploadedImages)
+      ..remove(base64Image);
+    widget.onImagesUpdated(updatedImages);
+    context
+        .read<ReportCubit>()
+        .updateImages(updatedImages);
+  }
+
+  void _replaceImage(String oldImage) async {
+    String? newBase64Image = await _imageHandler.pickImageFromGalleryAsBase64();
+    if (newBase64Image != null) {
+      List<String> updatedImages = List.from(widget.uploadedImages);
+      int index = updatedImages.indexOf(oldImage);
+      if (index != -1) {
+        updatedImages[index] = newBase64Image;
+        widget.onImagesUpdated(updatedImages);
+        context
+            .read<ReportCubit>()
+            .updateImages(updatedImages);
+      }
     }
   }
 
@@ -194,18 +180,14 @@ class _UploadImageSectionState extends State<UploadImageSection> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             GestureDetector(
-              onTap: () {
-                _replaceImage(base64Image);
-              },
+              onTap: () => _replaceImage(base64Image),
               child: Text("استبدال الصورة",
                   style: CairoTextStyles.bold
                       .copyWith(color: ColorsManager.secondGreen)),
             ),
             verticalSpace(20.h),
             GestureDetector(
-              onTap: () {
-                _removeImage(base64Image);
-              },
+              onTap: () => _removeImage(base64Image),
               child: Text("حذف الصورة",
                   style:
                       CairoTextStyles.bold.copyWith(color: ColorsManager.red)),
@@ -213,38 +195,19 @@ class _UploadImageSectionState extends State<UploadImageSection> {
           ],
         ),
         horizontalSpace(8.w),
-        SizedBox(
-          width: 90.w,
-          height: 90.h,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16.r),
-            child: Image.memory(
-              base64Decode(base64Image),
-              width: 90.w,
-              height: 90.h,
-              fit: BoxFit.cover,
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 12.h),
+          child: SizedBox(
+            width: 90.w,
+            height: 90.h,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
+              child: Image.memory(base64Decode(base64Image),
+                  width: 90.w, height: 90.h, fit: BoxFit.cover),
             ),
           ),
         ),
       ],
     );
-  }
-
-  void _removeImage(String base64Image) {
-    setState(() {
-      uploadedImages.remove(base64Image);
-    });
-  }
-
-  void _replaceImage(String oldImage) async {
-    String? newBase64Image = await _imageHandler.pickImageFromGalleryAsBase64();
-    if (newBase64Image != null) {
-      setState(() {
-        int index = uploadedImages.indexOf(oldImage);
-        if (index != -1) {
-          uploadedImages[index] = newBase64Image;
-        }
-      });
-    }
   }
 }

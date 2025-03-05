@@ -10,6 +10,7 @@ class NameWithPhone extends StatefulWidget {
   final String labelString;
   final String option;
   final TextInputType keyboardType;
+  final TextEditingController? controller;
 
   const NameWithPhone({
     super.key,
@@ -17,6 +18,7 @@ class NameWithPhone extends StatefulWidget {
     required this.option,
     required this.keyboardType,
     required this.labelString,
+    this.controller,
   });
 
   @override
@@ -55,6 +57,7 @@ class _NameWithPhoneState extends State<NameWithPhone> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 12.h),
             child: DarkCustomTextField(
+              controller: widget.controller,
               keyboardType: widget.keyboardType,
               textInputAction: TextInputAction.next,
               textAlign: TextAlign.right,
