@@ -247,6 +247,4 @@ class _UploadImageSectionState extends State<UploadImageSection> {
       });
     }
   }
-
-  void _submit() {}
 }

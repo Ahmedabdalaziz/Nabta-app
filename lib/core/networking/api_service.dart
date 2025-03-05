@@ -4,6 +4,8 @@ import 'package:graduation_project/features/forget_password/data/model/send_code
 import 'package:graduation_project/features/forget_password/data/model/send_code_response_model.dart';
 import 'package:graduation_project/features/login/data/models/respons_login_model.dart';
 import 'package:graduation_project/features/plant/data/model/plant_response.dart';
+import 'package:graduation_project/features/report/data/models/report_request.dart';
+import 'package:graduation_project/features/report/data/models/report_response.dart';
 import 'package:graduation_project/features/signup/data/model/custom/sigin_model_response.dart';
 import 'package:graduation_project/features/signup/data/model/custom/sign_request_activation_code.dart';
 import 'package:graduation_project/features/signup/data/model/custom/sign_response_activation_code.dart'; // استيراد الموديل
@@ -33,6 +35,12 @@ abstract class ApiService {
   Future<SendForgetPasswordResponseModel> sendForgetPasswordCode(
       @Body() SendForgetPasswordRequestModel body);
 
+  // ابعت التوكين علشان تاخد النباتات امعلم
   @GET(ApiConstants.plantApi)
   Future<PlantResponse> getAllPlants(@Header('Authorization') String token);
+
+  // تعمل ابلاغ تبعتله توكين والبيانات المطلوبة
+  @POST(ApiConstants.report)
+  Future<ReportResponseModel> report(
+      @Header('Authorization') String token, @Body() ReportRequest body);
 }

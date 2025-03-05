@@ -4,7 +4,6 @@ import 'package:graduation_project/features/plant/data/model/plant_response.dart
 
 class PlantRepository{
   final ApiService apiService;
-  final TokenManager tokenManager = TokenManager() ;
 
   PlantRepository(this.apiService);
 

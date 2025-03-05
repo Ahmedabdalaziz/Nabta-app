@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
-import 'package:graduation_project/core/helper/token.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';

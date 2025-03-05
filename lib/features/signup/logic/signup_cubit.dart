@@ -129,7 +129,7 @@ class SignupCubit extends Cubit<SignupState> {
         emit(SignupError(response.message));
       }
     } catch (e) {
-      emit(SignupError("There is a problem signing"));
+      emit(SignupError("There is a problem signing : $e"));
     }
   }
 }

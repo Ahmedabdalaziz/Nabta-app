@@ -18,6 +18,7 @@ import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart
 import 'package:graduation_project/features/plant/logic/plant_cubit.dart';
 import 'package:graduation_project/features/plant/ui/screens/plant_report.dart';
 import 'package:graduation_project/features/plant/ui/screens/plant_screen.dart';
+import 'package:graduation_project/features/report/logic/report_cubit.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
 import 'package:graduation_project/features/report/ui/widgets/done_report.dart';
@@ -28,7 +29,6 @@ import 'package:graduation_project/features/signup/ui/screens/first_signup.dart'
 import 'package:graduation_project/features/signup/ui/screens/image_upload.dart';
 import 'package:graduation_project/features/signup/ui/screens/otp_screen.dart';
 import 'package:graduation_project/features/signup/ui/screens/second_signup.dart';
-import 'package:graduation_project/features/signup/ui/screens/start_screen.dart';
 import 'package:graduation_project/features/splash/ui/splash_screen.dart';
 import 'package:graduation_project/features/weather/logic/weather_cubit.dart';
 import 'package:graduation_project/features/welcoming/welcomingScreen.dart';
@@ -56,8 +56,8 @@ class AppRouter {
 
       case Routing.signupScreen:
         return createRoute(
-          BlocProvider(
-            create: (context) => getIt<SignupCubit>(),
+          BlocProvider.value(
+            value: getIt<SignupCubit>(),
             child: const FirstSignup(),
           ),
         );
@@ -70,10 +70,18 @@ class AppRouter {
           ),
         );
 
+      case Routing.firstPasswordSignupScreen:
+        return createRoute(
+          BlocProvider.value(
+            value: getIt<SignupCubit>(),
+            child: const FirstPasswordSignup(),
+          ),
+        );
+
       case Routing.uploadingImageScreen:
         return createRoute(
-          BlocProvider(
-            create: (context) => getIt<SignupCubit>(),
+          BlocProvider.value(
+            value: getIt<SignupCubit>(),
             child: const UploadingImageScreen(),
           ),
         );
@@ -90,14 +98,6 @@ class AppRouter {
               ),
             ],
             child: const OTPScreen(),
-          ),
-        );
-
-      case Routing.firstPasswordSignupScreen:
-        return createRoute(
-          BlocProvider.value(
-            value: getIt<SignupCubit>(),
-            child: const FirstPasswordSignup(),
           ),
         );
 
@@ -121,32 +121,37 @@ class AppRouter {
       case Routing.welcomingScreen:
         return createRoute(const Welcom());
 
-      case Routing.startScreen:
-        return createRoute(const StartScreen());
-
+      // report Screens
       case Routing.firstReportScreen:
-        return createRoute(const FirstReportScreen());
-
-      case Routing.plantScreen:
         return createRoute(
-            BlocProvider(
-              create: (context) => getIt<PlantCubit>(),
-              child: const PlantsScreen(),
-            )
-        );
-
-      case Routing.plantReport:
-        return createRoute(
-
-            BlocProvider(
-              create: (context) => getIt<PlantCubit>(),
-              child: const PlantReport(),
-            )
-
+          BlocProvider.value(
+            value: getIt<ReportCubit>(),
+            child: FirstReportScreen(),
+          ),
         );
 
       case Routing.secondReportScreen:
-        return createRoute(SecondReportScreen());
+        return createRoute(
+          BlocProvider.value(
+            value: getIt<ReportCubit>(),
+            child: SecondReportScreen(),
+          ),
+        );
+
+      case Routing.doneReportScreen:
+        return createRoute(DoneReport());
+
+      case Routing.plantScreen:
+        return createRoute(BlocProvider(
+          create: (context) => getIt<PlantCubit>(),
+          child: const PlantsScreen(),
+        ));
+
+      case Routing.plantReport:
+        return createRoute(BlocProvider(
+          create: (context) => getIt<PlantCubit>(),
+          child: const PlantReport(),
+        ));
 
       case Routing.cameraScreen:
         return createRoute(BlocProvider(
@@ -165,9 +170,6 @@ class AppRouter {
           create: (context) => getIt<DiseaseCubit>(),
           child: ResultDone(),
         ));
-
-      case Routing.doneReportScreen:
-        return createRoute(DoneReport());
 
       case Routing.homeScreen:
         return createRoute(
