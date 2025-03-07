@@ -15,6 +15,7 @@ import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
 import 'package:graduation_project/features/onboarding/ui/onboarding_screen.dart';
+import 'package:graduation_project/features/plant/data/model/plant_response.dart';
 import 'package:graduation_project/features/plant/logic/plant_cubit.dart';
 import 'package:graduation_project/features/plant/ui/screens/plant_report.dart';
 import 'package:graduation_project/features/plant/ui/screens/plant_screen.dart';
@@ -148,10 +149,15 @@ class AppRouter {
         ));
 
       case Routing.plantReport:
-        return createRoute(BlocProvider(
-          create: (context) => getIt<PlantCubit>(),
-          child: const PlantReport(),
-        ));
+        if (arguments is Data) {
+          return createRoute(
+            BlocProvider.value(
+              value: getIt<PlantCubit>(), // Reusing the same cubit
+              child: PlantReport(plantData: arguments,), // Passing the plant data
+            ),
+          );
+        }
+        return createRoute(const Center(child: Text("حدث خطأ في تحميل بيانات النبات")));
 
       case Routing.cameraScreen:
         return createRoute(BlocProvider(

@@ -164,3 +164,11 @@ String getImagePath(String condition) {
       return 'assets/SVGs/home/Group 129.png';
   }
 }
+
+
+
+Map<String, double> rate_req = {
+  'عالي': 80,
+  'متوسط': 50,
+  'منخفض': 30,
+};

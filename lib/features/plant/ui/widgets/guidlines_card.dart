@@ -1,66 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 
 class GuideLinesCards extends StatelessWidget {
+  final String label;
+  final String icon_image;
+  final String description; // Add a description parameter
+
   const GuideLinesCards({
     super.key,
+    required this.label,
+    required this.icon_image,
+    required this.description, // Initialize the description
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: 408.w,
-      height: 100.h,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            'assets/SVGs/plants/Frame 162.png',
-            fit: BoxFit.fill,
-          ),
-          Positioned(
-            right: 10.w,
-            top: 25.h,
-            child: SizedBox(
-                height: 48.h,
-                width: 48.w,
-                child: Image.asset('assets/SVGs/plants/Frame 163.png')),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Column(
+      margin: EdgeInsets.symmetric(vertical: 8.h), // Add margin for spacing
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/SVGs/plants/Frame 162.png'),
+          fit: BoxFit.fill,
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16.w), // Add padding inside the card
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text content on the left
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end, // Align text to the right
+                mainAxisSize: MainAxisSize.min, // Column height adjusts to content
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 8.h, left: 150.w),
-                    child: Text(
-                      'موسم الزراعة',
-                      style: CairoTextStyles.bold.copyWith(
-                          fontSize: 16.sp, color: ColorsManager.secondGreen),
+                  // Label
+                  Text(
+                    label,
+                    style: CairoTextStyles.bold.copyWith(
+                      fontSize: 16.sp,
+                      color: ColorsManager.secondGreen,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 70.w),
-                    child: SizedBox(
-                      width: 322.w,
-                      height: 48.h,
-                      child: Text(
-                        'تربة خصبة جيدة التصريف، ويفضل أن تكون طينية أو طينية مختلطة بالرمل.',
-                        style: CairoTextStyles.semiBold.copyWith(
-                            fontSize: 16.sp, color: ColorsManager.secondGreen),
-                        textAlign: TextAlign.justify,
-                        //softWrap: true,
-                        textDirection: TextDirection.rtl,
-                      ),
+                  verticalSpace(8.h), // Add spacing between label and description
+                  // Description
+                  Text(
+                    description,
+                    style: CairoTextStyles.semiBold.copyWith(
+                      fontSize: 16.sp,
+                      color: ColorsManager.secondGreen,
                     ),
+                    textAlign: TextAlign.justify,
+                    textDirection: TextDirection.rtl,
+                    softWrap: true, // Allow text to wrap to the next line
                   ),
                 ],
               ),
-            ],
-          )
-        ],
+            ),
+            horizontalSpace(10.w), // Add spacing between text and icon
+            // Icon on the right
+            SizedBox(
+              height: 48.h,
+              width: 48.w,
+              child: Image.asset(icon_image),
+            ),
+          ],
+        ),
       ),
     );
   }

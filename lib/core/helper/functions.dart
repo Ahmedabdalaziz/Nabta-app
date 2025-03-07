@@ -113,4 +113,8 @@ Future<void> requestPermissions() async {
   if (!locationStatus.isGranted) {
     await Permission.location.status;
   }
+
+  double translate_req_rate (String rate){
+    return rate_req[rate]?? 0;
+  }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 
-class AvailableStock extends StatelessWidget {
+class AvailableStock extends StatefulWidget {
   final String imgPath;
   final String label;
   final int boxH;
@@ -25,6 +25,11 @@ class AvailableStock extends StatelessWidget {
   });
 
   @override
+  State<AvailableStock> createState() => _AvailableStockState();
+}
+
+class _AvailableStockState extends State<AvailableStock> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 120.h,
@@ -37,17 +42,17 @@ class AvailableStock extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 4.h, left: 12.w),
-            child: Text(label,
+            child: Text(widget.label,
                 style: CairoTextStyles.bold.copyWith(
                     fontSize: 20.sp, color: ColorsManager.secondGreen)),
           ),
           Positioned(
-            left: leftPositioned.w, //25
-            top: topPositioned.h, //20
+            left: widget.leftPositioned.w, //25
+            top: widget.topPositioned.h, //20
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25.sp),
               child: SizedBox(
-                  height: boxH.h, width: boxW.w, child: Image.asset(imgPath)),
+                  height: widget.boxH.h, width: widget.boxW.w, child: Image.network(widget.imgPath)),
             ),
           ),
         ],
