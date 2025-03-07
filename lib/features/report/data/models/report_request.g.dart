@@ -21,8 +21,6 @@ ReportRequest _$ReportRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : ContactInformation.fromJson(
               json['contactInformation'] as Map<String, dynamic>),
-      images:
-          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       notes: json['notes'] as String?,
     );
 
@@ -32,7 +30,6 @@ Map<String, dynamic> _$ReportRequestToJson(ReportRequest instance) =>
       'originDetermination': instance.originDetermination?.toJson(),
       'diagnosticQuestions': instance.diagnosticQuestions?.toJson(),
       'contactInformation': instance.contactInformation?.toJson(),
-      'images': instance.images,
       'notes': instance.notes,
     };
 
