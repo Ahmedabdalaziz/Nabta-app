@@ -18,8 +18,8 @@ class AvailableStock extends StatefulWidget {
     super.key,
     required this.imgPath,
     required this.label,
-    this.boxH = 100,
-    this.boxW = 100,
+    this.boxH = 110,
+    this.boxW = 110,
     required this.topPositioned,
     required this.leftPositioned,
   });
@@ -32,19 +32,23 @@ class _AvailableStockState extends State<AvailableStock> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120.h,
-      width: 120.w,
+      height: 140.h,
+      width: 140.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.sp),
         color: ColorsManager.greenWhite,
       ),
       child: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: 4.h, left: 12.w),
-            child: Text(widget.label,
-                style: CairoTextStyles.bold.copyWith(
-                    fontSize: 20.sp, color: ColorsManager.secondGreen)),
+          Positioned(
+            top: 3,
+            left: 0,
+            child: Padding(
+              padding: EdgeInsets.only(top: 4.h, left: 6.w),
+              child: Text(widget.label,
+                  style: CairoTextStyles.bold.copyWith(
+                      fontSize: 20.sp, color: ColorsManager.secondGreen)),
+            ),
           ),
           Positioned(
             left: widget.leftPositioned.w, //25
@@ -52,7 +56,9 @@ class _AvailableStockState extends State<AvailableStock> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25.sp),
               child: SizedBox(
-                  height: widget.boxH.h, width: widget.boxW.w, child: Image.network(widget.imgPath)),
+                  height: widget.boxH.h,
+                  width: widget.boxW.w,
+                  child: Image.network(widget.imgPath)),
             ),
           ),
         ],

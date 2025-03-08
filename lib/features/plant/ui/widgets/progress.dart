@@ -10,12 +10,14 @@ class InfoProgress extends StatelessWidget {
   final String title;
   final String stringDegree;
   final double degree;
+  final String icon;
 
   const InfoProgress({
     super.key,
     required this.title,
     required this.stringDegree,
     required this.degree,
+    required this.icon,
   });
 
   @override
@@ -32,9 +34,9 @@ class InfoProgress extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/SVGs/plants/rotoba.svg',
-              height: 40.r, // تعديل الحجم بحيث يناسب الدائرة
+            Image.asset(
+              icon,
+              height: 40.r,
               width: 40.r,
             ),
             SimpleCircularProgressBar(

@@ -114,7 +114,8 @@ Future<void> requestPermissions() async {
     await Permission.location.status;
   }
 
-  double translate_req_rate (String rate){
-    return rate_req[rate]?? 0;
-  }
+
+}
+double translateReqRate (String rate){
+  return rateReq[rate]?? 0;
 }

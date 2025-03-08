@@ -6,70 +6,68 @@ import 'package:graduation_project/core/theming/style_manager.dart';
 
 class GuideLinesCards extends StatelessWidget {
   final String label;
-  final String icon_image;
-  final String description; // Add a description parameter
+  final String iconImage;
+  final String description;
+  final bool isRed;
 
   const GuideLinesCards({
     super.key,
     required this.label,
-    required this.icon_image,
-    required this.description, // Initialize the description
+    required this.iconImage,
+    required this.description,
+    this.isRed = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 408.w,
-      margin: EdgeInsets.symmetric(vertical: 8.h), // Add margin for spacing
+      margin: EdgeInsets.symmetric(vertical: 8.h),
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/SVGs/plants/Frame 162.png'),
-          fit: BoxFit.fill,
-        ),
+        color: isRed
+            ? ColorsManager.red.withOpacity(0.2)
+            : ColorsManager.mainGreen.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(25.r),
+
       ),
-      child: Padding(
-        padding: EdgeInsets.all(16.w), // Add padding inside the card
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Text content on the left
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end, // Align text to the right
-                mainAxisSize: MainAxisSize.min, // Column height adjusts to content
-                children: [
-                  // Label
-                  Text(
-                    label,
-                    style: CairoTextStyles.bold.copyWith(
-                      fontSize: 16.sp,
-                      color: ColorsManager.secondGreen,
-                    ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Label
+                Text(
+                  label,
+                  style: CairoTextStyles.bold.copyWith(
+                    fontSize: 16.sp,
+                    color: ColorsManager.secondGreen,
                   ),
-                  verticalSpace(8.h), // Add spacing between label and description
-                  // Description
-                  Text(
-                    description,
-                    style: CairoTextStyles.semiBold.copyWith(
-                      fontSize: 16.sp,
-                      color: ColorsManager.secondGreen,
-                    ),
-                    textAlign: TextAlign.justify,
-                    textDirection: TextDirection.rtl,
-                    softWrap: true, // Allow text to wrap to the next line
+                ),
+                verticalSpace(8.h),
+                Text(
+                  description,
+                  style: CairoTextStyles.semiBold.copyWith(
+                    fontSize: 16.sp,
+                    color: ColorsManager.secondGreen,
                   ),
-                ],
-              ),
+                  textAlign: TextAlign.justify,
+                  textDirection: TextDirection.rtl,
+                  softWrap: true,
+                ),
+              ],
             ),
-            horizontalSpace(10.w), // Add spacing between text and icon
-            // Icon on the right
-            SizedBox(
-              height: 48.h,
-              width: 48.w,
-              child: Image.asset(icon_image),
-            ),
-          ],
-        ),
+          ),
+          horizontalSpace(10.w),
+          SizedBox(
+            height: 48.h,
+            width: 48.w,
+            child: Image.asset(iconImage),
+          ),
+        ],
       ),
     );
   }

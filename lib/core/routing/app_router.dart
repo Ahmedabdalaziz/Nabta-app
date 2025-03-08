@@ -160,20 +160,22 @@ class AppRouter {
         return createRoute(const Center(child: Text("حدث خطأ في تحميل بيانات النبات")));
 
       case Routing.cameraScreen:
-        return createRoute(BlocProvider(
-          create: (context) => getIt<DiseaseCubit>(),
+        return createRoute(BlocProvider.value(
+          value: getIt<DiseaseCubit>(),
           child: CameraScreen(),
         ));
 
       case Routing.imagePreviewScreen:
-        return createRoute(BlocProvider(
-          create: (context) => getIt<DiseaseCubit>(),
-          child: ImagePreviewScreen(),
-        ));
+        return createRoute(
+          BlocProvider.value(
+            value: getIt<DiseaseCubit>(),
+            child: ImagePreviewScreen(),
+          ),
+        );
 
       case Routing.resultImageDetection:
-        return createRoute(BlocProvider(
-          create: (context) => getIt<DiseaseCubit>(),
+        return createRoute(BlocProvider.value(
+          value: getIt<DiseaseCubit>(),
           child: ResultDone(),
         ));
 

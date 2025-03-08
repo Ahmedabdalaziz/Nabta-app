@@ -90,12 +90,12 @@ Future<GetIt> setUpGetIt() async {
   /////////////////////////////////////////////////////////////////////
 
   // Register report Repo
-  getIt.registerSingleton<ReportRepo>(
-    ReportRepo(getIt<ApiService>()),
+  getIt.registerLazySingleton<ReportRepo>(
+    () => ReportRepo(getIt<ApiService>()),
   );
 
   // Register report Cubit
-  getIt.registerFactory<ReportCubit>(
+  getIt.registerLazySingleton<ReportCubit>(
     () => ReportCubit(getIt<ReportRepo>()),
   );
 

@@ -22,42 +22,42 @@ class PlantsScreen extends StatefulWidget {
 }
 
 class _PlantsScreenState extends State<PlantsScreen> {
-
-
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
-    context.read<PlantCubit>().fetchPlants(); // استدعاء البيانات عند تحميل الشاشة
-
+    context.read<PlantCubit>().fetchPlants();
   }
-
 
   @override
   Widget build(BuildContext context) {
     int _currentIndex = 0;
     return BlocConsumer<PlantCubit, PlantState>(
       listener: (context, state) {
-        if(state is PlantFailed){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("حدث خطأ: ${state.errorMessage}")),
-          );
+        if (state is PlantFailed) {
+          Center(child: Text("حدث خطأ: ${state.errorMessage}"));
         }
       },
       builder: (context, state) {
-        if(state is plantLoading){
+        if (state is plantLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: ColorsManager.mainGreen,
+            ),
           );
-        }
-        else if(state is PlantSuccess) {
+        } else if (state is PlantSuccess) {
           final plantData = state.plantResponse.data;
           // نباتات غذائية
-          final foodPlants = plantData?.where((plant)=> plant.category == 'النباتات الغذائية').toList();
+          final foodPlants = plantData
+              ?.where((plant) => plant.category == 'النباتات الغذائية')
+              .toList();
           // نباتات صناعية
-          final industrialPlants = plantData?.where((plant)=> plant.category == 'النباتات الصناعية').toList();
+          final industrialPlants = plantData
+              ?.where((plant) => plant.category == 'النباتات الصناعية')
+              .toList();
           // خضراوات
-          final vegetablePlants = plantData?.where((plant)=> plant.category == 'الخضروات').toList();
+          final vegetablePlants = plantData
+              ?.where((plant) => plant.category == 'الخضروات')
+              .toList();
 
           if (plantData == null) {
             return const Center(child: Text("لا توجد بيانات متاحة"));
@@ -72,7 +72,7 @@ class _PlantsScreenState extends State<PlantsScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 14.w),
                       child: Column(
                         children: [
-                          verticalSpace(67.h),
+                          verticalSpace(40.h),
                           Stack(
                             children: [
                               // el top of el screen
@@ -84,8 +84,8 @@ class _PlantsScreenState extends State<PlantsScreen> {
                                       context.pop();
                                     },
                                     child: CircleAvatar(
-                                      backgroundColor:
-                                      ColorsManager.mainGreen.withOpacity(0.1),
+                                      backgroundColor: ColorsManager.mainGreen
+                                          .withOpacity(0.1),
                                       radius: 26.r,
                                       child: SvgPicture.asset(arrowBack),
                                     ),
@@ -103,102 +103,48 @@ class _PlantsScreenState extends State<PlantsScreen> {
                           ),
                           verticalSpace(24.h),
                           // el kawa2m
-                          Column(
+                          SizedBox(
+                            height: 60.h,
+                            width: 400.w,
+                            child: DarkCustomTextField(
+                              textColor: ColorsManager.mainGreen,
+                              icon: Icon(
+                                Icons.search_sharp,
+                                color: ColorsManager.secondGreen,
+                                size: 40.sp,
+                              ),
+                              borderCircular: 50.r,
+                              labelText: 'بحث',
+                              fillColor: Color(0xffE4EBE7),
+                              hintTextFontSize: 25.sp,
+                              borderWides: 1,
+                            ),
+                          ),
+                          verticalSpace(26.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // el search bar
-                              SizedBox(
-                                height: 60.h,
-                                width: 400.w,
-                                child: DarkCustomTextField(
-                                  textColor: ColorsManager.mainGreen,
-                                  icon: Icon(
-                                    Icons.search_sharp,
-                                    color: ColorsManager.secondGreen,
-                                    size: 40.sp,
-                                  ),
-                                  borderCircular: 50.r,
-                                  labelText: 'بحث',
-                                  fillColor: Color(0xffE4EBE7),
-                                  hintTextFontSize: 25.sp,
-                                  borderWides: 1,
-                                ),
-                              ),
-                              verticalSpace(26.h),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text('نباتات غذائية',
-                                      style: CairoTextStyles.bold.copyWith(
-                                          fontSize: 20.sp,
-                                          color: ColorsManager.secondGreen)),
-                                ],
-                              ),
-                              verticalSpace(12.h),
-                              Column(
-                                children: [
-                                  // nabatat for eating
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  //   children: [
-                                  //     AvailableStock(
-                                  //       imgPath: 'assets/SVGs/plants/corn2.png',
-                                  //       label: 'ذره',
-                                  //       leftPositioned: 25,
-                                  //       topPositioned: 20,
-                                  //     ),
-                                  //     AvailableStock(
-                                  //       imgPath: 'assets/SVGs/plants/rice.png',
-                                  //       label: 'أرز',
-                                  //       leftPositioned: 25,
-                                  //       topPositioned: 20,
-                                  //     ),
-                                  //     GestureDetector(
-                                  //       onTap: () {
-                                  //         context.pushNamed(Routing.plantReport);
-                                  //       },
-                                  //       child: AvailableStock(
-                                  //         imgPath: 'assets/SVGs/plants/flower.png',
-                                  //         label: 'قمح',
-                                  //         leftPositioned: 28,
-                                  //         topPositioned: 20,
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  // verticalSpace(10.h),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  //   children: [
-                                  //     NonAvailableStock(),
-                                  //     NonAvailableStock(),
-                                  //     AvailableStock(
-                                  //       imgPath: 'assets/SVGs/plants/potato.png',
-                                  //       label: 'بطاطس',
-                                  //       leftPositioned: 25,
-                                  //       topPositioned: 20,
-                                  //     )
-                                  //   ],
-                                  // ),
-                                  Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: GridView.count(
-                                        crossAxisCount: 3,
-                                        shrinkWrap: true,
-
-                                        physics: const NeverScrollableScrollPhysics(), // Disable scrolling inside the grid
-                                        crossAxisSpacing: 16.w, // Horizontal spacing between items
-                                        mainAxisSpacing: 8.h, // Vertical spacing between items
-                                        childAspectRatio: 1.31.sp, // Adjust the aspect ratio of items
-                                        padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 0.h),
-
-                                        children: _buildGridItemsFood(foodPlants!,context)
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              verticalSpace(24.h),
+                              Text('نباتات غذائية',
+                                  style: CairoTextStyles.bold.copyWith(
+                                      fontSize: 20.sp,
+                                      color: ColorsManager.secondGreen)),
                             ],
                           ),
+                          verticalSpace(16.h),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: GridView.count(
+                                crossAxisCount: 3,
+                                shrinkWrap: true,
+                                physics:
+                                const NeverScrollableScrollPhysics(),
+                                crossAxisSpacing: 16.w,
+                                mainAxisSpacing: 8.h,
+                                childAspectRatio: 1.17.sp,
+                                children: _buildGridItemsFood(
+                                    foodPlants!, context)),
+                          ),
+                          verticalSpace(24.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -208,43 +154,18 @@ class _PlantsScreenState extends State<PlantsScreen> {
                                       color: ColorsManager.secondGreen)),
                             ],
                           ),
-                          verticalSpace(8.h),
-                          // npatat for manefacture
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     NonAvailableStock(),
-                          //     AvailableStock(
-                          //       imgPath: 'assets/SVGs/plants/cane.png',
-                          //       label: 'قصب',
-                          //       boxW: 90,
-                          //       boxH: 90,
-                          //       leftPositioned: 32,
-                          //       topPositioned: 30,
-                          //     ),
-                          //     AvailableStock(
-                          //       imgPath: 'assets/SVGs/plants/cotton.png',
-                          //       label: 'قطن',
-                          //       boxH: 95,
-                          //       boxW: 95,
-                          //       leftPositioned: 25,
-                          //       topPositioned: 25,
-                          //     ),
-                          //   ],
-                          // ),
+                          verticalSpace(16.h),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
                                 crossAxisCount: 3,
                                 shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(), // Disable scrolling inside the grid
-                                crossAxisSpacing: 16.w, // Horizontal spacing between items
-                                mainAxisSpacing: 8.h, // Vertical spacing between items
-                                childAspectRatio: 1.19.sp, // Adjust the aspect ratio of items
-                                padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 0.h),
-
-                                children: _buildGridItemsIndustrial(industrialPlants!,context)
-                            ),
+                                physics: const NeverScrollableScrollPhysics(),
+                                crossAxisSpacing: 16.w,
+                                mainAxisSpacing: 8.h,
+                                childAspectRatio: 1.17.sp,
+                                children: _buildGridItemsIndustrial(
+                                    industrialPlants!, context)),
                           ),
                           verticalSpace(24.h),
                           Row(
@@ -256,35 +177,20 @@ class _PlantsScreenState extends State<PlantsScreen> {
                                       color: ColorsManager.secondGreen)),
                             ],
                           ),
-                          verticalSpace(8.h),
-                          // vegetables
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     NonAvailableStock(),
-                          //     NonAvailableStock(),
-                          //     AvailableStock(
-                          //       imgPath: 'assets/SVGs/plants/onion.png',
-                          //       label: 'بصل',
-                          //       leftPositioned: 25,
-                          //       topPositioned: 20,
-                          //     )
-                          //   ],
-                          // ),
+                          verticalSpace(16.h),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
                                 crossAxisCount: 3,
                                 shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(), // Disable scrolling inside the grid
-                                crossAxisSpacing: 16.w, // Horizontal spacing between items
-                                mainAxisSpacing: 8.h, // Vertical spacing between items
-                                childAspectRatio: 1.19.sp, // Adjust the aspect ratio of items
-                                padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 0.h),
-
-                                children: _buildGridItemsVegitables(vegetablePlants!,context)
-                            ),
+                                physics: const NeverScrollableScrollPhysics(),
+                                crossAxisSpacing: 16.w,
+                                mainAxisSpacing: 8.h,
+                                childAspectRatio: 1.17.sp,
+                                children: _buildGridItemsVegitables(
+                                    vegetablePlants!, context)),
                           ),
+                          verticalSpace(64.h),
                         ],
                       ),
                     ),
@@ -293,14 +199,13 @@ class _PlantsScreenState extends State<PlantsScreen> {
               ],
             ),
           );
-        }else {
+        } else {
           return const Center(child: Text("حدث خطأ غير متوقع"));
         }
       },
     );
   }
 }
-
 
 // فنكشن لعرض الكروت بتاعت النباتات
 List<Widget> _buildGridItemsFood(List<Data> itemsGrid, BuildContext context) {
@@ -311,16 +216,16 @@ List<Widget> _buildGridItemsFood(List<Data> itemsGrid, BuildContext context) {
         context.pushNamed(Routing.plantReport, arguments: plant);
       },
       child: AvailableStock(
-        imgPath: plant.images?.isNotEmpty == true ? plant.images!.first.url! : 'default_image.png',
+        imgPath: plant.images?.isNotEmpty == true
+            ? plant.images!.first.url!
+            : 'default_image.png',
         label: plant.name ?? 'Unknown',
-        leftPositioned: 35,
+        leftPositioned: 30,
         topPositioned: 30,
       ),
     );
   }).toList();
 }
-
-
 
 List<Widget> _buildGridItemsIndustrial(List<Data> itemsGrid, BuildContext context) {
   return itemsGrid.map((plant) {
@@ -329,15 +234,16 @@ List<Widget> _buildGridItemsIndustrial(List<Data> itemsGrid, BuildContext contex
         context.pushNamed(Routing.plantReport, arguments: plant);
       },
       child: AvailableStock(
-        imgPath: plant.images?.isNotEmpty == true ? plant.images!.first.url! : 'default_image.png',
+        imgPath: plant.images?.isNotEmpty == true
+            ? plant.images!.first.url!
+            : 'default_image.png',
         label: plant.name ?? 'Unknown',
-        leftPositioned: 35,
-        topPositioned: 40,
+        leftPositioned: 30,
+        topPositioned: 30,
       ),
     );
   }).toList();
 }
-
 
 List<Widget> _buildGridItemsVegitables(List<Data> itemsGrid, BuildContext context) {
   return itemsGrid.map((plant) {
@@ -346,7 +252,9 @@ List<Widget> _buildGridItemsVegitables(List<Data> itemsGrid, BuildContext contex
         context.pushNamed(Routing.plantReport, arguments: plant);
       },
       child: AvailableStock(
-        imgPath: plant.images?.isNotEmpty == true ? plant.images!.first.url! : 'default_image.png',
+        imgPath: plant.images?.isNotEmpty == true
+            ? plant.images!.first.url!
+            : 'default_image.png',
         label: plant.name ?? 'Unknown',
         leftPositioned: 33,
         topPositioned: 25,
