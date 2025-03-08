@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networking/api_constants.dart';
 import 'package:graduation_project/features/forget_password/data/model/send_code_request_model.dart';
 import 'package:graduation_project/features/forget_password/data/model/send_code_response_model.dart';
+import 'package:graduation_project/features/home/data/model/user_data_request.dart';
 import 'package:graduation_project/features/login/data/models/respons_login_model.dart';
 import 'package:graduation_project/features/plant/data/model/plant_response.dart';
 import 'package:graduation_project/features/report/data/models/report_request.dart';
@@ -25,7 +26,7 @@ abstract class ApiService {
   @POST(ApiConstants.singUp)
   Future<SignInResponseModel> signUp(@Body() Map<String, dynamic> body);
 
-  //ابعت ايميل وكود
+  // ابعت ايميل وكود
   @POST(ApiConstants.activateAccount)
   Future<ActivateAccountResponseModel> activateAccount(
       @Body() ActivateAccountRequestModel body);
@@ -43,4 +44,8 @@ abstract class ApiService {
   @POST(ApiConstants.report)
   Future<ReportResponseModel> report(
       @Header('Authorization') String token, @Body() ReportRequest body);
+
+  // الداتا بتاعت اليوزر امعلم
+  @GET(ApiConstants.userData)
+  Future<UserDataResponse> getUserData(@Header('Authorization') String token);
 }

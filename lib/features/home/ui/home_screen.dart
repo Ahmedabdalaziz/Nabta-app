@@ -9,6 +9,7 @@ import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
+import 'package:graduation_project/features/home/logic/user_data_cubit.dart';
 import 'package:graduation_project/features/home/ui/home_background.dart';
 import 'package:graduation_project/features/home/ui/widgets/bottomSection.dart';
 import 'package:graduation_project/features/home/ui/widgets/bottomSectionWithoutClip.dart';
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
     super.initState();
     requestPermissions();
     context.read<WeatherCubit>().fetchWeather("Cairo");
+    context.read<UserDataCubit>().fetchData();
   }
 
   Future<bool> _onWillPop() async {
@@ -81,52 +83,68 @@ class _HomeState extends State<Home> {
             children: [
               verticalSpace(10.h),
               //الايقونة والصورة اللي فوق خالص
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Stack(
-                  children: [
-                    Positioned(
-                        left: -4.w,
-                        child: SvgPicture.asset(
-                            'assets/SVGs/home/Ellipse 33.svg')),
-                    Row(
+              BlocBuilder<UserDataCubit, UserDataState>(
+                builder: (context, state) {
+                  String userName = ' ';
+                  String imagePath = 'assets/SVGs/home/test_avatar.png';
+
+                  if (state is UserDataSuccess) {
+                    userName = state.userData.userData.username ?? 'مستخدم';
+                    imagePath = (state.userData.userData.image != null &&
+                            state.userData.userData.image!.isNotEmpty &&
+                            state.userData.userData.image != 'default.png')
+                        ? state.userData.userData.image!
+                        : 'assets/SVGs/home/test_avatar.png';
+                  }
+
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Stack(
                       children: [
-                        Icon(
-                          CupertinoIcons.bell,
-                          color: ColorsManager.mainGreen,
-                          size: 38.sp,
-                        ),
-                        const Spacer(),
-                        Text('حمو',
-                            style: CairoTextStyles.bold.copyWith(
-                                fontSize: 24.sp,
-                                color: ColorsManager.mainGreen)),
-                        Text(
-                          '  , أهلا',
-                          style: CairoTextStyles.bold.copyWith(
-                              fontSize: 24.sp, color: ColorsManager.black),
-                        ),
-                        horizontalSpace(16.w),
-                        SizedBox(
-                          width: 45.w,
-                          height: 45.h,
-                          child: CircleAvatar(
-                            radius: 5.r,
-                            backgroundColor: ColorsManager.mainGreen,
-                            child: CircleAvatar(
-                              radius: 20.r,
-                              backgroundColor: ColorsManager.moreWhite,
-                              child: Image.asset(
-                                'assets/SVGs/home/test_avatar.png',
-                                fit: BoxFit.cover,
+                        Positioned(
+                            left: -4.w,
+                            child: SvgPicture.asset(
+                                'assets/SVGs/home/Ellipse 33.svg')),
+                        Row(
+                          children: [
+                            Icon(
+                              CupertinoIcons.bell,
+                              color: ColorsManager.mainGreen,
+                              size: 38.sp,
+                            ),
+                            const Spacer(),
+                            Text(userName,
+                                style: CairoTextStyles.bold.copyWith(
+                                    fontSize: 24.sp,
+                                    color: ColorsManager.mainGreen)),
+                            Text(
+                              '  , أهلا',
+                              style: CairoTextStyles.bold.copyWith(
+                                  fontSize: 24.sp, color: ColorsManager.black),
+                            ),
+                            horizontalSpace(16.w),
+                            SizedBox(
+                              width: 45.w,
+                              height: 45.h,
+                              child: CircleAvatar(
+                                radius: 5.r,
+                                backgroundColor: ColorsManager.mainGreen,
+                                child: CircleAvatar(
+                                  radius: 20.r,
+                                  backgroundColor: ColorsManager.moreWhite,
+                                  child: Image.asset(
+                                    imagePath,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
               verticalSpace(27.h),
               ///////////////////// كرت الطقس/////////////////////
@@ -140,8 +158,7 @@ class _HomeState extends State<Home> {
                         color: ColorsManager.mainGreen,
                       )),
                     );
-                  }
-                  else if (state is WeatherLoaded) {
+                  } else if (state is WeatherLoaded) {
                     final weatherData = state.weatherResponse.days;
                     return SizedBox(
                       height: 150.h,
@@ -177,14 +194,12 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     );
-                  }
-                  else if (state is WeatherError) {
+                  } else if (state is WeatherError) {
                     return SizedBox(
                       height: 150.h,
                       child: Center(child: Text("Error: ${state.message}")),
                     );
-                  }
-                  else {
+                  } else {
                     return SizedBox(
                       height: 150.h,
                       child: const Center(child: Text("No data available.")),

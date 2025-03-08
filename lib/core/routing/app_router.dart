@@ -11,6 +11,7 @@ import 'package:graduation_project/features/forget_password/ui/email_checked.dar
 import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
 import 'package:graduation_project/features/forget_password/ui/new_pass_assign.dart';
 import 'package:graduation_project/features/forget_password/ui/reset_password_done.dart';
+import 'package:graduation_project/features/home/logic/user_data_cubit.dart';
 import 'package:graduation_project/features/home/ui/home_screen.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/login_screen.dart';
@@ -23,7 +24,6 @@ import 'package:graduation_project/features/report/logic/report_cubit.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
 import 'package:graduation_project/features/report/ui/widgets/done_report.dart';
-import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_signup.dart';
@@ -89,17 +89,9 @@ class AppRouter {
 
       case Routing.otpScreen:
         return createRoute(
-          MultiBlocProvider(
-            providers: [
-              BlocProvider.value(
-                value: getIt<SignupCubit>(),
-              ),
-              BlocProvider(
-                create: (context) => getIt<ActiveCodeCubit>(),
-              ),
-            ],
-            child: const OTPScreen(),
-          ),
+          BlocProvider.value(
+              value: getIt<SendForgetPasswordCubit>(),
+              child: const OTPScreen()),
         );
 
       case Routing.forgetPasswordScreen:
@@ -152,35 +144,47 @@ class AppRouter {
         if (arguments is Data) {
           return createRoute(
             BlocProvider.value(
-              value: getIt<PlantCubit>(), // Reusing the same cubit
-              child: PlantReport(plantData: arguments,), // Passing the plant data
+              value: getIt<PlantCubit>(),
+              child: PlantReport(
+                plantData: arguments,
+              ),
             ),
           );
         }
-        return createRoute(const Center(child: Text("حدث خطأ في تحميل بيانات النبات")));
+        return createRoute(
+            const Center(child: Text("حدث خطأ في تحميل بيانات النبات")));
 
       case Routing.cameraScreen:
-        return createRoute(BlocProvider(
-          create: (context) => getIt<DiseaseCubit>(),
+        return createRoute(BlocProvider.value(
+          value: getIt<DiseaseCubit>(),
           child: CameraScreen(),
         ));
 
       case Routing.imagePreviewScreen:
-        return createRoute(BlocProvider(
-          create: (context) => getIt<DiseaseCubit>(),
-          child: ImagePreviewScreen(),
-        ));
+        return createRoute(
+          BlocProvider.value(
+            value: getIt<DiseaseCubit>(),
+            child: ImagePreviewScreen(),
+          ),
+        );
 
       case Routing.resultImageDetection:
-        return createRoute(BlocProvider(
-          create: (context) => getIt<DiseaseCubit>(),
+        return createRoute(BlocProvider.value(
+          value: getIt<DiseaseCubit>(),
           child: ResultDone(),
         ));
 
       case Routing.homeScreen:
         return createRoute(
-          BlocProvider(
-            create: (context) => getIt<WeatherCubit>(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<WeatherCubit>(
+                create: (context) => getIt<WeatherCubit>(),
+              ),
+              BlocProvider<UserDataCubit>(
+                create: (context) => getIt<UserDataCubit>(),
+              ),
+            ],
             child: const Home(),
           ),
         );

@@ -7,6 +7,8 @@ import 'package:graduation_project/features/disease_detection/data/repo/disease_
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/forget_password/data/repo/forget_password_repo.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
+import 'package:graduation_project/features/home/data/repo/user_data_repo.dart';
+import 'package:graduation_project/features/home/logic/user_data_cubit.dart';
 import 'package:graduation_project/features/login/data/repo/login_repo.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/plant/data/repo/plant_repo.dart';
@@ -43,6 +45,17 @@ Future<GetIt> setUpGetIt() async {
   );
 
   /////////////////////////////////////////////////////////////////////
+  // Register User Data as Singleton
+  getIt.registerSingleton<UserDataRepo>(
+    UserDataRepo(getIt<ApiService>()),
+  );
+
+  // Register LoginCubit as Factory
+  getIt.registerFactory<UserDataCubit>(
+    () => UserDataCubit(getIt<UserDataRepo>()),
+  );
+
+  /////////////////////////////////////////////////////////////////////
 
   // Register SignupRepository as Singleton
   getIt.registerSingleton<SignupRepository>(
@@ -72,8 +85,8 @@ Future<GetIt> setUpGetIt() async {
   );
 
   // Register Send Forget Password Cubit as Factory
-  getIt.registerFactory<SendForgetPasswordCubit>(
-    () => SendForgetPasswordCubit(getIt<SendForgetPasswordRepo>()),
+  getIt.registerSingleton<SendForgetPasswordCubit>(
+    SendForgetPasswordCubit(getIt<SendForgetPasswordRepo>()),
   );
   /////////////////////////////////////////////////////////////////////
 
@@ -90,12 +103,12 @@ Future<GetIt> setUpGetIt() async {
   /////////////////////////////////////////////////////////////////////
 
   // Register report Repo
-  getIt.registerSingleton<ReportRepo>(
-    ReportRepo(getIt<ApiService>()),
+  getIt.registerLazySingleton<ReportRepo>(
+    () => ReportRepo(getIt<ApiService>()),
   );
 
   // Register report Cubit
-  getIt.registerFactory<ReportCubit>(
+  getIt.registerLazySingleton<ReportCubit>(
     () => ReportCubit(getIt<ReportRepo>()),
   );
 

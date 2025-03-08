@@ -5,12 +5,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/background_camera.dart';
-import 'package:lottie/lottie.dart';
 
 class ImagePreviewScreen extends StatefulWidget {
   const ImagePreviewScreen({super.key});
@@ -21,11 +22,20 @@ class ImagePreviewScreen extends StatefulWidget {
 
 class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
   late Timer _textTimer;
-  final ValueNotifier<String> _buttonTextNotifier = ValueNotifier("إرسال الصورة...");
+  final ValueNotifier<String> _buttonTextNotifier =
+      ValueNotifier("إرسال الصورة...");
 
   @override
   void initState() {
     super.initState();
+    context.read<DiseaseCubit>().submitDiseaseData();
+
+    // بدء المؤقت للانتقال بعد 5 ثواني
+    Future.delayed(const Duration(seconds: 10), () {
+      if (mounted) {
+        context.pushNamedAndRemoveUntil(Routing.resultImageDetection);
+      }
+    });
     _textTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
       _buttonTextNotifier.value = _buttonTextNotifier.value == "...إرسال الصورة"
           ? "...تحديد التشخيص"
@@ -43,7 +53,6 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
   @override
   Widget build(BuildContext context) {
     final cachedImage = context.read<DiseaseCubit>().getCachedImage();
-
     return BackgroundCamera(
       customWidget: BlocConsumer<DiseaseCubit, DiseaseState>(
         listener: (context, state) {
@@ -62,29 +71,8 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
           }
         },
         builder: (context, state) {
-          if (state is DiseaseLoading) {
-            return Center(
-              child: Lottie.asset(
-                "assets/lottie/plant_disease_loading.json",
-                width: 100.w,
-                height: 100.h,
-              ),
-            );
-          } else if (state is DiseaseSuccess) {
-            return Center(
-              child: Text(
-                "✅ تم الكشف بنجاح: ${state.response}",
-                style: CairoTextStyles.bold.copyWith(
-                  fontSize: 18.sp,
-                  color: ColorsManager.mainGreen,
-                ),
-              ),
-            );
-          }
-
           if (cachedImage != null) {
             Uint8List imageBytes = base64Decode(cachedImage);
-
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

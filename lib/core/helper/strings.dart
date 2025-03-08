@@ -167,7 +167,7 @@ String getImagePath(String condition) {
 
 
 
-Map<String, double> rate_req = {
+Map<String, double> rateReq = {
   'عالي': 80,
   'متوسط': 50,
   'منخفض': 30,

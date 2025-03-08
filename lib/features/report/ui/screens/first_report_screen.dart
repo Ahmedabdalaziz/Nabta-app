@@ -72,7 +72,7 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
   void updateSubCategory(String category, String subCategory) {
     setState(() {
       selectedSub[category]![subCategory] =
-      !(selectedSub[category]![subCategory] ?? false);
+          !(selectedSub[category]![subCategory] ?? false);
       print("Selected Sub Categories: $selectedSub");
     });
     context.read<ReportCubit>().updateDiseases(selectedMain, selectedSub);
@@ -145,11 +145,11 @@ class _FirstReportScreenState extends State<FirstReportScreen> {
                   text: "التالي",
                   onPressed: hasImages
                       ? () {
-                    context.pushNamed(Routing.secondReportScreen);
-                  }
+                          context.pushNamed(Routing.secondReportScreen);
+                        }
                       : null,
                   textStyle:
-                  CairoTextStyles.extraBold.copyWith(fontSize: 20.sp),
+                      CairoTextStyles.extraBold.copyWith(fontSize: 20.sp),
                 ),
               ),
               verticalSpace(80.h),
