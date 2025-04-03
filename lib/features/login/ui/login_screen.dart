@@ -11,6 +11,7 @@ import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
+import 'package:graduation_project/core/widgets/hide_keyboard.dart';
 import 'package:graduation_project/core/widgets/will_pop.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
@@ -53,12 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordFocusNode.unfocus();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return ExitConfirmation(
-      child: GestureDetector(
-        onTap: _unfocus,
+    return HideKeyboard(
+      child: ExitConfirmation(
         child: Scaffold(
           backgroundColor: ColorsManager.mainGreen,
           body: Background(
@@ -253,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         GestureDetector(
                           onTap: () async {
                             UserCredential? userCredential =
-                                await signInWithFacebook();
+                            await signInWithFacebook();
                             if (userCredential != null) {
                               context
                                   .pushNamedAndRemoveUntil(Routing.homeScreen);
@@ -288,7 +287,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: () async {
                         _unfocus();
                         final userCredential =
-                            await signInWithGoogleAndSendData();
+                        await signInWithGoogleAndSendData();
                         if (userCredential?.user != null) {
                           context.pushNamedAndRemoveUntil(Routing.homeScreen);
                         } else {
