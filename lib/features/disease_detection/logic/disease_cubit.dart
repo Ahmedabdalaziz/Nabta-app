@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:graduation_project/features/disease_detection/data/models/plant_disease_detection_models.dart';
+import 'package:graduation_project/features/disease_detection/data/models/plant/plant_disease_detection_models.dart';
 import 'package:graduation_project/features/disease_detection/data/repo/disease_detction_repo.dart';
 import 'package:meta/meta.dart';
 

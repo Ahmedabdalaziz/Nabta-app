@@ -1346,6 +1346,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  pro_kit_snackbar:
+    dependency: "direct main"
+    description:
+      name: pro_kit_snackbar
+      sha256: cfa55274a51fa58abd97ee4c3e03329a94b3e3180ae2cd11a1607df76a5c111d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   proj4dart:
     dependency: transitive
     description:

@@ -100,6 +100,7 @@ dependencies:
   path_provider: ^2.1.1
   #lottie
   lottie: ^3.1.0
+  pro_kit_snackbar: ^0.0.4
 
 dev_dependencies:
   flutter_test:

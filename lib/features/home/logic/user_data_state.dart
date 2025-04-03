@@ -18,3 +18,15 @@ final class UserDataError extends UserDataState {
 
   UserDataError({required this.errorMessage});
 }
+
+final class UserDataStorageSuccess extends UserDataState {
+  final UserDataResponse userData;
+
+  UserDataStorageSuccess({required this.userData});
+}
+
+final class UserDataStorageError extends UserDataState {
+  final String errorMessage;
+
+  UserDataStorageError(this.errorMessage);
+}

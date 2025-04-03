@@ -28,7 +28,6 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
       birthDay: json['birthDay'] as String?,
       plants:
           (json['plants'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      token: json['token'] as String?,
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
@@ -42,5 +41,4 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'state': instance.state,
       'birthDay': instance.birthDay,
       'plants': instance.plants,
-      'token': instance.token,
     };

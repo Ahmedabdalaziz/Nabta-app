@@ -1,5 +1,5 @@
 import 'package:graduation_project/core/networking/api_service.dart';
-import 'package:graduation_project/features/home/data/model/user_data_request.dart';
+import 'package:graduation_project/features/home/data/remot/model/user_data_request.dart';
 
 class UserDataRepo {
   ApiService apiService;

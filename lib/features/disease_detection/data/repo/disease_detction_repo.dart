@@ -1,4 +1,4 @@
-import 'package:graduation_project/features/disease_detection/data/models/plant_disease_detection_models.dart';
+import 'package:graduation_project/features/disease_detection/data/models/plant/plant_disease_detection_models.dart';
 import 'package:graduation_project/features/disease_detection/data/remote/disease_api_service.dart';
 
 class PlantDiseaseDetectionRepository {

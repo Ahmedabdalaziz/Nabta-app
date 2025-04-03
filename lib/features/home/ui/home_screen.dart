@@ -29,45 +29,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
-  bool _showExitMessage = false;
 
   @override
   void initState() {
     super.initState();
     requestPermissions();
     context.read<WeatherCubit>().fetchWeather("Cairo");
-    context.read<UserDataCubit>().fetchData();
+    context.read<UserDataCubit>().fetchAndSaveData();
   }
 
-  Future<bool> _onWillPop() async {
-    if (_showExitMessage) {
-      return true;
-    } else {
-      setState(() {
-        _showExitMessage = true;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          showCloseIcon: true,
-          content: Text(
-            textDirection: TextDirection.rtl,
-            'اضغط مرة أخرى للخروج',
-            style: CairoTextStyles.bold
-                .copyWith(fontSize: 18.sp, color: ColorsManager.white),
-          ),
-          duration: Duration(seconds: 2),
-        ),
-      );
-
-      await Future.delayed(const Duration(seconds: 2));
-      setState(() {
-        _showExitMessage = false;
-      });
-
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +59,7 @@ class _HomeState extends State<Home> {
                   String imagePath = 'assets/SVGs/home/test_avatar.png';
 
                   if (state is UserDataSuccess) {
-                    userName = state.userData.userData.username ?? 'مستخدم';
-                    imagePath = (state.userData.userData.image != null &&
-                            state.userData.userData.image!.isNotEmpty &&
-                            state.userData.userData.image != 'default.png')
-                        ? state.userData.userData.image!
-                        : 'assets/SVGs/home/test_avatar.png';
+
                   }
 
                   return Padding(

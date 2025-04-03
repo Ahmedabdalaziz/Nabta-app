@@ -7,7 +7,7 @@ import 'package:graduation_project/features/disease_detection/data/repo/disease_
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/forget_password/data/repo/forget_password_repo.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
-import 'package:graduation_project/features/home/data/repo/user_data_repo.dart';
+import 'package:graduation_project/features/home/data/remot/repo/user_data_repo.dart';
 import 'package:graduation_project/features/home/logic/user_data_cubit.dart';
 import 'package:graduation_project/features/login/data/repo/login_repo.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';

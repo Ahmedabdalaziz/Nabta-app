@@ -27,7 +27,6 @@ class UserData {
   final String? state;
   final String? birthDay;
   final List<String>? plants;
-  final String? token;
 
   const UserData({
     this.sId,
@@ -40,7 +39,6 @@ class UserData {
     this.state,
     this.birthDay,
     this.plants,
-    this.token,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) =>

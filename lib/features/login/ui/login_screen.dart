@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +11,7 @@ import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/widgets/app_text_button.dart';
 import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
+import 'package:graduation_project/core/widgets/will_pop.dart';
 import 'package:graduation_project/features/login/logic/login_cubit.dart';
 import 'package:graduation_project/features/login/ui/background.dart';
 import 'package:graduation_project/features/login/ui/facebook_signin.dart';
@@ -51,34 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordFocusNode.unfocus();
   }
 
-  Future<bool> _onWillPop() async {
-    if (_showExitMessage) {
-      return true;
-    } else {
-      setState(() {
-        _showExitMessage = true;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('اضغط مرة أخرى للخروج'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-
-      await Future.delayed(const Duration(seconds: 2));
-      setState(() {
-        _showExitMessage = false;
-      });
-
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return ExitConfirmation(
       child: GestureDetector(
         onTap: _unfocus,
         child: Scaffold(
@@ -126,7 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderCircular: 50.sp,
                     controller: emailController,
                     focusNode: emailFocusNode,
-                    // إضافة FocusNode
                     textColor: ColorsManager.white,
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (_) {
