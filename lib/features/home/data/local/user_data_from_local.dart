@@ -69,7 +69,7 @@ class UserDataFromLocal {
 
   Future<void> deleteGender() async => await _deleteData(_keyGender);
 
-  Future<String> getImage() async => await _getData(_keyImage) ?? 'assets/SVGs/home/test_avatar.png';
+  Future<String> getImage() async => await _getData(_keyImage) ?? 'assets/SVGs/home/profile_avatar.jpg';
 
   Future<void> deleteImage() async => await _deleteData(_keyImage);
 

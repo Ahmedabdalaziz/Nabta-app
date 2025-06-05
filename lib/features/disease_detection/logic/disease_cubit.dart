@@ -24,16 +24,11 @@ class DiseaseCubit extends Cubit<DiseaseState> {
   }
 
   Future<void> submitDiseaseData() async {
-    if (_cachedPlantType == null || _cachedImage == null) {
-      emit(DiseaseFailure(message: "No data cached to submit."));
-      return;
-    }
-
     emit(DiseaseLoading());
-
     try {
       final response =
-      await repository.detectDisease(_cachedPlantType!, _cachedImage!);
+          await repository.detectDisease(_cachedPlantType!, _cachedImage!);
+
       emit(DiseaseSuccess(response));
 
       _cachedPlantType = null;

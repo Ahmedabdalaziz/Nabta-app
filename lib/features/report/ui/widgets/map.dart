@@ -40,7 +40,7 @@ class _MapScreenState extends State<MapScreen> {
     if (permission == LocationPermission.denied) return;
 
     Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      desiredAccuracy: LocationAccuracy.best,
     );
 
     setState(() {

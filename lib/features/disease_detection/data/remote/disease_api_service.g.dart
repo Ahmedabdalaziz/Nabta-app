@@ -14,7 +14,7 @@ class _PlantDiseaseApiService implements PlantDiseaseApiService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://h4mf033x-5000.uks1.devtunnels.ms/';
+    baseUrl ??= 'https://bx4h1h1d-5000.uks1.devtunnels.ms/';
   }
 
   final Dio _dio;

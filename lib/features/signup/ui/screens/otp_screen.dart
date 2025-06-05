@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // لاستخدام الصور SVG
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/helper/strings.dart';
@@ -15,9 +15,7 @@ import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/widget/signup_screen.dart';
 
 class OTPScreen extends StatefulWidget {
-  final String email;
-
-  const OTPScreen({super.key, this.email = ""});
+  const OTPScreen({super.key});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -25,6 +23,13 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   String? otpCode;
+  late final SignupCubit signupCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    signupCubit = context.read<SignupCubit>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +100,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         textStyle: CairoTextStyles.extraBold.copyWith(
                             fontSize: 20.sp, color: ColorsManager.white),
                         onPressed: () {
-                          final email =
-                              context.read<SignupCubit>().signupData.email;
+                          final email = signupCubit.signupData.email;
                           if (otpCode != null && otpCode!.isNotEmpty) {
                             context
                                 .read<ActiveCodeCubit>()
@@ -113,7 +117,6 @@ class _OTPScreenState extends State<OTPScreen> {
                       ),
                     ),
                     verticalSpace(20.sp),
-                    ///////////////////////// اعادة الارسال //////////////////
                     SizedBox(
                       width: 400.w,
                       child: Container(
@@ -132,7 +135,10 @@ class _OTPScreenState extends State<OTPScreen> {
                             fontSize: 20.sp,
                             color: ColorsManager.white,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            final email = signupCubit.signupData.email;
+                            if (email != null) {}
+                          },
                         ),
                       ),
                     )

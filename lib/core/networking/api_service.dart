@@ -7,10 +7,12 @@ import 'package:graduation_project/features/login/data/models/respons_login_mode
 import 'package:graduation_project/features/plant/data/model/plant_response.dart';
 import 'package:graduation_project/features/report/data/models/report_request.dart';
 import 'package:graduation_project/features/report/data/models/report_response.dart';
-import 'package:graduation_project/features/signup/data/model/custom/sigin_model_response.dart';
-import 'package:graduation_project/features/signup/data/model/custom/sign_request_activation_code.dart';
-import 'package:graduation_project/features/signup/data/model/custom/sign_response_activation_code.dart'; // استيراد الموديل
+import 'package:graduation_project/features/signup/data/model/custom/activation/sign_request_activation_code.dart';
+import 'package:graduation_project/features/signup/data/model/custom/activation/sign_response_activation_code.dart';
 import 'package:retrofit/retrofit.dart';
+
+import '../../features/signup/data/model/custom/email_check.dart';
+import '../../features/signup/data/model/custom/signup_models/sigin_model_response.dart';
 
 part 'api_service.g.dart';
 
@@ -48,4 +50,8 @@ abstract class ApiService {
   // الداتا بتاعت اليوزر امعلم
   @GET(ApiConstants.userData)
   Future<UserDataResponse> getUserData(@Header('Authorization') String token);
+
+  // الايميل دا موجود ولا لا امعلم
+  @POST(ApiConstants.checkEmail)
+  Future<EmailCheckResponseModel> checkEmail(@Body() EmailCheckRequestModel email);
 }

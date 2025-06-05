@@ -11,6 +11,8 @@ class NameWithPhone extends StatefulWidget {
   final String option;
   final TextInputType keyboardType;
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+
 
   const NameWithPhone({
     super.key,
@@ -19,6 +21,7 @@ class NameWithPhone extends StatefulWidget {
     required this.keyboardType,
     required this.labelString,
     this.controller,
+    this.onChanged,
   });
 
   @override
@@ -57,6 +60,7 @@ class _NameWithPhoneState extends State<NameWithPhone> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 12.h),
             child: DarkCustomTextField(
+              onChanged: widget.onChanged,
               controller: widget.controller,
               keyboardType: widget.keyboardType,
               textInputAction: TextInputAction.next,

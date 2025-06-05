@@ -31,29 +31,29 @@ class PlantSelectionWidget extends StatelessWidget {
       imagePath: "assets/SVGs/plants/cane.png",
     ),
     PlantModel(
-      arabicName: "قمح",
-      englishName: "wheat",
-      imagePath: "assets/SVGs/plants/corn2.png",
-    ),
-    PlantModel(
-      arabicName: "قطن",
-      englishName: "cotton",
-      imagePath: "assets/SVGs/plants/cotton.png",
-    ),
-    PlantModel(
-      arabicName: "أرز",
-      englishName: "rice",
-      imagePath: "assets/SVGs/plants/cane.png",
-    ),
-    PlantModel(
       arabicName: "طماطم",
       englishName: "tomato",
       imagePath: "assets/SVGs/plants/cotton.png",
     ),
     PlantModel(
+      arabicName: "قصب",
+      englishName: "sugarcane",
+      imagePath: "assets/SVGs/plants/cotton.png",
+    ),
+    PlantModel(
       arabicName: "بطاطس",
       englishName: "potato",
-      imagePath: "assets/SVGs/plants/onion.png",
+      imagePath: "assets/SVGs/plants/potato.png",
+    ),
+    PlantModel(
+      arabicName: " ",
+      englishName: "corn",
+      imagePath: "assets/SVGs/plants/soonBeans.png",
+    ),
+    PlantModel(
+      arabicName: " ",
+      englishName: "corn",
+      imagePath: "assets/SVGs/plants/soonBeans.png",
     ),
   ];
 
@@ -108,7 +108,7 @@ class PlantSelectionWidget extends StatelessWidget {
     Function(String) onSelect,
   ) {
     return GestureDetector(
-      onTap: () => onSelect(englishLabel), // Pass the English name to backend
+      onTap: () => onSelect(englishLabel),
       child: Container(
         width: 100,
         height: 100,
@@ -136,7 +136,7 @@ class PlantSelectionWidget extends StatelessWidget {
               top: 10,
               left: 10,
               child: Text(
-                arabicLabel, // Display Arabic name in UI
+                arabicLabel,
                 style: CairoTextStyles.bold.copyWith(
                   color: ColorsManager.secondGreen,
                   fontSize: 20.sp,

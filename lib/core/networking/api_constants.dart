@@ -9,7 +9,7 @@ class ApiConstants {
   static const String singInWithFacebook = "api/singIn";
   static const String activateAccount = 'api/activateAccount';
   static const String urlDetectDisease =
-      'https://h4mf033x-5000.uks1.devtunnels.ms/';
+      'https://bx4h1h1d-5000.uks1.devtunnels.ms/';
   static const String sendForgetPasswordCode =
       'api/auth/sendforgetpasswordcode';
   static const String weatherApiKey = '243SE95LLPAYX3SAKRP9SGQ8W';
@@ -17,4 +17,5 @@ class ApiConstants {
       'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
   static const String plantApi = 'plant/viewall';
   static const String report = 'Veterinary/Veterinary';
+  static const String checkEmail = 'api/checkEmail';
 }

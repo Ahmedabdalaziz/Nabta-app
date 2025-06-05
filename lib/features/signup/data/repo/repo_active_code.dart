@@ -1,6 +1,6 @@
 import 'package:graduation_project/core/networking/api_service.dart';
-import 'package:graduation_project/features/signup/data/model/custom/sign_request_activation_code.dart';
-import 'package:graduation_project/features/signup/data/model/custom/sign_response_activation_code.dart';
+import 'package:graduation_project/features/signup/data/model/custom/activation/sign_request_activation_code.dart';
+import 'package:graduation_project/features/signup/data/model/custom/activation/sign_response_activation_code.dart';
 
 class ActivateAccountRepository {
   final ApiService _apiService;

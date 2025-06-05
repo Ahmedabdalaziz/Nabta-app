@@ -50,7 +50,8 @@ class _CameraScreenState extends State<CameraScreen> {
           } else if (snapshot.hasError) {
             return Center(
                 child: Text('Error initializing camera: ${snapshot.error}'));
-          } else {
+          }
+          else {
             return BlocConsumer<DiseaseCubit, DiseaseState>(
               listener: (context, state) {
                 if (state is DiseaseDataCached) {

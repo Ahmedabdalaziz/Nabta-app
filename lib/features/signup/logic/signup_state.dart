@@ -28,3 +28,13 @@ class SignupPasswordUpdated extends SignupState {}
 class SignupConfirmPasswordUpdated extends SignupState {}
 
 class SignupProfileImageUpdated extends SignupState {}
+
+class EmailNotExists extends SignupState {}
+
+class EmailLoadingCheck extends SignupState {}
+
+class EmailAlreadyExists extends SignupState {
+  final String message;
+
+  EmailAlreadyExists(this.message);
+}

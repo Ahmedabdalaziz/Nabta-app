@@ -12,6 +12,8 @@ import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/background_camera.dart';
+import 'package:pro_kit_snackbar/snack_bar/snack_bar.dart';
+import 'package:pro_kit_snackbar/snack_bar/snackbar_enum.dart';
 
 class ImagePreviewScreen extends StatefulWidget {
   const ImagePreviewScreen({super.key});
@@ -57,16 +59,18 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
       customWidget: BlocConsumer<DiseaseCubit, DiseaseState>(
         listener: (context, state) {
           if (state is DiseaseFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.message,
-                  style: CairoTextStyles.medium.copyWith(
-                    color: ColorsManager.red,
-                  ),
-                ),
-                backgroundColor: ColorsManager.white,
-              ),
+            showProKitSnackBar(
+              context,
+              title: "هنالك مشكلة ما",
+              titleTextStyle:
+              CairoTextStyles.bold.copyWith(color: ColorsManager.greenWhite),
+              message: "يبدو ان هنالك مشكلة في الاتصال مع الخادم",
+              snackBarType: ProKitSnackBarType.colored,
+              notificationType: ProKitNotificationType.failure,
+              color: ColorsManager.mainGreen,
+              autoCloseDuration: const Duration(seconds: 5),
+              messageTextStyle:
+              CairoTextStyles.bold.copyWith(color: ColorsManager.greenWhite),
             );
           }
         },

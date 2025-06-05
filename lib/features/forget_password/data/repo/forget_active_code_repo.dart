@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networking/api_service.dart';
 import 'package:graduation_project/features/forget_password/data/model/active_forget_password/forget_password_error_activation_code.dart';
-import 'package:graduation_project/features/signup/data/model/custom/sign_request_activation_code.dart';
+import 'package:graduation_project/features/signup/data/model/custom/activation/sign_request_activation_code.dart';
 
 class ForgetActiveCodeRepo {
   final ApiService apiService;

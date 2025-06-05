@@ -7,7 +7,6 @@ import 'package:graduation_project/nabta_app.dart';
 import 'core/routing/app_router.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await setUpGetIt();
