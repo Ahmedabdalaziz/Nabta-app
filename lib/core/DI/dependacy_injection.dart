@@ -5,6 +5,7 @@ import 'package:graduation_project/core/networking/dio_factory.dart';
 import 'package:graduation_project/features/disease_detection/data/remote/disease_api_service.dart';
 import 'package:graduation_project/features/disease_detection/data/repo/disease_detction_repo.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
+import 'package:graduation_project/features/forget_password/data/repo/forget_active_code_repo.dart';
 import 'package:graduation_project/features/forget_password/data/repo/forget_password_repo.dart';
 import 'package:graduation_project/features/forget_password/logic/send_forget_password_cubit.dart';
 import 'package:graduation_project/features/home/data/remot/repo/user_data_repo.dart';
@@ -79,14 +80,20 @@ Future<GetIt> setUpGetIt() async {
 
   /////////////////////////////////////////////////////////////////////
 
-  // Register Send Forget Password Repository as Singleton
+// Register SendForgetPasswordRepo and ForgetActiveCodeRepo first
   getIt.registerSingleton<SendForgetPasswordRepo>(
     SendForgetPasswordRepo(getIt<ApiService>()),
   );
+  getIt.registerSingleton<ForgetActiveCodeRepo>(
+    ForgetActiveCodeRepo(getIt<ApiService>()),
+  );
 
-  // Register Send Forget Password Cubit as Factory
+// Register SendForgetPasswordCubit with named parameters
   getIt.registerSingleton<SendForgetPasswordCubit>(
-    SendForgetPasswordCubit(getIt<SendForgetPasswordRepo>()),
+    SendForgetPasswordCubit(
+      sendForgetPasswordRepo: getIt<SendForgetPasswordRepo>(),
+      forgetActiveCodeRepo: getIt<ForgetActiveCodeRepo>(),
+    ),
   );
   /////////////////////////////////////////////////////////////////////
 

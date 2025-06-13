@@ -27,7 +27,13 @@ class _ResultDoneState extends State<ResultDone> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 20.h),
-
+                  Text(response.name),
+                  Text(response.accuracy),
+                  Text(response.description),
+                  Text(response.lifeCycle),
+                  Text(response.riskPercentage),
+                  Text(response.scientificName),
+                  Text(response.treatment),
                   SizedBox(height: 30.h),
                 ],
               ),
@@ -41,7 +47,7 @@ class _ResultDoneState extends State<ResultDone> {
   }
 }
 
-///                   ElevatedButton(
+//                   ElevatedButton(
 //                     onPressed: () {
 //                       context.pop();
 //                     },
