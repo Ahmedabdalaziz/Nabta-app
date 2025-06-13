@@ -30,7 +30,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final PageController _pageController = PageController();
-  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -39,7 +38,6 @@ class _HomeState extends State<Home> {
     context.read<WeatherCubit>().fetchWeather("Asyut");
     context.read<UserDataCubit>().fetchAndSaveData();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,7 @@ class _HomeState extends State<Home> {
                 verticalSpace(10.h),
                 BlocBuilder<UserDataCubit, UserDataState>(
                   builder: (context, state) {
-                    String userName = 'مستخدم';
+                    String userName = ' ';
                     String imagePath = 'assets/SVGs/home/test_avatar.png';
 
                     if (state is UserDataSuccess) {
@@ -65,8 +63,10 @@ class _HomeState extends State<Home> {
 
                       if (userDataResponse.userData.username != null &&
                           userDataResponse.userData.username!.isNotEmpty) {
-                        userName = userDataResponse.userData.username!.split(' ').first;;
-
+                        userName = userDataResponse.userData.username!
+                            .split(' ')
+                            .first;
+                        ;
                       }
 
                       if (userDataResponse.userData.image != null &&
@@ -82,8 +82,8 @@ class _HomeState extends State<Home> {
                           children: [
                             Positioned(
                                 left: -4.w,
-                                child: SvgPicture.asset('assets/SVGs/home/Ellipse 33.svg')
-                            ),
+                                child: SvgPicture.asset(
+                                    'assets/SVGs/home/Ellipse 33.svg')),
                             Row(
                               children: [
                                 Icon(
@@ -96,16 +96,14 @@ class _HomeState extends State<Home> {
                                   userName,
                                   style: CairoTextStyles.bold.copyWith(
                                       fontSize: 24.sp,
-                                      color: ColorsManager.mainGreen
-                                  ),
+                                      color: ColorsManager.mainGreen),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
                                   ' , أهلا',
                                   style: CairoTextStyles.bold.copyWith(
                                       fontSize: 24.sp,
-                                      color: ColorsManager.black
-                                  ),
+                                      color: ColorsManager.black),
                                 ),
                                 horizontalSpace(16.w),
                                 SizedBox(
@@ -123,12 +121,13 @@ class _HomeState extends State<Home> {
                                           fit: BoxFit.cover,
                                           width: 40.w,
                                           height: 40.h,
-                                          errorBuilder: (context, error, stackTrace) {
-                                            return Image.asset(
-                                              'assets/SVGs/home/test_avatar.png',
-                                              fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Image.network(
+                                              imagePath,
                                               width: 40.w,
                                               height: 40.h,
+                                              fit: BoxFit.contain,
                                             );
                                           },
                                         ),
@@ -284,7 +283,8 @@ class _HomeState extends State<Home> {
                           Positioned(
                             bottom: 2.h,
                             left: 4.w,
-                            child: Image.asset('assets/SVGs/home/Group 111.png'),
+                            child:
+                                Image.asset('assets/SVGs/home/Group 111.png'),
                           ),
                           Positioned(
                             bottom: 5.h,

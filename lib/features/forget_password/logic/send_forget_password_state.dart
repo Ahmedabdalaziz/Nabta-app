@@ -5,22 +5,34 @@ sealed class SendForgetPasswordState {}
 
 final class SendForgetPasswordInitial extends SendForgetPasswordState {}
 
-class SendForgetPasswordLoading extends SendForgetPasswordState {}
+final class SendForgetPasswordLoading extends SendForgetPasswordState {}
 
-class SendForgetPasswordSuccess extends SendForgetPasswordState {
+final class SendForgetPasswordSuccess extends SendForgetPasswordState {
   final String message;
 
   SendForgetPasswordSuccess({required this.message});
 }
 
-class SendForgetPasswordFailure extends SendForgetPasswordState {
+final class SendForgetPasswordFailure extends SendForgetPasswordState {
   final String errorMessage;
 
   SendForgetPasswordFailure({required this.errorMessage});
 }
 
-class ValidationError extends SendForgetPasswordState {
+final class ValidationError extends SendForgetPasswordState {
   final String message;
 
-  ValidationError(this.message);
+  ValidationError({required this.message});
+}
+
+final class SendOtpVerificationSuccess extends SendForgetPasswordState {
+  final String message;
+
+  SendOtpVerificationSuccess({required this.message});
+}
+
+final class SendOtpVerificationFailure extends SendForgetPasswordState {
+  final String errorMessage;
+
+  SendOtpVerificationFailure({required this.errorMessage});
 }

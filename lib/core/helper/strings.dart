@@ -137,6 +137,8 @@ Map<String, String> weatherCondition = {
   'Hot': 'ساخن',
   'Freezing': 'تجمد',
 };
+
+
 // دالة لتحديد الصورة بناءً على حالة الطقس
 String getImagePath(String condition) {
   switch (condition) {

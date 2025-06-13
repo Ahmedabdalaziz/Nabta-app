@@ -40,7 +40,7 @@ class ReportCubit extends Cubit<ReportState> {
         _getSelectedDiseases(selectedMain, selectedSub, "التورمات والأورام");
     reportData.notDetermined =
         _getSelectedDiseases(selectedMain, selectedSub, "غير متأكد");
-    log("Diseases updated: $reportData");
+    log("Diseases updated");
   }
 
   // تحديث الأسئلة التشخيصية
@@ -51,19 +51,27 @@ class ReportCubit extends Cubit<ReportState> {
     reportData.breathingNormally = answers["بيتنفس طبيعي؟"];
     reportData.regularExcretion = answers["الإخراج منتظم؟"];
     reportData.hairLossOrSkinIssues =
-        answers["فيه تساقط شعر أو بقع على الجلد؟"];
+    answers["فيه تساقط شعر أو بقع على الجلد؟"];
     reportData.previousSimilarSymptoms =
-        answers["الحيوان كان تعرض لنفس الأعراض دي قبل كده؟"];
+    answers["الحيوان كان تعرض لنفس الأعراض دي قبل كده؟"];
     reportData.vaccinationsUpToDate = answers["الحيوان خد تطعيماته كاملة؟"];
     reportData.recentBehaviorChange =
-        answers["فيه أي تغيير في مكان الحيوان، أو أكله مؤخرًا؟"];
-    log("Diagnostic questions updated: $reportData");
+    answers["فيه أي تغيير في مكان الحيوان، أو أكله مؤخرًا؟"];
+    log("Diagnostic questions updated");
   }
 
-  // تحديث الصور
+  // تحديث الصور - make sure we store clean base64 data
   void updateImages(List<String> images) {
-    reportData.based64 = images;
-    log("Images updated: ${images.length} images");
+    // Clean the base64 strings if they contain data URL prefixes
+    List<String> cleanImages = images.map((image) {
+      if (image.contains(',')) {
+        return image.split(',').last; // Extract base64 data only
+      }
+      return image;
+    }).toList();
+
+    reportData.based64 = cleanImages;
+    log("Images updated: ${cleanImages.length} images");
   }
 
   // تحديث النوتس
@@ -110,7 +118,7 @@ class ReportCubit extends Cubit<ReportState> {
           regularExcretion: reportData.regularExcretion ?? "غير متأكد",
           hairLossOrSkinIssues: reportData.hairLossOrSkinIssues ?? "غير متأكد",
           previousSimilarSymptoms:
-              reportData.previousSimilarSymptoms ?? "غير متأكد",
+          reportData.previousSimilarSymptoms ?? "غير متأكد",
           vaccinationsUpToDate: reportData.vaccinationsUpToDate ?? "غير متأكد",
           recentBehaviorChange: reportData.recentBehaviorChange ?? "غير متأكد",
         ),
@@ -126,16 +134,23 @@ class ReportCubit extends Cubit<ReportState> {
             ],
           ),
         ),
-        images: reportData.based64,
+        images: reportData.based64, // This will now be clean base64 strings
         notes: reportData.notes,
       );
 
       final TokenManager tokenManager = TokenManager();
       String? token = await tokenManager.getToken();
 
-      final response = await reportRepo.report(token!, requestModel);
+      if (token == null) {
+        emit(ReportFailure(errorMessage: "No authentication token found"));
+        return;
+      }
+
+      log("Submitting report with ${reportData.based64?.length ?? 0} images");
+      final response = await reportRepo.report(token, requestModel);
       emit(ReportSuccess());
     } catch (e) {
+      log("Report submission failed: $e");
       emit(ReportFailure(errorMessage: "Failed to submit report: $e"));
     }
   }
@@ -144,11 +159,13 @@ class ReportCubit extends Cubit<ReportState> {
   String? _getSelectedDiseases(Map<String, bool> selectedMain,
       Map<String, Map<String, bool>> selectedSub, String category) {
     if (selectedMain[category] == true) {
-      return selectedSub[category]
+      final selectedSubDiseases = selectedSub[category]
           ?.entries
           .where((entry) => entry.value == true)
           .map((entry) => entry.key)
           .join(", ");
+
+      return selectedSubDiseases?.isNotEmpty == true ? selectedSubDiseases : "غير متأكد";
     }
     return "غير متأكد";
   }

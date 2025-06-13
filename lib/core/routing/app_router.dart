@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/features/chat/logic/chat_cubit.dart';
+import 'package:graduation_project/features/chat/ui/screens/chat_screen.dart';
+import 'package:graduation_project/features/chat/ui/screens/welcome_chat_screen.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/camera_screen.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/image_preview_screen.dart';
@@ -10,6 +13,7 @@ import 'package:graduation_project/features/forget_password/logic/send_forget_pa
 import 'package:graduation_project/features/forget_password/ui/email_checked.dart';
 import 'package:graduation_project/features/forget_password/ui/forget_password.dart';
 import 'package:graduation_project/features/forget_password/ui/new_pass_assign.dart';
+import 'package:graduation_project/features/forget_password/ui/otp_forget_password.dart'; // أضف الإمبورت ده
 import 'package:graduation_project/features/forget_password/ui/reset_password_done.dart';
 import 'package:graduation_project/features/home/logic/user_data_cubit.dart';
 import 'package:graduation_project/features/home/ui/home_screen.dart';
@@ -104,14 +108,20 @@ class AppRouter {
         );
 
       case Routing.forgetPasswordScreen:
-        return createRoute(MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => getIt<SendForgetPasswordCubit>(),
-            ),
-          ],
-          child: const ForgetPasswordScreen(),
-        ));
+        return createRoute(
+          BlocProvider(
+            create: (context) => getIt<SendForgetPasswordCubit>(),
+            child: const ForgetPasswordScreen(),
+          ),
+        );
+
+      case Routing.otpForgetPassword:
+        return createRoute(
+          BlocProvider.value(
+            value: getIt<SendForgetPasswordCubit>(),
+            child: const OTPForgetPassword(),
+          ),
+        );
 
       case Routing.emailCheckedScreen:
         return createRoute(const EmailChecked());
@@ -125,7 +135,6 @@ class AppRouter {
       case Routing.welcomingScreen:
         return createRoute(const Welcom());
 
-      // report Screens
       case Routing.firstReportScreen:
         return createRoute(
           BlocProvider.value(
@@ -206,6 +215,15 @@ class AppRouter {
             child: const Home(),
           ),
         );
+
+      case Routing.welcomeChatScreen:
+        return createRoute(WelcomeChatScreen());
+
+      case Routing.chatScreen:
+        return createRoute(BlocProvider(
+          create: (context) => ChatCubit(),
+          child: ChatScreen(),
+        ));
 
       default:
         return createRoute(const Column());

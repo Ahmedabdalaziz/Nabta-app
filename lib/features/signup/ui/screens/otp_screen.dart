@@ -75,10 +75,15 @@ class _OTPScreenState extends State<OTPScreen> {
                           fontSize: 12.sp, color: ColorsManager.secondGreen),
                     ),
                     verticalSpace(30.sp),
-                    Text(
-                      "تعديل البريد الالكتروني",
-                      style: CairoTextStyles.extraBold.copyWith(
-                          fontSize: 16.sp, color: ColorsManager.mainGreen),
+                    GestureDetector(
+                      onTap: () {
+                        context.pushNamed(Routing.secondSignUpScreen);
+                      },
+                      child: Text(
+                        "تعديل البريد الالكتروني",
+                        style: CairoTextStyles.extraBold.copyWith(
+                            fontSize: 16.sp, color: ColorsManager.mainGreen),
+                      ),
                     ),
                     verticalSpace(20.sp),
                     SvgPicture.asset(OTP),

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/helper/strings.dart';
+import 'package:graduation_project/core/routing/routing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 
@@ -36,7 +37,7 @@ class _BackgroundCameraState extends State<BackgroundCamera> {
                   horizontalSpace(15.w),
                   GestureDetector(
                     onTap: () {
-                      context.pop();
+                      context.pushReplacement(Routing.homeScreen as Route);
                     },
                     child: CircleAvatar(
                       backgroundColor:
