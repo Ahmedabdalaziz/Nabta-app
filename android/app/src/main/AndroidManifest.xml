@@ -13,7 +13,7 @@
 
     <application
         android:usesCleartextTraffic="true"
-        android:label="nabta_app"
+        android:label="Nabta"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

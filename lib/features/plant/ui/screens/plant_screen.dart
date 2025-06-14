@@ -12,7 +12,7 @@ import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/features/home/ui/home_background.dart';
 import 'package:graduation_project/features/plant/data/model/plant_response.dart';
 import 'package:graduation_project/features/plant/logic/plant_cubit.dart';
-import 'package:graduation_project/core/widgets/available_stock.dart';
+import 'package:graduation_project/features/plant/ui/widgets/available_stock.dart';
 
 class PlantsScreen extends StatefulWidget {
   const PlantsScreen({super.key});
@@ -143,6 +143,49 @@ class _PlantsScreenState extends State<PlantsScreen> {
                               verticalSpace(12.h),
                               Column(
                                 children: [
+                                  // nabatat for eating
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  //   children: [
+                                  //     AvailableStock(
+                                  //       imgPath: 'assets/SVGs/plants/corn2.png',
+                                  //       label: 'ذره',
+                                  //       leftPositioned: 25,
+                                  //       topPositioned: 20,
+                                  //     ),
+                                  //     AvailableStock(
+                                  //       imgPath: 'assets/SVGs/plants/rice.png',
+                                  //       label: 'أرز',
+                                  //       leftPositioned: 25,
+                                  //       topPositioned: 20,
+                                  //     ),
+                                  //     GestureDetector(
+                                  //       onTap: () {
+                                  //         context.pushNamed(Routing.plantReport);
+                                  //       },
+                                  //       child: AvailableStock(
+                                  //         imgPath: 'assets/SVGs/plants/flower.png',
+                                  //         label: 'قمح',
+                                  //         leftPositioned: 28,
+                                  //         topPositioned: 20,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // verticalSpace(10.h),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  //   children: [
+                                  //     NonAvailableStock(),
+                                  //     NonAvailableStock(),
+                                  //     AvailableStock(
+                                  //       imgPath: 'assets/SVGs/plants/potato.png',
+                                  //       label: 'بطاطس',
+                                  //       leftPositioned: 25,
+                                  //       topPositioned: 20,
+                                  //     )
+                                  //   ],
+                                  // ),
                                   Directionality(
                                     textDirection: TextDirection.rtl,
                                     child: GridView.count(
@@ -177,7 +220,29 @@ class _PlantsScreenState extends State<PlantsScreen> {
                             ],
                           ),
                           verticalSpace(8.h),
-
+                          // npatat for manefacture
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //   children: [
+                          //     NonAvailableStock(),
+                          //     AvailableStock(
+                          //       imgPath: 'assets/SVGs/plants/cane.png',
+                          //       label: 'قصب',
+                          //       boxW: 90,
+                          //       boxH: 90,
+                          //       leftPositioned: 32,
+                          //       topPositioned: 30,
+                          //     ),
+                          //     AvailableStock(
+                          //       imgPath: 'assets/SVGs/plants/cotton.png',
+                          //       label: 'قطن',
+                          //       boxH: 95,
+                          //       boxW: 95,
+                          //       leftPositioned: 25,
+                          //       topPositioned: 25,
+                          //     ),
+                          //   ],
+                          // ),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
@@ -207,7 +272,20 @@ class _PlantsScreenState extends State<PlantsScreen> {
                             ],
                           ),
                           verticalSpace(8.h),
-
+                          // vegetables
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //   children: [
+                          //     NonAvailableStock(),
+                          //     NonAvailableStock(),
+                          //     AvailableStock(
+                          //       imgPath: 'assets/SVGs/plants/onion.png',
+                          //       label: 'بصل',
+                          //       leftPositioned: 25,
+                          //       topPositioned: 20,
+                          //     )
+                          //   ],
+                          // ),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(

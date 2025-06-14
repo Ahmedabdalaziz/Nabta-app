@@ -144,6 +144,7 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
+
   void resetEmailCheck() {
     _isEmailChecked = false;
   }

@@ -12,12 +12,20 @@ class PlantCubit extends Cubit<PlantState> {
   final PlantRepository plantRepository;
   String? token;
 
+  PlantResponse? _cachedPlantResponse;
+
   Future<void> fetchPlants() async {
+    if (_cachedPlantResponse != null) {
+      emit(PlantSuccess(_cachedPlantResponse!));
+      return;
+    }
+
     emit(plantLoading());
     try {
       token ??= await _getToken();
 
       final plantResponse = await plantRepository.getAllPlants(token!);
+      _cachedPlantResponse = plantResponse;
       emit(PlantSuccess(plantResponse));
     } on Exception catch (e) {
       emit(PlantFailed(e.toString()));
@@ -27,5 +35,9 @@ class PlantCubit extends Cubit<PlantState> {
   Future<String?> _getToken() async {
     final TokenManager tokenManager = TokenManager();
     return await tokenManager.getToken();
+  }
+
+  void clearCache() {
+    _cachedPlantResponse = null;
   }
 }

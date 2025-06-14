@@ -117,13 +117,3 @@ class CaseLocation {
   Map<String, dynamic> toJson() => _$CaseLocationToJson(this);
 }
 
-@JsonSerializable()
-class Images {
-  final String? based64;
-
-  Images({this.based64});
-
-  factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ImagesToJson(this);
-}

@@ -26,7 +26,6 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  int _currentIndex = 0;
   final PageController pageController = PageController();
 
   @override

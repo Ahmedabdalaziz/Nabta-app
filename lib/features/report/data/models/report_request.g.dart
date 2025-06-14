@@ -118,11 +118,3 @@ Map<String, dynamic> _$CaseLocationToJson(CaseLocation instance) =>
       'type': instance.type,
       'coordinates': instance.coordinates,
     };
-
-Images _$ImagesFromJson(Map<String, dynamic> json) => Images(
-      based64: json['based64'] as String?,
-    );
-
-Map<String, dynamic> _$ImagesToJson(Images instance) => <String, dynamic>{
-      'based64': instance.based64,
-    };

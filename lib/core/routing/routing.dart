@@ -11,6 +11,7 @@ class Routing {
   static const String startScreen = "/startScreen";
   static const String forgetPasswordScreen = "/forgetPasswordScreen";
   static const String otpScreen = "/otpScreen";
+  static const String otpForgetPassword = "/otpForgetPassword";
   static const String weatherScreen = "/WeatherScreen";
   static const String welcomingScreen = "/WelcomingScreen";
   static const String emailCheckedScreen = "/emailCheckedScreen";
@@ -22,6 +23,7 @@ class Routing {
   static const String cropScreen = "/cropScreen";
   static const String plantScreen = "/plantScreen";
   static const String plantReport = "/plantReport";
+  static const String welcomeChatScreen = "/welcomeChatScreen";
   static const String chatScreen = "/chatScreen";
   static const String cameraScreen = "/cameraScreen";
   static const String  imagePreviewScreen= "/imagePreviewScreen";

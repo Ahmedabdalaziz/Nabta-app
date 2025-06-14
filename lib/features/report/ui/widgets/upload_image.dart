@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:graduation_project/core/helper/functions.dart';
+import 'package:graduation_project/core/helper/functions.dart'; // افترض وجود ImageHandler هنا
 import 'package:graduation_project/core/helper/spacing.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
@@ -65,6 +65,7 @@ class _UploadImageSectionState extends State<UploadImageSection> {
             ),
           ),
           verticalSpace(12.h),
+          // عرض الصور المخزنة (التي يجب أن تكون Base64 نظيفة)
           ...widget.uploadedImages.map((image) => _imagePreview(image)),
           verticalSpace(16.h),
         ],
@@ -107,9 +108,9 @@ class _UploadImageSectionState extends State<UploadImageSection> {
                 ),
                 onTap: () async {
                   Navigator.pop(context);
-                  String? base64Image =
-                      await _imageHandler.pickImageFromCameraAsBase64();
-                  _addImage(base64Image);
+                  String? base64ImageWithPrefix =
+                  await _imageHandler.pickImageFromCameraAsBase64();
+                  _addImage(base64ImageWithPrefix);
                 },
               ),
               ListTile(
@@ -125,9 +126,9 @@ class _UploadImageSectionState extends State<UploadImageSection> {
                 ),
                 onTap: () async {
                   Navigator.pop(context);
-                  String? base64Image =
-                      await _imageHandler.pickImageFromGalleryAsBase64();
-                  _addImage(base64Image);
+                  String? base64ImageWithPrefix =
+                  await _imageHandler.pickImageFromGalleryAsBase64();
+                  _addImage(base64ImageWithPrefix);
                 },
               ),
             ],
@@ -137,10 +138,13 @@ class _UploadImageSectionState extends State<UploadImageSection> {
     );
   }
 
-  void _addImage(String? base64Image) {
-    if (base64Image != null && widget.uploadedImages.length < 3) {
+  void _addImage(String? base64ImageWithPrefix) {
+    if (base64ImageWithPrefix != null && widget.uploadedImages.length < 3) {
+      // استخراج بيانات Base64 النظيفة فقط بدون أي prefix
+      String cleanBase64 = _extractBase64Data(base64ImageWithPrefix);
+
       List<String> updatedImages = List.from(widget.uploadedImages)
-        ..add(base64Image);
+        ..add(cleanBase64); // إضافة الـ Base64 النظيف
       widget.onImagesUpdated(updatedImages);
       context
           .read<ReportCubit>()
@@ -158,18 +162,39 @@ class _UploadImageSectionState extends State<UploadImageSection> {
   }
 
   void _replaceImage(String oldImage) async {
-    String? newBase64Image = await _imageHandler.pickImageFromGalleryAsBase64();
-    if (newBase64Image != null) {
+    String? newBase64ImageWithPrefix = await _imageHandler.pickImageFromGalleryAsBase64();
+    if (newBase64ImageWithPrefix != null) {
+      // استخراج بيانات Base64 النظيفة فقط بدون أي prefix
+      String cleanBase64 = _extractBase64Data(newBase64ImageWithPrefix);
+
       List<String> updatedImages = List.from(widget.uploadedImages);
       int index = updatedImages.indexOf(oldImage);
       if (index != -1) {
-        updatedImages[index] = newBase64Image;
+        updatedImages[index] = cleanBase64; // استبدال بالـ Base64 النظيف
         widget.onImagesUpdated(updatedImages);
         context
             .read<ReportCubit>()
             .updateImages(updatedImages);
       }
     }
+  }
+
+  // دالة مساعدة لاستخراج بيانات Base64 من data URL
+  String _extractBase64Data(String dataUrl) {
+    if (dataUrl.contains(',')) {
+      return dataUrl.split(',').last;
+    }
+    return dataUrl;
+  }
+
+  // دالة مساعدة لإنشاء data URL للعرض (إذا لزم الأمر، ولكن Image.memory يفضل Base64 الخام)
+  // تم إبقاؤها هنا ولكنها ليست ضرورية للاستخدام المباشر مع Image.memory
+  // الذي يجب أن يستقبل Base64 الخام بعد الآن
+  String _createDataUrl(String base64Data) {
+    if (base64Data.startsWith('data:')) {
+      return base64Data;
+    }
+    return 'data:image/jpeg;base64,$base64Data';
   }
 
   Widget _imagePreview(String base64Image) {
@@ -190,7 +215,7 @@ class _UploadImageSectionState extends State<UploadImageSection> {
               onTap: () => _removeImage(base64Image),
               child: Text("حذف الصورة",
                   style:
-                      CairoTextStyles.bold.copyWith(color: ColorsManager.red)),
+                  CairoTextStyles.bold.copyWith(color: ColorsManager.red)),
             ),
           ],
         ),
@@ -202,8 +227,25 @@ class _UploadImageSectionState extends State<UploadImageSection> {
             height: 90.h,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
-              child: Image.memory(base64Decode(base64Image),
-                  width: 90.w, height: 90.h, fit: BoxFit.cover),
+              child: Image.memory(
+                // هنا يجب أن يتم فك تشفير Base64 النظيف مباشرةً
+                base64Decode(base64Image),
+                width: 90.w,
+                height: 90.h,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  // في حال حدوث خطأ، هذا يعني أن الـ Base64 ليس صحيحًا.
+                  // يمكنك طباعة الـ error أو base64Image هنا للمساعدة في التصحيح.
+                  print('Error loading image: $error');
+                  print('Problematic base64: $base64Image');
+                  return Container(
+                    width: 90.w,
+                    height: 90.h,
+                    color: Colors.grey,
+                    child: const Icon(Icons.error), // استخدام const هنا
+                  );
+                },
+              ),
             ),
           ),
         ),
