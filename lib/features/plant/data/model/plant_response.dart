@@ -8,6 +8,7 @@ class PlantResponse {
   int? count;
   List<Data>? data;
 
+
   PlantResponse({this.success, this.count, this.data});
 
   factory PlantResponse.fromJson(Map<String, dynamic> json) => _$PlantResponseFromJson(json);
@@ -64,7 +65,6 @@ class Data {
 class Images {
   String? url;
   String? sId;
-
   Images({this.url, this.sId});
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);

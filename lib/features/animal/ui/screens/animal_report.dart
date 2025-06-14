@@ -2,46 +2,29 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/helper/extension.dart';
-import 'package:graduation_project/core/helper/functions.dart';
-import 'package:graduation_project/core/helper/spacing.dart';
-import 'package:graduation_project/core/theming/color.dart';
-import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/features/home/ui/home_background.dart';
-import 'package:graduation_project/features/plant/data/model/plant_response.dart';
-import 'package:graduation_project/core/widgets/guidlines_card.dart';
-import 'package:graduation_project/features/plant/ui/widgets/progress.dart';
 
-class PlantReport extends StatefulWidget {
-  final Data? plantData;
+import '../../../../core/helper/functions.dart';
+import '../../../../core/helper/spacing.dart';
+import '../../../../core/theming/color.dart';
+import '../../../../core/theming/style_manager.dart';
+import '../../../../core/widgets/guidlines_card.dart';
+import '../../../plant/ui/widgets/progress.dart';
 
-  const PlantReport({super.key, required this.plantData});
+
+
+class AnimalReport extends StatefulWidget {
+  const AnimalReport({super.key});
 
   @override
-  State<PlantReport> createState() => _PlantReportState();
+  State<AnimalReport> createState() => _AnimalReportState();
 }
 
-class _PlantReportState extends State<PlantReport> {
+class _AnimalReportState extends State<AnimalReport> {
   bool isTap = false;
 
   @override
   Widget build(BuildContext context) {
-    print("Plant Data: ${widget.plantData}"); // Debugging
-
-    final plantData = widget.plantData;
-
-    if (plantData == null) {
-      return Scaffold(
-        body: Center(
-          child: Text(
-            "حدث خطأ: بيانات النبات غير متوفرة",
-            style: CairoTextStyles.extraBold.copyWith(
-              fontSize: 20.sp,
-              color: ColorsManager.secondGreen,
-            ),
-          ),
-        ),
-      );
-    }
     return HomeBackground(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -60,7 +43,7 @@ class _PlantReportState extends State<PlantReport> {
                   children: [
                     verticalSpace(60.h),
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 6.w),
+                      padding: EdgeInsets.symmetric(horizontal: 6.w),
                       child: Stack(
                         children: [
                           Positioned(
@@ -127,9 +110,7 @@ class _PlantReportState extends State<PlantReport> {
                     width: 180.w,
                     height: 200.h,
                     child: Image.network(
-                      plantData.images != null && plantData.images!.length > 1
-                          ? plantData.images![1].url!
-                          : "https://via.placeholder.com/150",
+                      "https://cdn.pixabay.com/photo/2018/01/29/07/11/flower-3115353_1280.jpg",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -147,7 +128,7 @@ class _PlantReportState extends State<PlantReport> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                plantData.name ?? 'غير معروف',
+                                "نبات الجاردينيا",
                                 style: CairoTextStyles.black.copyWith(
                                     fontSize: 30.sp,
                                     color: ColorsManager.mainGreen),
@@ -169,7 +150,7 @@ class _PlantReportState extends State<PlantReport> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    plantData.growthDuration ?? 'غير متوفر',
+                                    "3-4 أسابيع",
                                     style: CairoTextStyles.bold.copyWith(
                                         color: ColorsManager.secondGreen,
                                         fontSize: 16.sp),
@@ -181,30 +162,8 @@ class _PlantReportState extends State<PlantReport> {
                         ),
                       ],
                     ),
-                    verticalSpace(90.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        InfoProgress(
-                            title: "رطوبة الهواء",
-                            icon: "assets/SVGs/plants/rotoba.png",
-                            degree: translateReqRate(
-                                (plantData.humidityRequirements)!),
-                            stringDegree: (plantData.humidityRequirements)!),
-                        InfoProgress(
-                            title: "احتياج الماء",
-                            icon: "assets/SVGs/plants/water.png",
-                            degree: translateReqRate(
-                                (plantData.waterRequirements)!),
-                            stringDegree: (plantData.waterRequirements)!),
-                        InfoProgress(
-                            title: "احتياج الضوء",
-                            icon: "assets/SVGs/plants/sun.png",
-                            degree: translateReqRate(
-                                (plantData.lightRequirements)!),
-                            stringDegree: (plantData.lightRequirements)!),
-                      ],
-                    ),
+                    verticalSpace(190.h),
+
                     verticalSpace(16.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -223,7 +182,7 @@ class _PlantReportState extends State<PlantReport> {
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       child: ExpandableText(
                         maxLines: 5,
-                        plantData.description ?? "الوصف غير متوفر",
+                        "الجاردينيا نبات استوائي دائم الخضرة معروف بأزهاره البيضاء العطرة وأوراقه الخضراء اللامعة. يحتاج إلى رعاية خاصة حيث يتطلب رطوبة عالية وتربة حمضية قليلاً. ينمو بشكل أفضل في الضوء الساطع غير المباشر ويحتاج إلى ري منتظم دون الإفراط في ذلك.",
                         style: CairoTextStyles.semiBold.copyWith(
                             fontSize: 18.sp, color: ColorsManager.secondGreen),
                         textAlign: TextAlign.justify,
@@ -238,32 +197,31 @@ class _PlantReportState extends State<PlantReport> {
                     verticalSpace(22.h),
                     GuideLinesCards(
                         label: "موسم الزراعة",
-                        description: plantData.season ?? 'غير متوفر',
+                        description: "الربيع أو الخريف",
                         iconImage: 'assets/SVGs/plants/Frame 163.png'),
                     GuideLinesCards(
                         label: "نوع التربة",
-                        description: plantData.soilType ?? 'غير متوفر',
+                        description: "تربة حمضية جيدة التصريف",
                         iconImage: 'assets/SVGs/plants/soil.png'),
                     GuideLinesCards(
                         label: "طريقة الزراعة",
-                        description: plantData.plantingMethod ?? 'غير متوفر',
+                        description: "عن طريق العقل أو البذور",
                         iconImage: 'assets/SVGs/plants/method.png'),
                     GuideLinesCards(
                         label: "المسافة بين النباتات",
-                        description: plantData.spacing ?? 'غير متوفر',
+                        description: "60-90 سم",
                         iconImage: 'assets/SVGs/plants/space.png'),
                     GuideLinesCards(
                         label: "التسميد",
-                        description: plantData.fertilizers ?? 'غير متوفر',
+                        description: "سماد حمضي كل أسبوعين خلال موسم النمو",
                         iconImage: 'assets/SVGs/plants/fertilizer.png'),
                     GuideLinesCards(
                         label: "الافات والامراض الشائعة",
-                        description:
-                            plantData.commonDiseases?.join(", ") ?? 'غير متوفر',
+                        description: "المن، البق الدقيقي، العناكب، اصفرار الأوراق",
                         iconImage: 'assets/SVGs/plants/bacteria.png'),
                     GuideLinesCards(
                       label: "الاحتياجات الخاصة",
-                      description: plantData.soilType ?? 'غير متوفر',
+                      description: "تحتاج إلى رطوبة عالية وتجنب التيارات الهوائية الباردة",
                       iconImage: 'assets/SVGs/plants/warning.png',
                       isRed: true,
                     ),

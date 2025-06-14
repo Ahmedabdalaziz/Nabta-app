@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/features/animal/ui/screens/animal_report.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/camera_screen.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/image_preview_screen.dart';
@@ -171,6 +172,11 @@ class AppRouter {
         }
         return createRoute(
             const Center(child: Text("حدث خطأ في تحميل بيانات النبات")));
+
+
+      case Routing.animalReport:
+        return createRoute(AnimalReport());
+
 
       case Routing.cameraScreen:
         return createRoute(BlocProvider.value(

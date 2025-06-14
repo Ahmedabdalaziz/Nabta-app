@@ -16,6 +16,7 @@ class ApiConstants {
   static const String weatherApiUrl =
       'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
   static const String plantApi = 'plant/viewall';
+  static const String animalApi = 'animal';
   static const String report = 'Veterinary/Veterinary';
   static const String checkEmail = 'api/checkEmail';
 }

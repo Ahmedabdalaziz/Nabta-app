@@ -1,48 +1,48 @@
+/*
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' show BlocConsumer;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:graduation_project/core/helper/extension.dart';
-import 'package:graduation_project/core/helper/spacing.dart';
+import 'package:flutter_svg/flutter_svg.dart' show SvgPicture;
+import 'package:graduation_project/core/helper/spacing.dart' show verticalSpace, horizontalSpace;
 import 'package:graduation_project/core/helper/strings.dart';
-import 'package:graduation_project/core/routing/routing.dart';
-import 'package:graduation_project/core/theming/color.dart';
-import 'package:graduation_project/core/theming/style_manager.dart';
-import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
-import 'package:graduation_project/features/home/ui/home_background.dart';
-import 'package:graduation_project/features/plant/data/model/plant_response.dart';
-import 'package:graduation_project/features/plant/logic/plant_cubit.dart';
-import 'package:graduation_project/core/widgets/available_stock.dart';
+import 'package:graduation_project/core/theming/color.dart' show ColorsManager;
+import 'package:graduation_project/core/theming/style_manager.dart' show CairoTextStyles;
+import 'package:graduation_project/core/widgets/available_stock.dart' show AvailableStock;
+import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart' show DarkCustomTextField;
+import 'package:graduation_project/features/home/ui/home_background.dart' show HomeBackground;
 
-class PlantsScreen extends StatefulWidget {
-  const PlantsScreen({super.key});
+class AnimalScreen extends StatefulWidget {
+  const AnimalScreen({Key? key}) : super(key: key);
 
   @override
-  State<PlantsScreen> createState() => _PlantsScreenState();
+  State<AnimalScreen> createState() => _AnimalScreenState();
 }
 
-class _PlantsScreenState extends State<PlantsScreen> {
+class _AnimalScreenState extends State<AnimalScreen> {
+
   @override
   void initState() {
     super.initState();
-    context
+    /*context
         .read<PlantCubit>()
         .fetchPlants(); // استدعاء البيانات عند تحميل الشاشة
+  */
   }
+
 
   @override
   Widget build(BuildContext context) {
     int _currentIndex = 0;
-    return BlocConsumer<PlantCubit, PlantState>(
+    return BlocConsumer</*PlantCubit, PlantState*/>(
       listener: (context, state) {
-        if (state is PlantFailed) {
+        if (state is /*PlantFailed*/) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("حدث خطأ: ${state.errorMessage}")),
           );
         }
       },
       builder: (context, state) {
-        if (state is plantLoading) {
+        if (state is /*plantLoading*/) {
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(
@@ -51,7 +51,8 @@ class _PlantsScreenState extends State<PlantsScreen> {
               ),
             ),
           );
-        } else if (state is PlantSuccess) {
+        } else if (state is /*PlantSuccess*/) {
+          /*
           final plantData = state.plantResponse.data;
           // نباتات غذائية
           final foodPlants = plantData
@@ -65,8 +66,8 @@ class _PlantsScreenState extends State<PlantsScreen> {
           final vegetablePlants = plantData
               ?.where((plant) => plant.category == 'الخضروات')
               .toList();
-
-          if (plantData == null) {
+          */
+          if (/*plantData*/ == null) {
             return const Center(child: Text("لا توجد بيانات متاحة"));
           }
           return HomeBackground(
@@ -149,7 +150,7 @@ class _PlantsScreenState extends State<PlantsScreen> {
                                         crossAxisCount: 3,
                                         shrinkWrap: true,
                                         physics:
-                                            const NeverScrollableScrollPhysics(),
+                                        const NeverScrollableScrollPhysics(),
                                         // Disable scrolling inside the grid
                                         crossAxisSpacing: 16.w,
                                         // Horizontal spacing between items
@@ -242,7 +243,7 @@ class _PlantsScreenState extends State<PlantsScreen> {
   }
 }
 
-// فنكشن لعرض الكروت بتاعت النباتات
+
 List<Widget> _buildGridItemsFood(List<Data> itemsGrid, BuildContext context) {
   return itemsGrid.map((plant) {
     return GestureDetector(
@@ -282,11 +283,11 @@ List<Widget> _buildGridItemsIndustrial(
 }
 
 List<Widget> _buildGridItemsVegitables(
-    List<Data> itemsGrid, BuildContext context) {
+    List</*Data*/> itemsGrid, BuildContext context) {
   return itemsGrid.map((plant) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(Routing.plantReport, arguments: plant);
+        context.pushNamed(Routing./*plantReport*/, arguments: /*plant*/);
       },
       child: AvailableStock(
         imgPath: plant.images?.isNotEmpty == true
@@ -298,4 +299,4 @@ List<Widget> _buildGridItemsVegitables(
       ),
     );
   }).toList();
-}
+}*/
