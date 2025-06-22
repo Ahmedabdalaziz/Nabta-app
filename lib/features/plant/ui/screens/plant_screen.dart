@@ -12,7 +12,8 @@ import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart';
 import 'package:graduation_project/features/home/ui/home_background.dart';
 import 'package:graduation_project/features/plant/data/model/plant_response.dart';
 import 'package:graduation_project/features/plant/logic/plant_cubit.dart';
-import 'package:graduation_project/features/plant/ui/widgets/available_stock.dart';
+
+import '../../../../core/widgets/available_stock.dart';
 
 class PlantsScreen extends StatefulWidget {
   const PlantsScreen({super.key});

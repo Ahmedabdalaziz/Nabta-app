@@ -35,6 +35,11 @@ import 'package:graduation_project/features/splash/ui/splash_screen.dart';
 import 'package:graduation_project/features/weather/logic/weather_cubit.dart';
 import 'package:graduation_project/features/welcoming/welcomingScreen.dart';
 
+import '../../features/animal/data/model/animal_response.dart';
+import '../../features/animal/logic/animal_cubit.dart';
+import '../../features/animal/ui/screens/animal_report.dart';
+import '../../features/animal/ui/screens/animal_screen.dart';
+
 class AppRouter {
   final getIt = GetIt.instance;
 
@@ -171,6 +176,26 @@ class AppRouter {
         }
         return createRoute(
             const Center(child: Text("حدث خطأ في تحميل بيانات النبات")));
+
+      case Routing.animalScreen:
+        return createRoute(BlocProvider(
+          create: (context) => getIt<AnimalCubit>(),
+          child: const AnimalScreen(),
+        ));
+
+      case Routing.animalReport:
+        if (arguments is Animal) {
+          return createRoute(
+            BlocProvider.value(
+              value: getIt<AnimalCubit>(),
+              child: AnimalReport(
+                animalData: arguments,
+              ),
+            ),
+          );
+        }
+        return createRoute(
+            const Center(child: Text("حدث خطأ في تحميل بيانات الحيوان")));
 
       case Routing.cameraScreen:
         return createRoute(BlocProvider.value(

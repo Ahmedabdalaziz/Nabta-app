@@ -219,11 +219,16 @@ class _HomeState extends State<Home> {
                             topPadding: 18.h,
                             cardLabel: 'الكيماويات',
                           ),
-                          InfoSection(
-                            imgPath: 'assets/SVGs/home/cow_on_home.png',
-                            leftPadding: 12.w,
-                            topPadding: 28.h,
-                            cardLabel: 'الحيوانات',
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(Routing.animalScreen);
+                            },
+                            child: InfoSection(
+                              imgPath: 'assets/SVGs/home/cow_on_home.png',
+                              leftPadding: 12.w,
+                              topPadding: 28.h,
+                              cardLabel: 'الحيوانات',
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {

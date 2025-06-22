@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networking/api_constants.dart';
+import 'package:graduation_project/features/animal/data/model/animal_response.dart';
 import 'package:graduation_project/features/forget_password/data/model/send_code_request_model.dart';
 import 'package:graduation_project/features/forget_password/data/model/send_code_response_model.dart';
 import 'package:graduation_project/features/home/data/remot/model/user_data_request.dart';
@@ -41,6 +42,10 @@ abstract class ApiService {
   // ابعت التوكين علشان تاخد النباتات امعلم
   @GET(ApiConstants.plantApi)
   Future<PlantResponse> getAllPlants(@Header('Authorization') String token);
+
+  //ابعت توكين عشان تستلم البهايم
+  @GET(ApiConstants.animalApi)
+  Future<AnimalResponse> getAllAnimals(@Header('Authorization') String token);
 
   // تعمل ابلاغ تبعتله توكين والبيانات المطلوبة
   @POST(ApiConstants.report)

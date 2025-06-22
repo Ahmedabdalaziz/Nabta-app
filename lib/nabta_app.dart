@@ -27,7 +27,7 @@ class NabtaApp extends StatelessWidget {
             selectionHandleColor: ColorsManager.mainGreen,
           ),
         ),
-        initialRoute: Routing.cameraScreen,
+        initialRoute: Routing.loginScreen,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );

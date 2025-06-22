@@ -1,4 +1,4 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'animal_response.g.dart';
@@ -207,4 +207,3 @@ _$AdditionalInfoFromJson(json);
 
 Map<String, dynamic> toJson() => _$AdditionalInfoToJson(this);
 }
-*/

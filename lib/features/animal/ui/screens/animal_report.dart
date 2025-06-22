@@ -2,6 +2,8 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/helper/extension.dart';
+import 'package:graduation_project/core/helper/strings.dart';
+import 'package:graduation_project/features/animal/ui/widgets/pointed_card.dart' show PointedGuideLineCard;
 import 'package:graduation_project/features/home/ui/home_background.dart';
 
 import '../../../../core/helper/functions.dart';
@@ -10,11 +12,13 @@ import '../../../../core/theming/color.dart';
 import '../../../../core/theming/style_manager.dart';
 import '../../../../core/widgets/guidlines_card.dart';
 import '../../../plant/ui/widgets/progress.dart';
+import '../../data/model/animal_response.dart';
 
 
 
 class AnimalReport extends StatefulWidget {
-  const AnimalReport({super.key});
+  final Animal? animalData;
+  const AnimalReport({super.key, this.animalData});
 
   @override
   State<AnimalReport> createState() => _AnimalReportState();
@@ -25,6 +29,8 @@ class _AnimalReportState extends State<AnimalReport> {
 
   @override
   Widget build(BuildContext context) {
+
+    final animalData = widget.animalData;
     return HomeBackground(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -36,7 +42,7 @@ class _AnimalReportState extends State<AnimalReport> {
                   top: 30.h,
                   child: Image.asset(
                     "assets/SVGs/home/cropBackGround.png",
-                    width: 280.w,
+                    width: 233.w,
                   ),
                 ),
                 Column(
@@ -104,14 +110,34 @@ class _AnimalReportState extends State<AnimalReport> {
                   ],
                 ),
                 Positioned(
-                  top: 100.h,
-                  left: 40.w,
+                  top: 90.h,
+                  left: 20.w,
                   child: SizedBox(
-                    width: 180.w,
-                    height: 200.h,
+                    width: 230.w,
+                    height: 220.h,
                     child: Image.network(
-                      "https://cdn.pixabay.com/photo/2018/01/29/07/11/flower-3115353_1280.jpg",
+                      animalData!.image![1],
                       fit: BoxFit.cover,
+                    )
+                  ),
+                ),
+                Positioned(
+                  top: 350.h,
+                  left: 20.w,
+                  child: Container(
+                    height: 40.h,
+                    width: 200.w,
+                    decoration: BoxDecoration(
+                      color: ColorsManager.greenWhite,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "العمر : ${animalData.age}",
+                        style: CairoTextStyles.bold.copyWith(
+                            color: ColorsManager.secondGreen,
+                            fontSize: 16.sp),
+                      ),
                     ),
                   ),
                 ),
@@ -128,43 +154,83 @@ class _AnimalReportState extends State<AnimalReport> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "نبات الجاردينيا",
+                                animalData.commonName??"غير معروف",
                                 style: CairoTextStyles.black.copyWith(
                                     fontSize: 30.sp,
                                     color: ColorsManager.mainGreen),
                               ),
-                              verticalSpace(20.h),
+                              verticalSpace(4.h),
                               Text(
-                                'فترة النمو',
+                                animalData.scientificName??" غير معروف",
                                 style: CairoTextStyles.extraBold.copyWith(
-                                    fontSize: 18.sp,
-                                    color: ColorsManager.secondGreen),
-                              ),
-                              verticalSpace(16.h),
-                              Container(
-                                height: 40.h,
-                                width: 120.w,
-                                decoration: BoxDecoration(
-                                  color: ColorsManager.greenWhite,
-                                  borderRadius: BorderRadius.circular(20.r),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "3-4 أسابيع",
-                                    style: CairoTextStyles.bold.copyWith(
-                                        color: ColorsManager.secondGreen,
-                                        fontSize: 16.sp),
-                                  ),
-                                ),
+                                    fontSize: 20.sp,
+                                    color: ColorsManager.mainGreen),
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    verticalSpace(190.h),
-
-                    verticalSpace(16.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding:  EdgeInsets.symmetric(horizontal: 12.w),
+                          child: Column(
+                            children: [
+                              Text(
+                                  "احتياج المياه",
+                                  style: CairoTextStyles.bold.copyWith(
+                                      fontSize: 14.sp,
+                                      color: ColorsManager.secondGreen
+                                  )
+                              ),
+                              verticalSpace(4.h),
+                              Container(
+                                  width: 77.5.w,
+                                  height: 89.h,
+                                  child: Image.asset("assets/SVGs/animals/waterNeed.png")),
+                              verticalSpace(4.h),
+                              Text(
+                                "15 - 20 K",
+                                style: CairoTextStyles.extraBold.copyWith(
+                                    fontSize: 14.sp,
+                                    color: ColorsManager.secondGreen
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: Column(
+                            children: [
+                              Text(
+                                  "احتياج الطعام",
+                                  style: CairoTextStyles.bold.copyWith(
+                                      fontSize: 14.sp,
+                                      color: ColorsManager.secondGreen
+                                  )
+                              ),
+                              verticalSpace(4.h),
+                              Container(
+                                  width: 77.5.w,
+                                  height: 89.h,
+                                  child: Image.asset("assets/SVGs/animals/foodNeed.png")),
+                              verticalSpace(4.h),
+                              Text(
+                                "15 - 20 K",
+                                style: CairoTextStyles.extraBold.copyWith(
+                                    fontSize: 14.sp,
+                                    color: ColorsManager.secondGreen
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    verticalSpace(20.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       child: Align(
@@ -182,7 +248,7 @@ class _AnimalReportState extends State<AnimalReport> {
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       child: ExpandableText(
                         maxLines: 5,
-                        "الجاردينيا نبات استوائي دائم الخضرة معروف بأزهاره البيضاء العطرة وأوراقه الخضراء اللامعة. يحتاج إلى رعاية خاصة حيث يتطلب رطوبة عالية وتربة حمضية قليلاً. ينمو بشكل أفضل في الضوء الساطع غير المباشر ويحتاج إلى ري منتظم دون الإفراط في ذلك.",
+                        animalData.description!,
                         style: CairoTextStyles.semiBold.copyWith(
                             fontSize: 18.sp, color: ColorsManager.secondGreen),
                         textAlign: TextAlign.justify,
@@ -194,37 +260,244 @@ class _AnimalReportState extends State<AnimalReport> {
                             fontSize: 18.sp, color: ColorsManager.secondGreen),
                       ),
                     ),
-                    verticalSpace(22.h),
+                    verticalSpace(20.h),
+                    Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          ":التغذية والمياه",
+                          style: CairoTextStyles.extraBold.copyWith(
+                              fontSize: 20.sp,
+                              color: ColorsManager.secondGreen
+                          ),
+                        )
+                      ],
+                    ),
+                    verticalSpace(8.h),
                     GuideLinesCards(
-                        label: "موسم الزراعة",
-                        description: "الربيع أو الخريف",
-                        iconImage: 'assets/SVGs/plants/Frame 163.png'),
+                        label: "النظام الغذائي",
+                        description: animalData.foodNeeds!,
+                        iconImage: 'assets/SVGs/animals/feedAlerts.png'
+                    ),
+                    PointedGuideLineCard(
+                        label: "انواع الاعلاف المناسبة",
+                        points: animalData.nutrition!.suitableFeeds!,
+                        iconImage: 'assets/SVGs/animals/feedAlerts.png',
+
+                    ),
+                    PointedGuideLineCard(
+                      label: "كمية الاكل",
+                      iconImage: "assets/SVGs/animals/feedAlerts.png",
+                      points: animalData.nutrition!.dailyFoodIntake!,
+                    ),
+                    PointedGuideLineCard(
+                      label: "احتياج المياه",
+                      iconImage: "assets/SVGs/animals/feedAlerts.png",
+                      points: animalData.nutrition!.dailyWaterNeeds!,
+                    ),
+                    PointedGuideLineCard(
+                      label: "احتياج المياه",
+                      iconImage: "assets/SVGs/animals/feedAlerts.png",
+                      points: animalData.nutrition!.forbiddenFoods!,
+                      isRed: true,
+
+                    ),
+                    verticalSpace(16.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "دورة الحياة والتكاثر",
+                            style: CairoTextStyles.extraBold.copyWith(
+                                fontSize: 20.sp,
+                                color: ColorsManager.secondGreen
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     GuideLinesCards(
-                        label: "نوع التربة",
-                        description: "تربة حمضية جيدة التصريف",
-                        iconImage: 'assets/SVGs/plants/soil.png'),
+                        label: "متوسط العمر",
+                        description: animalData.lifeCycle!.averageLifespan!,
+                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'
+                    ),
                     GuideLinesCards(
-                        label: "طريقة الزراعة",
-                        description: "عن طريق العقل أو البذور",
-                        iconImage: 'assets/SVGs/plants/method.png'),
+                        label: "سن البلوغ الجنسي",
+                        description: animalData.lifeCycle!.sexualMaturityAge!,
+                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'
+                    ),
                     GuideLinesCards(
-                        label: "المسافة بين النباتات",
-                        description: "60-90 سم",
-                        iconImage: 'assets/SVGs/plants/space.png'),
+                        label: "مدة الحمل",
+                        description: animalData.lifeCycle!.gestationPeriod!,
+                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'
+                    ),
+                    PointedGuideLineCard(
+                      label: "عدد الصغار عند الولادة",
+                      iconImage: "assets/SVGs/animals/lifeCycleAlert.png",
+                      points: animalData.lifeCycle!.offspringPerBirth!,
+                    ),
+                    verticalSpace(16.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal:25.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "الامراض والمشاكل الصحية",
+                            style: CairoTextStyles.extraBold.copyWith(
+                                fontSize: 20.sp,
+                                color: ColorsManager.secondGreen
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    PointedGuideLineCard(
+                      label: "الامراض الشائعة",
+                      iconImage: "assets/SVGs/animals/diseasAlert.png",
+                      points: animalData.health!.nameArabic!,
+                    ),
                     GuideLinesCards(
-                        label: "التسميد",
-                        description: "سماد حمضي كل أسبوعين خلال موسم النمو",
-                        iconImage: 'assets/SVGs/plants/fertilizer.png'),
+                        label: "الاعراض",
+                        description: animalData.health!.symptoms!,
+                        iconImage: 'assets/SVGs/animals/diseasAlert.png'
+                    ),
                     GuideLinesCards(
-                        label: "الافات والامراض الشائعة",
-                        description: "المن، البق الدقيقي، العناكب، اصفرار الأوراق",
-                        iconImage: 'assets/SVGs/plants/bacteria.png'),
+                        label: "العلاج",
+                        description: animalData.health!.treatment!,
+                        iconImage: 'assets/SVGs/animals/diseasAlert.png'
+                    ),
                     GuideLinesCards(
-                      label: "الاحتياجات الخاصة",
-                      description: "تحتاج إلى رطوبة عالية وتجنب التيارات الهوائية الباردة",
-                      iconImage: 'assets/SVGs/plants/warning.png',
+                        label: "الوقاية",
+                        description: animalData.health!.prevention!,
+                        iconImage: 'assets/SVGs/animals/diseasAlert.png'
+                    ),
+                    verticalSpace(16.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "العناية والرعاية بالصحة",
+                            style: CairoTextStyles.extraBold.copyWith(
+                                fontSize: 20.sp,
+                                color: ColorsManager.secondGreen
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    PointedGuideLineCard(
+                      label: "البيئة المناسبة",
+                      iconImage: "assets/SVGs/animals/careAlert.png",
+                      points: animalData.care!.environment!,
+                    ),
+                    GuideLinesCards(
+                        label: "النظافة الشخصية",
+                        description: animalData.care!.hygiene!,
+                        iconImage: 'assets/SVGs/animals/careAlert.png'
+                    ),
+                    GuideLinesCards(
+                        label: "في الحالات الطارئة",
+                        description: animalData.care!.emergencyCases!,
+                        iconImage: 'assets/SVGs/animals/careAlert.png',
                       isRed: true,
                     ),
+                    verticalSpace(16.h),
+                    Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 25.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "الانتاج والاستخدام",
+                            style: CairoTextStyles.extraBold.copyWith(
+                                fontSize: 20.sp,
+                                color: ColorsManager.secondGreen
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    PointedGuideLineCard(
+                        label: "الفوايد",
+                        points: animalData.production!.benefits!,
+                        iconImage: 'assets/SVGs/animals/productionAlert.png'
+                    ),
+                    PointedGuideLineCard(
+                        label: "تحسين الانتاج",
+                        points: animalData.production!.optimizationMethods!,
+                        iconImage: 'assets/SVGs/animals/productionAlert.png'
+                    ),
+                    verticalSpace(16.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "سلوك الحيوان والتفاعل",
+                            style: CairoTextStyles.extraBold.copyWith(
+                                fontSize: 20.sp,
+                                color: ColorsManager.secondGreen
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    GuideLinesCards(
+                      label: "طبيعة السلوك",
+                      description: animalData.behavior!.nature!,
+                      iconImage: 'assets/SVGs/animals/behaviorAlert.png',
+                    ),
+                    GuideLinesCards(
+                      label: "التعامل الصحيح",
+                      description: animalData.behavior!.handlingGuidelines!,
+                      iconImage: 'assets/SVGs/animals/behaviorAlert.png',
+                    ),
+                    PointedGuideLineCard(
+                      label: "علامات الراحة",
+                      points: animalData.behavior!.comfortSigns!,
+                      iconImage: 'assets/SVGs/animals/behaviorAlert.png',
+                    ),
+                    PointedGuideLineCard(
+                      label: "علامات التوتر",
+                      points: animalData.behavior!.stressSigns!,
+                      iconImage: 'assets/SVGs/animals/behaviorAlert.png',
+                      isRed: true,
+                    ),
+                    verticalSpace(16.h),
+                    Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 25.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "معلومات اضافية",
+                            style: CairoTextStyles.extraBold.copyWith(
+                                fontSize: 20.sp,
+                                color: ColorsManager.secondGreen
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    GuideLinesCards(
+                      label: "مصائح الخبراء",
+                      description: animalData.additionalInfo!.expertTips!,
+                      iconImage: 'assets/SVGs/animals/infoAlert.png',
+                    ),
+                    PointedGuideLineCard(
+                        label: "حقائق",
+                        points: animalData.additionalInfo!.interestingFacts!,
+                        iconImage: 'assets/SVGs/animals/infoAlert.png'
+                    ),
+                    verticalSpace(16.h),
+
+
                     verticalSpace(75.h),
                   ],
                 ),

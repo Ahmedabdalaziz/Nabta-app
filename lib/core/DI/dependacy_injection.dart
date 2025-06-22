@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/networking/api_service.dart';
 import 'package:graduation_project/core/networking/dio_factory.dart';
+import 'package:graduation_project/features/animal/logic/animal_cubit.dart';
 import 'package:graduation_project/features/disease_detection/data/remote/disease_api_service.dart';
 import 'package:graduation_project/features/disease_detection/data/repo/disease_detction_repo.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
@@ -23,6 +24,8 @@ import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/weather/data/remote/weather_api_service.dart';
 import 'package:graduation_project/features/weather/data/repo/weather_repo.dart';
 import 'package:graduation_project/features/weather/logic/weather_cubit.dart';
+
+import '../../features/animal/data/repo/animal_repo.dart';
 
 final getIt = GetIt.instance;
 
@@ -105,6 +108,19 @@ Future<GetIt> setUpGetIt() async {
   // Register PlantCubit as Factory
   getIt.registerFactory<PlantCubit>(
     () => PlantCubit(getIt<PlantRepository>()),
+  );
+
+  /////////////////////////////////////////////////////////////////////
+
+  // register animal repository as Singleton
+  getIt.registerSingleton(
+      AnimalRepository(getIt<ApiService>())
+  );
+
+  // register animal cubit as Factory
+
+  getIt.registerSingleton(
+      AnimalCubit(getIt<AnimalRepository>())
   );
 
   /////////////////////////////////////////////////////////////////////

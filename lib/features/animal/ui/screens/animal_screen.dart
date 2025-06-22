@@ -1,15 +1,21 @@
-/*
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart' show BlocConsumer;
+import 'package:flutter_bloc/flutter_bloc.dart' show BlocConsumer, ReadContext;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart' show SvgPicture;
+import 'package:graduation_project/core/helper/extension.dart';
 import 'package:graduation_project/core/helper/spacing.dart' show verticalSpace, horizontalSpace;
 import 'package:graduation_project/core/helper/strings.dart';
 import 'package:graduation_project/core/theming/color.dart' show ColorsManager;
 import 'package:graduation_project/core/theming/style_manager.dart' show CairoTextStyles;
 import 'package:graduation_project/core/widgets/available_stock.dart' show AvailableStock;
 import 'package:graduation_project/core/widgets/dark_Custom_text_field.dart' show DarkCustomTextField;
+import 'package:graduation_project/features/animal/data/model/animal_response.dart';
 import 'package:graduation_project/features/home/ui/home_background.dart' show HomeBackground;
+
+import '../../../../core/routing/routing.dart';
+import '../../data/model/animal_response.dart';
+import '../../logic/animal_cubit.dart';
 
 class AnimalScreen extends StatefulWidget {
   const AnimalScreen({Key? key}) : super(key: key);
@@ -23,26 +29,26 @@ class _AnimalScreenState extends State<AnimalScreen> {
   @override
   void initState() {
     super.initState();
-    /*context
-        .read<PlantCubit>()
-        .fetchPlants(); // استدعاء البيانات عند تحميل الشاشة
-  */
+    context
+        .read<AnimalCubit>()
+        .fetchAnimals(); // استدعاء البيانات عند تحميل الشاشة
+
   }
 
 
   @override
   Widget build(BuildContext context) {
     int _currentIndex = 0;
-    return BlocConsumer</*PlantCubit, PlantState*/>(
+    return BlocConsumer<AnimalCubit, AnimalState>(
       listener: (context, state) {
-        if (state is /*PlantFailed*/) {
+        if (state is AnimalFaild) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("حدث خطأ: ${state.errorMessage}")),
           );
         }
       },
       builder: (context, state) {
-        if (state is /*plantLoading*/) {
+        if (state is AnimalLoading) {
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(
@@ -51,23 +57,29 @@ class _AnimalScreenState extends State<AnimalScreen> {
               ),
             ),
           );
-        } else if (state is /*PlantSuccess*/) {
-          /*
-          final plantData = state.plantResponse.data;
-          // نباتات غذائية
-          final foodPlants = plantData
-              ?.where((plant) => plant.category == 'النباتات الغذائية')
+        } else if (state is AnimalSuccess) {
+
+          final AnimalData = state.animalResponse.data;
+          //  حيوانات مزرعة
+          final farmAnimals = AnimalData
+              ?.where((animal) => animal.animalType == 'حيوانات المزارع الصغيرة')
               .toList();
-          // نباتات صناعية
-          final industrialPlants = plantData
-              ?.where((plant) => plant.category == 'النباتات الصناعية')
+          // دواجن
+          final poultry = AnimalData
+              ?.where((animal) => animal.animalType == 'دواجن')
               .toList();
-          // خضراوات
-          final vegetablePlants = plantData
-              ?.where((plant) => plant.category == 'الخضروات')
+          // ماشية
+          final cattle = AnimalData
+              ?.where((animal) => animal.animalType == 'ماشية')
               .toList();
-          */
-          if (/*plantData*/ == null) {
+
+          // حيوانات النقل
+          final transportAnimals = AnimalData
+              ?.where((animal) => animal.animalType == 'حيوانات النقل')
+              .toList();
+
+
+          if (AnimalData == null) {
             return const Center(child: Text("لا توجد بيانات متاحة"));
           }
           return HomeBackground(
@@ -100,7 +112,7 @@ class _AnimalScreenState extends State<AnimalScreen> {
                                   ),
                                   horizontalSpace(130.w),
                                   Text(
-                                    'النباتات',
+                                    'الحيوانات',
                                     style: CairoTextStyles.bold.copyWith(
                                         color: ColorsManager.mainGreen,
                                         fontSize: 28.sp),
@@ -135,7 +147,7 @@ class _AnimalScreenState extends State<AnimalScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text('نباتات غذائية',
+                                  Text('الماشية',
                                       style: CairoTextStyles.bold.copyWith(
                                           fontSize: 20.sp,
                                           color: ColorsManager.secondGreen)),
@@ -160,8 +172,8 @@ class _AnimalScreenState extends State<AnimalScreen> {
                                         // Adjust the aspect ratio of items
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 5.w, vertical: 0.h),
-                                        children: _buildGridItemsFood(
-                                            foodPlants!, context)),
+                                        children: _buildGridItemsCattle(
+                                            cattle!, context)),
                                   ),
                                 ],
                               ),
@@ -171,7 +183,7 @@ class _AnimalScreenState extends State<AnimalScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text('نباتات صناعية',
+                              Text('الدواجن',
                                   style: CairoTextStyles.bold.copyWith(
                                       fontSize: 20.sp,
                                       color: ColorsManager.secondGreen)),
@@ -194,14 +206,14 @@ class _AnimalScreenState extends State<AnimalScreen> {
                                 // Adjust the aspect ratio of items
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 5.w, vertical: 0.h),
-                                children: _buildGridItemsIndustrial(
-                                    industrialPlants!, context)),
+                                children: _buildGridItemsPoultry(
+                                    poultry!, context)),
                           ),
                           verticalSpace(24.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text('خضراوات',
+                              Text('حيوانات النقل',
                                   style: CairoTextStyles.bold.copyWith(
                                       fontSize: 20.sp,
                                       color: ColorsManager.secondGreen)),
@@ -224,9 +236,42 @@ class _AnimalScreenState extends State<AnimalScreen> {
                                 // Adjust the aspect ratio of items
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 5.w, vertical: 0.h),
-                                children: _buildGridItemsVegitables(
-                                    vegetablePlants!, context)),
+                                children: _buildGridItemsTransportAnimals(
+                                    transportAnimals!, context)),
                           ),
+                          verticalSpace(24.h),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text('حيوانات المزارع الصغيرة',
+                                  style: CairoTextStyles.bold.copyWith(
+                                      fontSize: 20.sp,
+                                      color: ColorsManager.secondGreen)),
+                            ],
+                          ),
+                          verticalSpace(8.h),
+
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: GridView.count(
+                                crossAxisCount: 3,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                // Disable scrolling inside the grid
+                                crossAxisSpacing: 16.w,
+                                // Horizontal spacing between items
+                                mainAxisSpacing: 8.h,
+                                // Vertical spacing between items
+                                childAspectRatio: 1.19.sp,
+                                // Adjust the aspect ratio of items
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 5.w, vertical: 0.h),
+                                children: _buildGridItemsFarmAnimals(
+                                    farmAnimals!, context)),
+                          ),
+
+
                         ],
                       ),
                     ),
@@ -244,18 +289,19 @@ class _AnimalScreenState extends State<AnimalScreen> {
 }
 
 
-List<Widget> _buildGridItemsFood(List<Data> itemsGrid, BuildContext context) {
-  return itemsGrid.map((plant) {
+List<Widget> _buildGridItemsCattle(List<Animal> itemsGrid, BuildContext context) {
+  return itemsGrid.map((animal) {
     return GestureDetector(
       onTap: () {
-        print("Navigating with plant data: ${plant.name}");
-        context.pushNamed(Routing.plantReport, arguments: plant);
+        print("Navigating with plant data: ${animal.commonName}");
+        context.pushNamed(Routing.animalReport, arguments: animal);
       },
       child: AvailableStock(
-        imgPath: plant.images?.isNotEmpty == true
-            ? plant.images!.first.url!
+        boxH: 125,
+        imgPath: animal.image?.isNotEmpty == true
+            ? animal.image!.first
             : 'default_image.png',
-        label: plant.name ?? 'Unknown',
+        label: animal.commonName ?? 'Unknown',
         leftPositioned: 35,
         topPositioned: 30,
       ),
@@ -263,18 +309,19 @@ List<Widget> _buildGridItemsFood(List<Data> itemsGrid, BuildContext context) {
   }).toList();
 }
 
-List<Widget> _buildGridItemsIndustrial(
-    List<Data> itemsGrid, BuildContext context) {
-  return itemsGrid.map((plant) {
+List<Widget> _buildGridItemsPoultry(
+    List<Animal> itemsGrid, BuildContext context) {
+  return itemsGrid.map((animal) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(Routing.plantReport, arguments: plant);
+        context.pushNamed(Routing.animalReport, arguments: animal);
       },
       child: AvailableStock(
-        imgPath: plant.images?.isNotEmpty == true
-            ? plant.images!.first.url!
+        boxH: 125,
+        imgPath: animal.image?.isNotEmpty == true
+            ? animal.image!.first
             : 'default_image.png',
-        label: plant.name ?? 'Unknown',
+        label: animal.commonName ?? 'Unknown',
         leftPositioned: 35,
         topPositioned: 40,
       ),
@@ -282,21 +329,43 @@ List<Widget> _buildGridItemsIndustrial(
   }).toList();
 }
 
-List<Widget> _buildGridItemsVegitables(
-    List</*Data*/> itemsGrid, BuildContext context) {
-  return itemsGrid.map((plant) {
+List<Widget> _buildGridItemsTransportAnimals(
+    List<Animal> itemsGrid, BuildContext context) {
+  return itemsGrid.map((animal) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(Routing./*plantReport*/, arguments: /*plant*/);
+        context.pushNamed(Routing.animalReport, arguments: animal);
       },
       child: AvailableStock(
-        imgPath: plant.images?.isNotEmpty == true
-            ? plant.images!.first.url!
+        boxH: 150,
+        imgPath: animal.image?.isNotEmpty == true
+            ? animal.image!.first
             : 'default_image.png',
-        label: plant.name ?? 'Unknown',
+        label: animal.commonName ?? 'Unknown',
         leftPositioned: 33,
         topPositioned: 25,
       ),
     );
   }).toList();
-}*/
+}
+
+List<Widget> _buildGridItemsFarmAnimals(
+    List<Animal> itemsGrid, BuildContext context) {
+  return itemsGrid.map((animal) {
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(Routing.animalReport, arguments: animal);
+      },
+      child: AvailableStock(
+        boxH: 160,
+        imgPath: animal.image?.isNotEmpty == true
+            ? animal.image!.first
+            : 'default_image.png',
+        label: animal.commonName ?? 'Unknown',
+        leftPositioned: 33,
+        topPositioned: 25,
+      ),
+    );
+  }).toList();
+}
+
