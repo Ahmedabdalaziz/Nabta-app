@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,8 +7,9 @@ import 'package:graduation_project/features/disease_detection/ui/widget/camera_h
 import 'package:image_picker/image_picker.dart';
 
 class CameraBottomBar extends StatelessWidget {
-  final Function(String?) onCapture;
-  final Function(String?) onPickImage;
+  final Function(String?) onCapture; // <--- هذا سيصبح مسار الملف
+  final Function(String?) onPickImage; // <--- وهذا أيضاً
+
   final CameraHelper cameraHelper;
 
   const CameraBottomBar({
@@ -37,14 +35,16 @@ class CameraBottomBar extends StatelessWidget {
                 icon: Icon(Icons.photo_library,
                     color: ColorsManager.white, size: 30.sp),
                 onPressed: () async {
-                  final imageBase64 = await _pickImageFromGallery();
-                  onPickImage(imageBase64); // تمرير الصورة المختارة
+                  final imagePath =
+                      await _pickImageFromGallery(); // <--- سيتم إرجاع المسار
+                  onPickImage(imagePath); // تمرير مسار الصورة المختارة
                 },
               ),
               GestureDetector(
                 onTap: () async {
-                  final imageBase64 = await _captureImage();
-                  onCapture(imageBase64); // تمرير الصورة الملتقطة
+                  final imagePath =
+                      await _captureImage(); // <--- سيتم إرجاع المسار
+                  onCapture(imagePath); // تمرير مسار الصورة الملتقطة
                 },
                 child: SvgPicture.asset("assets/SVGs/plants/camera_button.svg"),
               ),
@@ -75,9 +75,7 @@ class CameraBottomBar extends StatelessWidget {
         }
         return null;
       }
-
-      final bytes = await File(imageFile.path).readAsBytes();
-      return base64Encode(bytes);
+      return imageFile.path; // <--- إرجاع مسار الملف مباشرة
     } catch (e) {
       if (kDebugMode) {
         print("Error capturing image: $e");
@@ -97,9 +95,7 @@ class CameraBottomBar extends StatelessWidget {
         }
         return null;
       }
-
-      final bytes = await File(imageFile.path).readAsBytes();
-      return base64Encode(bytes);
+      return imageFile.path; // <--- إرجاع مسار الملف مباشرة
     } catch (e) {
       if (kDebugMode) {
         print("Error picking image: $e");

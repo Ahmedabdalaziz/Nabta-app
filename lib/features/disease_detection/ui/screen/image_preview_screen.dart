@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -25,24 +24,39 @@ class ImagePreviewScreen extends StatefulWidget {
 class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
   late Timer _textTimer;
   final ValueNotifier<String> _buttonTextNotifier =
-      ValueNotifier("إرسال الصورة...");
+  ValueNotifier("جاري إرسال الصورة...");
+  Uint8List? _imageBytes;
 
   @override
   void initState() {
     super.initState();
+    _loadImageBytes();
+
     context.read<DiseaseCubit>().submitDiseaseData();
 
-    // بدء المؤقت للانتقال بعد 5 ثواني
     Future.delayed(const Duration(seconds: 10), () {
       if (mounted) {
         context.pushNamedAndRemoveUntil(Routing.resultImageDetection);
       }
     });
+
     _textTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      _buttonTextNotifier.value = _buttonTextNotifier.value == "...إرسال الصورة"
-          ? "...تحديد التشخيص"
-          : "...إرسال الصورة";
+      _buttonTextNotifier.value = _buttonTextNotifier.value == "جاري إرسال الصورة..."
+          ? "جاري تحديد التشخيص..."
+          : "جاري إرسال الصورة...";
     });
+  }
+
+  Future<void> _loadImageBytes() async {
+    final cachedImageFile = context.read<DiseaseCubit>().getCachedImageFile();
+    if (cachedImageFile != null && await cachedImageFile.exists()) {
+      _imageBytes = await cachedImageFile.readAsBytes();
+      setState(() {});
+    } else {
+      _imageBytes = null;
+      setState(() {});
+      print("Cached image file is null or does not exist.");
+    }
   }
 
   @override
@@ -54,7 +68,6 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cachedImage = context.read<DiseaseCubit>().getCachedImage();
     return BackgroundCamera(
       customWidget: BlocConsumer<DiseaseCubit, DiseaseState>(
         listener: (context, state) {
@@ -64,7 +77,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
               title: "هنالك مشكلة ما",
               titleTextStyle:
               CairoTextStyles.bold.copyWith(color: ColorsManager.greenWhite),
-              message: "يبدو ان هنالك مشكلة في الاتصال مع الخادم",
+              message: "يبدو ان هنالك مشكلة في الاتصال مع الخادم أو في معالجة الصورة.",
               snackBarType: ProKitSnackBarType.colored,
               notificationType: ProKitNotificationType.failure,
               color: ColorsManager.mainGreen,
@@ -75,8 +88,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
           }
         },
         builder: (context, state) {
-          if (cachedImage != null) {
-            Uint8List imageBytes = base64Decode(cachedImage);
+          if (_imageBytes != null) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +112,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(26.r),
                       child: Image.memory(
-                        imageBytes,
+                        _imageBytes!,
                         width: 400.w,
                         height: 400.h,
                         fit: BoxFit.cover,

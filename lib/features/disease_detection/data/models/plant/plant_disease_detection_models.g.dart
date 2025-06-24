@@ -6,20 +6,6 @@ part of 'plant_disease_detection_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PlantDiseaseDetectionRequestModel _$PlantDiseaseDetectionRequestModelFromJson(
-        Map<String, dynamic> json) =>
-    PlantDiseaseDetectionRequestModel(
-      plantType: json['plantType'] as String,
-      imageBase64: json['imageBase64'] as String,
-    );
-
-Map<String, dynamic> _$PlantDiseaseDetectionRequestModelToJson(
-        PlantDiseaseDetectionRequestModel instance) =>
-    <String, dynamic>{
-      'plantType': instance.plantType,
-      'imageBase64': instance.imageBase64,
-    };
-
 PlantDiseaseDetectionResponseModel _$PlantDiseaseDetectionResponseModelFromJson(
         Map<String, dynamic> json) =>
     PlantDiseaseDetectionResponseModel(

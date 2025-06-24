@@ -26,20 +26,32 @@ class _PlantDiseaseApiService implements PlantDiseaseApiService {
   @override
   Future<PlantDiseaseDetectionResponseModel> detectDisease(
     String plantType,
-    String imageData,
+    File imageFile,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = imageData;
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'plant_type',
+      plantType,
+    ));
+    _data.files.add(MapEntry(
+      'image',
+      MultipartFile.fromFileSync(
+        imageFile.path,
+        filename: imageFile.path.split(Platform.pathSeparator).last,
+      ),
+    ));
     final _options = _setStreamType<PlantDiseaseDetectionResponseModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'multipart/form-data',
     )
         .compose(
           _dio.options,
-          '${plantType}/predict',
+          'predict',
           queryParameters: queryParameters,
           data: _data,
         )

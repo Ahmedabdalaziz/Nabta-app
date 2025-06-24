@@ -3,18 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'plant_disease_detection_models.g.dart';
 
 @JsonSerializable()
-class PlantDiseaseDetectionRequestModel {
-  final String plantType;
-  final String imageBase64;
-
-  PlantDiseaseDetectionRequestModel(
-      {required this.plantType, required this.imageBase64});
-
-  Map<String, dynamic> toJson() =>
-      _$PlantDiseaseDetectionRequestModelToJson(this);
-}
-
-@JsonSerializable()
 class PlantDiseaseDetectionResponseModel {
   final String accuracy;
   final String description;
@@ -35,7 +23,7 @@ class PlantDiseaseDetectionResponseModel {
   });
 
   factory PlantDiseaseDetectionResponseModel.fromJson(
-          Map<String, dynamic> json) =>
+      Map<String, dynamic> json) =>
       _$PlantDiseaseDetectionResponseModelFromJson(json);
 }
 
