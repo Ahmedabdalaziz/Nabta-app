@@ -214,7 +214,7 @@ class AppRouter {
       case Routing.resultImageDetection:
         return createRoute(BlocProvider.value(
           value: getIt<DiseaseCubit>(),
-          child: ResultDone(),
+          child: ResultScreen(),
         ));
 
       case Routing.homeScreen:

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networking/api_constants.dart';
 import 'package:graduation_project/features/disease_detection/data/models/plant/plant_disease_detection_models.dart';
@@ -11,9 +13,10 @@ abstract class PlantDiseaseApiService {
     return _PlantDiseaseApiService(dio);
   }
 
-  @POST("{plantType}/predict")
+  @POST("predict")
+  @MultiPart()
   Future<PlantDiseaseDetectionResponseModel> detectDisease(
-    @Path("plantType") String plantType,
-    @Body() String imageData,
+    @Part(name: "plant_type") String plantType,
+    @Part(name: "image") File imageFile,
   );
 }
