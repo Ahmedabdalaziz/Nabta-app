@@ -2,22 +2,19 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/helper/extension.dart';
-import 'package:graduation_project/core/helper/strings.dart';
-import 'package:graduation_project/features/animal/ui/widgets/pointed_card.dart' show PointedGuideLineCard;
+import 'package:graduation_project/features/animal/ui/widgets/pointed_card.dart'
+    show PointedGuideLineCard;
 import 'package:graduation_project/features/home/ui/home_background.dart';
 
-import '../../../../core/helper/functions.dart';
 import '../../../../core/helper/spacing.dart';
 import '../../../../core/theming/color.dart';
 import '../../../../core/theming/style_manager.dart';
 import '../../../../core/widgets/guidlines_card.dart';
-import '../../../plant/ui/widgets/progress.dart';
 import '../../data/model/animal_response.dart';
-
-
 
 class AnimalReport extends StatefulWidget {
   final Animal? animalData;
+
   const AnimalReport({super.key, this.animalData});
 
   @override
@@ -29,7 +26,6 @@ class _AnimalReportState extends State<AnimalReport> {
 
   @override
   Widget build(BuildContext context) {
-
     final animalData = widget.animalData;
     return HomeBackground(
       child: SingleChildScrollView(
@@ -76,7 +72,8 @@ class _AnimalReportState extends State<AnimalReport> {
                                 width: 44.sp,
                                 height: 44.sp,
                                 decoration: BoxDecoration(
-                                  color: ColorsManager.mainGreen.withOpacity(0.2),
+                                  color:
+                                      ColorsManager.mainGreen.withOpacity(0.2),
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -113,13 +110,12 @@ class _AnimalReportState extends State<AnimalReport> {
                   top: 90.h,
                   left: 20.w,
                   child: SizedBox(
-                    width: 230.w,
-                    height: 220.h,
-                    child: Image.network(
-                      animalData!.image![1],
-                      fit: BoxFit.cover,
-                    )
-                  ),
+                      width: 230.w,
+                      height: 220.h,
+                      child: Image.network(
+                        animalData!.image![1],
+                        fit: BoxFit.cover,
+                      )),
                 ),
                 Positioned(
                   top: 350.h,
@@ -135,8 +131,7 @@ class _AnimalReportState extends State<AnimalReport> {
                       child: Text(
                         "العمر : ${animalData.age}",
                         style: CairoTextStyles.bold.copyWith(
-                            color: ColorsManager.secondGreen,
-                            fontSize: 16.sp),
+                            color: ColorsManager.secondGreen, fontSize: 16.sp),
                       ),
                     ),
                   ),
@@ -154,14 +149,14 @@ class _AnimalReportState extends State<AnimalReport> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                animalData.commonName??"غير معروف",
+                                animalData.commonName ?? "غير معروف",
                                 style: CairoTextStyles.black.copyWith(
                                     fontSize: 30.sp,
                                     color: ColorsManager.mainGreen),
                               ),
                               verticalSpace(4.h),
                               Text(
-                                animalData.scientificName??" غير معروف",
+                                animalData.scientificName ?? " غير معروف",
                                 style: CairoTextStyles.extraBold.copyWith(
                                     fontSize: 20.sp,
                                     color: ColorsManager.mainGreen),
@@ -175,28 +170,25 @@ class _AnimalReportState extends State<AnimalReport> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 12.w),
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
                           child: Column(
                             children: [
-                              Text(
-                                  "احتياج المياه",
+                              Text("احتياج المياه",
                                   style: CairoTextStyles.bold.copyWith(
                                       fontSize: 14.sp,
-                                      color: ColorsManager.secondGreen
-                                  )
-                              ),
+                                      color: ColorsManager.secondGreen)),
                               verticalSpace(4.h),
                               Container(
                                   width: 77.5.w,
                                   height: 89.h,
-                                  child: Image.asset("assets/SVGs/animals/waterNeed.png")),
+                                  child: Image.asset(
+                                      "assets/SVGs/animals/waterNeed.png")),
                               verticalSpace(4.h),
                               Text(
                                 "15 - 20 K",
                                 style: CairoTextStyles.extraBold.copyWith(
                                     fontSize: 14.sp,
-                                    color: ColorsManager.secondGreen
-                                ),
+                                    color: ColorsManager.secondGreen),
                               )
                             ],
                           ),
@@ -205,25 +197,22 @@ class _AnimalReportState extends State<AnimalReport> {
                           padding: EdgeInsets.symmetric(horizontal: 12.w),
                           child: Column(
                             children: [
-                              Text(
-                                  "احتياج الطعام",
+                              Text("احتياج الطعام",
                                   style: CairoTextStyles.bold.copyWith(
                                       fontSize: 14.sp,
-                                      color: ColorsManager.secondGreen
-                                  )
-                              ),
+                                      color: ColorsManager.secondGreen)),
                               verticalSpace(4.h),
                               Container(
                                   width: 77.5.w,
                                   height: 89.h,
-                                  child: Image.asset("assets/SVGs/animals/foodNeed.png")),
+                                  child: Image.asset(
+                                      "assets/SVGs/animals/foodNeed.png")),
                               verticalSpace(4.h),
                               Text(
                                 "15 - 20 K",
                                 style: CairoTextStyles.extraBold.copyWith(
                                     fontSize: 14.sp,
-                                    color: ColorsManager.secondGreen
-                                ),
+                                    color: ColorsManager.secondGreen),
                               )
                             ],
                           ),
@@ -262,14 +251,13 @@ class _AnimalReportState extends State<AnimalReport> {
                     ),
                     verticalSpace(20.h),
                     Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
                           ":التغذية والمياه",
                           style: CairoTextStyles.extraBold.copyWith(
                               fontSize: 20.sp,
-                              color: ColorsManager.secondGreen
-                          ),
+                              color: ColorsManager.secondGreen),
                         )
                       ],
                     ),
@@ -277,13 +265,11 @@ class _AnimalReportState extends State<AnimalReport> {
                     GuideLinesCards(
                         label: "النظام الغذائي",
                         description: animalData.foodNeeds!,
-                        iconImage: 'assets/SVGs/animals/feedAlerts.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/feedAlerts.png'),
                     PointedGuideLineCard(
-                        label: "انواع الاعلاف المناسبة",
-                        points: animalData.nutrition!.suitableFeeds!,
-                        iconImage: 'assets/SVGs/animals/feedAlerts.png',
-
+                      label: "انواع الاعلاف المناسبة",
+                      points: animalData.nutrition!.suitableFeeds!,
+                      iconImage: 'assets/SVGs/animals/feedAlerts.png',
                     ),
                     PointedGuideLineCard(
                       label: "كمية الاكل",
@@ -300,7 +286,6 @@ class _AnimalReportState extends State<AnimalReport> {
                       iconImage: "assets/SVGs/animals/feedAlerts.png",
                       points: animalData.nutrition!.forbiddenFoods!,
                       isRed: true,
-
                     ),
                     verticalSpace(16.h),
                     Padding(
@@ -312,8 +297,7 @@ class _AnimalReportState extends State<AnimalReport> {
                             "دورة الحياة والتكاثر",
                             style: CairoTextStyles.extraBold.copyWith(
                                 fontSize: 20.sp,
-                                color: ColorsManager.secondGreen
-                            ),
+                                color: ColorsManager.secondGreen),
                           )
                         ],
                       ),
@@ -321,18 +305,15 @@ class _AnimalReportState extends State<AnimalReport> {
                     GuideLinesCards(
                         label: "متوسط العمر",
                         description: animalData.lifeCycle!.averageLifespan!,
-                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'),
                     GuideLinesCards(
                         label: "سن البلوغ الجنسي",
                         description: animalData.lifeCycle!.sexualMaturityAge!,
-                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'),
                     GuideLinesCards(
                         label: "مدة الحمل",
                         description: animalData.lifeCycle!.gestationPeriod!,
-                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/lifeCycleAlert.png'),
                     PointedGuideLineCard(
                       label: "عدد الصغار عند الولادة",
                       iconImage: "assets/SVGs/animals/lifeCycleAlert.png",
@@ -340,7 +321,7 @@ class _AnimalReportState extends State<AnimalReport> {
                     ),
                     verticalSpace(16.h),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal:25.w),
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -348,8 +329,7 @@ class _AnimalReportState extends State<AnimalReport> {
                             "الامراض والمشاكل الصحية",
                             style: CairoTextStyles.extraBold.copyWith(
                                 fontSize: 20.sp,
-                                color: ColorsManager.secondGreen
-                            ),
+                                color: ColorsManager.secondGreen),
                           )
                         ],
                       ),
@@ -362,18 +342,15 @@ class _AnimalReportState extends State<AnimalReport> {
                     GuideLinesCards(
                         label: "الاعراض",
                         description: animalData.health!.symptoms!,
-                        iconImage: 'assets/SVGs/animals/diseasAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/diseasAlert.png'),
                     GuideLinesCards(
                         label: "العلاج",
                         description: animalData.health!.treatment!,
-                        iconImage: 'assets/SVGs/animals/diseasAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/diseasAlert.png'),
                     GuideLinesCards(
                         label: "الوقاية",
                         description: animalData.health!.prevention!,
-                        iconImage: 'assets/SVGs/animals/diseasAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/diseasAlert.png'),
                     verticalSpace(16.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -384,8 +361,7 @@ class _AnimalReportState extends State<AnimalReport> {
                             "العناية والرعاية بالصحة",
                             style: CairoTextStyles.extraBold.copyWith(
                                 fontSize: 20.sp,
-                                color: ColorsManager.secondGreen
-                            ),
+                                color: ColorsManager.secondGreen),
                           )
                         ],
                       ),
@@ -398,17 +374,16 @@ class _AnimalReportState extends State<AnimalReport> {
                     GuideLinesCards(
                         label: "النظافة الشخصية",
                         description: animalData.care!.hygiene!,
-                        iconImage: 'assets/SVGs/animals/careAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/careAlert.png'),
                     GuideLinesCards(
-                        label: "في الحالات الطارئة",
-                        description: animalData.care!.emergencyCases!,
-                        iconImage: 'assets/SVGs/animals/careAlert.png',
+                      label: "في الحالات الطارئة",
+                      description: animalData.care!.emergencyCases!,
+                      iconImage: 'assets/SVGs/animals/careAlert.png',
                       isRed: true,
                     ),
                     verticalSpace(16.h),
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 25.w),
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -416,8 +391,7 @@ class _AnimalReportState extends State<AnimalReport> {
                             "الانتاج والاستخدام",
                             style: CairoTextStyles.extraBold.copyWith(
                                 fontSize: 20.sp,
-                                color: ColorsManager.secondGreen
-                            ),
+                                color: ColorsManager.secondGreen),
                           )
                         ],
                       ),
@@ -425,13 +399,11 @@ class _AnimalReportState extends State<AnimalReport> {
                     PointedGuideLineCard(
                         label: "الفوايد",
                         points: animalData.production!.benefits!,
-                        iconImage: 'assets/SVGs/animals/productionAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/productionAlert.png'),
                     PointedGuideLineCard(
                         label: "تحسين الانتاج",
                         points: animalData.production!.optimizationMethods!,
-                        iconImage: 'assets/SVGs/animals/productionAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/productionAlert.png'),
                     verticalSpace(16.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -442,8 +414,7 @@ class _AnimalReportState extends State<AnimalReport> {
                             "سلوك الحيوان والتفاعل",
                             style: CairoTextStyles.extraBold.copyWith(
                                 fontSize: 20.sp,
-                                color: ColorsManager.secondGreen
-                            ),
+                                color: ColorsManager.secondGreen),
                           )
                         ],
                       ),
@@ -471,7 +442,7 @@ class _AnimalReportState extends State<AnimalReport> {
                     ),
                     verticalSpace(16.h),
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 25.w),
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -479,8 +450,7 @@ class _AnimalReportState extends State<AnimalReport> {
                             "معلومات اضافية",
                             style: CairoTextStyles.extraBold.copyWith(
                                 fontSize: 20.sp,
-                                color: ColorsManager.secondGreen
-                            ),
+                                color: ColorsManager.secondGreen),
                           )
                         ],
                       ),
@@ -493,11 +463,8 @@ class _AnimalReportState extends State<AnimalReport> {
                     PointedGuideLineCard(
                         label: "حقائق",
                         points: animalData.additionalInfo!.interestingFacts!,
-                        iconImage: 'assets/SVGs/animals/infoAlert.png'
-                    ),
+                        iconImage: 'assets/SVGs/animals/infoAlert.png'),
                     verticalSpace(16.h),
-
-
                     verticalSpace(75.h),
                   ],
                 ),

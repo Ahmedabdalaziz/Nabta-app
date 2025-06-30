@@ -14,7 +14,6 @@ import 'package:graduation_project/features/animal/data/model/animal_response.da
 import 'package:graduation_project/features/home/ui/home_background.dart' show HomeBackground;
 
 import '../../../../core/routing/routing.dart';
-import '../../data/model/animal_response.dart';
 import '../../logic/animal_cubit.dart';
 
 class AnimalScreen extends StatefulWidget {
@@ -25,20 +24,15 @@ class AnimalScreen extends StatefulWidget {
 }
 
 class _AnimalScreenState extends State<AnimalScreen> {
-
   @override
   void initState() {
     super.initState();
-    context
-        .read<AnimalCubit>()
-        .fetchAnimals(); // استدعاء البيانات عند تحميل الشاشة
-
+    context.read<AnimalCubit>().fetchAnimals(); // استدعاء البيانات عند تحميل الشاشة
   }
-
 
   @override
   Widget build(BuildContext context) {
-    int _currentIndex = 0;
+    int _currentIndex = 0; // This variable is not used
     return BlocConsumer<AnimalCubit, AnimalState>(
       listener: (context, state) {
         if (state is AnimalFaild) {
@@ -58,9 +52,8 @@ class _AnimalScreenState extends State<AnimalScreen> {
             ),
           );
         } else if (state is AnimalSuccess) {
-
           final AnimalData = state.animalResponse.data;
-          //  حيوانات مزرعة
+          //  حيوانات مزرعة
           final farmAnimals = AnimalData
               ?.where((animal) => animal.animalType == 'حيوانات المزارع الصغيرة')
               .toList();
@@ -77,7 +70,6 @@ class _AnimalScreenState extends State<AnimalScreen> {
           final transportAnimals = AnimalData
               ?.where((animal) => animal.animalType == 'حيوانات النقل')
               .toList();
-
 
           if (AnimalData == null) {
             return const Center(child: Text("لا توجد بيانات متاحة"));
@@ -159,21 +151,22 @@ class _AnimalScreenState extends State<AnimalScreen> {
                                   Directionality(
                                     textDirection: TextDirection.rtl,
                                     child: GridView.count(
-                                        crossAxisCount: 3,
-                                        shrinkWrap: true,
-                                        physics:
-                                        const NeverScrollableScrollPhysics(),
-                                        // Disable scrolling inside the grid
-                                        crossAxisSpacing: 16.w,
-                                        // Horizontal spacing between items
-                                        mainAxisSpacing: 8.h,
-                                        // Vertical spacing between items
-                                        childAspectRatio: 1.31.sp,
-                                        // Adjust the aspect ratio of items
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 5.w, vertical: 0.h),
-                                        children: _buildGridItemsCattle(
-                                            cattle!, context)),
+                                      crossAxisCount: 3,
+                                      shrinkWrap: true,
+                                      physics:
+                                      const NeverScrollableScrollPhysics(),
+                                      // Disable scrolling inside the grid
+                                      crossAxisSpacing: 16.w,
+                                      // Horizontal spacing between items
+                                      mainAxisSpacing: 8.h,
+                                      // Vertical spacing between items
+                                      childAspectRatio: 1.31.sp,
+                                      // Adjust the aspect ratio of items
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 5.w, vertical: 0.h),
+                                      children: _buildGridItemsCattle(
+                                          cattle!, context),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -190,24 +183,24 @@ class _AnimalScreenState extends State<AnimalScreen> {
                             ],
                           ),
                           verticalSpace(8.h),
-
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
-                                crossAxisCount: 3,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                // Disable scrolling inside the grid
-                                crossAxisSpacing: 16.w,
-                                // Horizontal spacing between items
-                                mainAxisSpacing: 8.h,
-                                // Vertical spacing between items
-                                childAspectRatio: 1.19.sp,
-                                // Adjust the aspect ratio of items
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.w, vertical: 0.h),
-                                children: _buildGridItemsPoultry(
-                                    poultry!, context)),
+                              crossAxisCount: 3,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              // Disable scrolling inside the grid
+                              crossAxisSpacing: 16.w,
+                              // Horizontal spacing between items
+                              mainAxisSpacing: 8.h,
+                              // Vertical spacing between items
+                              childAspectRatio: 1.19.sp,
+                              // Adjust the aspect ratio of items
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 0.h),
+                              children: _buildGridItemsPoultry(
+                                  poultry!, context),
+                            ),
                           ),
                           verticalSpace(24.h),
                           Row(
@@ -220,27 +213,26 @@ class _AnimalScreenState extends State<AnimalScreen> {
                             ],
                           ),
                           verticalSpace(8.h),
-
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
-                                crossAxisCount: 3,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                // Disable scrolling inside the grid
-                                crossAxisSpacing: 16.w,
-                                // Horizontal spacing between items
-                                mainAxisSpacing: 8.h,
-                                // Vertical spacing between items
-                                childAspectRatio: 1.19.sp,
-                                // Adjust the aspect ratio of items
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.w, vertical: 0.h),
-                                children: _buildGridItemsTransportAnimals(
-                                    transportAnimals!, context)),
+                              crossAxisCount: 3,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              // Disable scrolling inside the grid
+                              crossAxisSpacing: 16.w,
+                              // Horizontal spacing between items
+                              mainAxisSpacing: 8.h,
+                              // Vertical spacing between items
+                              childAspectRatio: 1.19.sp,
+                              // Adjust the aspect ratio of items
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 0.h),
+                              children: _buildGridItemsTransportAnimals(
+                                  transportAnimals!, context),
+                            ),
                           ),
                           verticalSpace(24.h),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -251,26 +243,26 @@ class _AnimalScreenState extends State<AnimalScreen> {
                             ],
                           ),
                           verticalSpace(8.h),
-
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
-                                crossAxisCount: 3,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                // Disable scrolling inside the grid
-                                crossAxisSpacing: 16.w,
-                                // Horizontal spacing between items
-                                mainAxisSpacing: 8.h,
-                                // Vertical spacing between items
-                                childAspectRatio: 1.19.sp,
-                                // Adjust the aspect ratio of items
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.w, vertical: 0.h),
-                                children: _buildGridItemsFarmAnimals(
-                                    farmAnimals!, context)),
+                              crossAxisCount: 3,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              // Disable scrolling inside the grid
+                              crossAxisSpacing: 16.w,
+                              // Horizontal spacing between items
+                              mainAxisSpacing: 8.h,
+                              // Vertical spacing between items
+                              childAspectRatio: 1.19.sp,
+                              // Adjust the aspect ratio of items
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 0.h),
+                              children: _buildGridItemsFarmAnimals(
+                                  farmAnimals!, context),
+                            ),
                           ),
-
+                          verticalSpace(36.h),
 
                         ],
                       ),
@@ -288,7 +280,6 @@ class _AnimalScreenState extends State<AnimalScreen> {
   }
 }
 
-
 List<Widget> _buildGridItemsCattle(List<Animal> itemsGrid, BuildContext context) {
   return itemsGrid.map((animal) {
     return GestureDetector(
@@ -297,13 +288,15 @@ List<Widget> _buildGridItemsCattle(List<Animal> itemsGrid, BuildContext context)
         context.pushNamed(Routing.animalReport, arguments: animal);
       },
       child: AvailableStock(
-        boxH: 125,
+        // Increase boxH and boxW here
+        boxH: 150, // Example: Increased from 125
+        boxW: 130, // Example: Added a value
         imgPath: animal.image?.isNotEmpty == true
             ? animal.image!.first
             : 'default_image.png',
         label: animal.commonName ?? 'Unknown',
         leftPositioned: 35,
-        topPositioned: 30,
+        topPositioned: 15,
       ),
     );
   }).toList();
@@ -317,13 +310,15 @@ List<Widget> _buildGridItemsPoultry(
         context.pushNamed(Routing.animalReport, arguments: animal);
       },
       child: AvailableStock(
-        boxH: 125,
+        // Increase boxH and boxW here
+        boxH: 150, // Example: Increased from 125
+        boxW: 130, // Example: Added a value
         imgPath: animal.image?.isNotEmpty == true
             ? animal.image!.first
             : 'default_image.png',
         label: animal.commonName ?? 'Unknown',
         leftPositioned: 35,
-        topPositioned: 40,
+        topPositioned: 20,
       ),
     );
   }).toList();
@@ -337,13 +332,15 @@ List<Widget> _buildGridItemsTransportAnimals(
         context.pushNamed(Routing.animalReport, arguments: animal);
       },
       child: AvailableStock(
-        boxH: 150,
+        // Increase boxH and boxW here
+        boxH: 150, // Example: Increased from 150
+        boxW: 130, // Example: Added a value
         imgPath: animal.image?.isNotEmpty == true
             ? animal.image!.first
             : 'default_image.png',
         label: animal.commonName ?? 'Unknown',
         leftPositioned: 33,
-        topPositioned: 25,
+        topPositioned: 20,
       ),
     );
   }).toList();
@@ -357,15 +354,16 @@ List<Widget> _buildGridItemsFarmAnimals(
         context.pushNamed(Routing.animalReport, arguments: animal);
       },
       child: AvailableStock(
-        boxH: 160,
+        // Increase boxH and boxW here
+        boxH: 150, // Example: Increased from 160
+        boxW: 130, // Example: Added a value
         imgPath: animal.image?.isNotEmpty == true
             ? animal.image!.first
             : 'default_image.png',
         label: animal.commonName ?? 'Unknown',
         leftPositioned: 33,
-        topPositioned: 25,
+        topPositioned: 20,
       ),
     );
   }).toList();
 }
-

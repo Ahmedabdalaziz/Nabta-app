@@ -7,21 +7,23 @@ class AvailableStock extends StatefulWidget {
   final String imgPath;
   final String label;
   final int boxH;
-
   final int boxW;
-
   final int topPositioned;
-
   final int leftPositioned;
+  final int containerH; // New property for container height
+  final int containerW; // New property for container width
+
 
   const AvailableStock({
     super.key,
     required this.imgPath,
     required this.label,
-    this.boxH = 110,
+    this.boxH = 130,
     this.boxW = 110,
     required this.topPositioned,
     required this.leftPositioned,
+    this.containerH = 140, // Default value for container height
+    this.containerW = 140, // Default value for container width
   });
 
   @override
@@ -32,8 +34,9 @@ class _AvailableStockState extends State<AvailableStock> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140.h,
-      width: 140.w,
+      // Use the new properties here
+      height: widget.containerH.h,
+      width: widget.containerW.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.sp),
         color: ColorsManager.greenWhite,
@@ -51,8 +54,8 @@ class _AvailableStockState extends State<AvailableStock> {
             ),
           ),
           Positioned(
-            left: widget.leftPositioned.w, //25
-            top: widget.topPositioned.h, //20
+            left: widget.leftPositioned.w,
+            top: widget.topPositioned.h,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25.sp),
               child: SizedBox(

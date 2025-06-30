@@ -8,6 +8,7 @@ import 'package:graduation_project/core/helper/strings.dart';
 import 'package:graduation_project/core/theming/color.dart';
 import 'package:graduation_project/core/theming/style_manager.dart';
 import 'package:graduation_project/features/chat/logic/chat_cubit.dart';
+import 'package:graduation_project/features/chat/ui/widgets/after_sending_message.dart';
 import 'package:graduation_project/features/chat/ui/widgets/chat_input_field.dart';
 import 'package:graduation_project/features/chat/ui/widgets/message_bubble.dart';
 import 'package:graduation_project/features/chat/ui/widgets/typing_indicator.dart';
@@ -230,42 +231,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         );
       }).toList(),
-    );
-  }
-}
-
-class AfterSendMessage extends StatelessWidget {
-  const AfterSendMessage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        verticalSpace(20.h),
-        Text(
-          " ! أهلاً بك",
-          style: CairoTextStyles.black.copyWith(
-            fontSize: 28.sp,
-            color: ColorsManager.secondGreen,
-          ),
-        ),
-        verticalSpace(20.h),
-        Center(
-          child: Text(
-            " هل تحتاج إلى مساعدة في زراعتك؟ ",
-            style: CairoTextStyles.semiBold.copyWith(
-              fontSize: 24.sp,
-              color: ColorsManager.secondGreen,
-            ),
-          ),
-        ),
-        verticalSpace(70.h),
-        Image.asset(
-          "assets/SVGs/chat/chat_imoji.png",
-          width: 200.w,
-          height: 260.h,
-        ),
-      ],
     );
   }
 }

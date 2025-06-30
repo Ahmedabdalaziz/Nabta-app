@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graduation_project/core/routing/routing.dart';
+import 'package:graduation_project/features/chat/logic/chat_cubit.dart';
+import 'package:graduation_project/features/chat/ui/screens/chat_screen.dart';
+import 'package:graduation_project/features/chat/ui/screens/welcome_chat_screen.dart';
 import 'package:graduation_project/features/disease_detection/logic/disease_cubit.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/camera_screen.dart';
 import 'package:graduation_project/features/disease_detection/ui/screen/image_preview_screen.dart';
@@ -231,6 +234,14 @@ class AppRouter {
             child: const Home(),
           ),
         );
+      case Routing.welcomeChatScreen:
+        return createRoute(WelcomeChatScreen());
+
+      case Routing.chatScreen:
+        return createRoute(BlocProvider(
+          create: (context) => ChatCubit(),
+          child: ChatScreen(),
+        ));
 
       default:
         return createRoute(const Column());
