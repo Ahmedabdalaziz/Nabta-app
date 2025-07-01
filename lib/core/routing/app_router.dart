@@ -24,6 +24,7 @@ import 'package:graduation_project/features/report/logic/report_cubit.dart';
 import 'package:graduation_project/features/report/ui/screens/first_report_screen.dart';
 import 'package:graduation_project/features/report/ui/screens/second_report_screen.dart';
 import 'package:graduation_project/features/report/ui/widgets/done_report.dart';
+import 'package:graduation_project/features/settings/settings_screen.dart';
 import 'package:graduation_project/features/signup/logic/code_active_cubit/active_code_cubit.dart';
 import 'package:graduation_project/features/signup/logic/signup_cubit.dart';
 import 'package:graduation_project/features/signup/ui/screens/first_password_signup.dart';
@@ -156,6 +157,9 @@ class AppRouter {
 
       case Routing.doneReportScreen:
         return createRoute(DoneReport());
+
+      case Routing.settingsScreen:
+        return createRoute(SettingsScreen());
 
       case Routing.plantScreen:
         return createRoute(BlocProvider(

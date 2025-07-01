@@ -146,6 +146,7 @@ flutter:
     - assets/SVGs/plants/
     - assets/lottie/
     - assets/SVGs/chat/
+    - assets/SVGs/settings/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
