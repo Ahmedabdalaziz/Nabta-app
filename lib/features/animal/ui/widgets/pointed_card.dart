@@ -7,7 +7,7 @@ import 'package:graduation_project/core/theming/style_manager.dart';
 class PointedGuideLineCard extends StatelessWidget {
   final String label;
   final String iconImage;
-  final List<String> points; // Changed from description to points list
+  final List<String> points;
   final bool isRed;
 
   const PointedGuideLineCard({

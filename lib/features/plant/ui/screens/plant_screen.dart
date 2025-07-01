@@ -144,49 +144,6 @@ class _PlantsScreenState extends State<PlantsScreen> {
                               verticalSpace(12.h),
                               Column(
                                 children: [
-                                  // nabatat for eating
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  //   children: [
-                                  //     AvailableStock(
-                                  //       imgPath: 'assets/SVGs/plants/corn2.png',
-                                  //       label: 'ذره',
-                                  //       leftPositioned: 25,
-                                  //       topPositioned: 20,
-                                  //     ),
-                                  //     AvailableStock(
-                                  //       imgPath: 'assets/SVGs/plants/rice.png',
-                                  //       label: 'أرز',
-                                  //       leftPositioned: 25,
-                                  //       topPositioned: 20,
-                                  //     ),
-                                  //     GestureDetector(
-                                  //       onTap: () {
-                                  //         context.pushNamed(Routing.plantReport);
-                                  //       },
-                                  //       child: AvailableStock(
-                                  //         imgPath: 'assets/SVGs/plants/flower.png',
-                                  //         label: 'قمح',
-                                  //         leftPositioned: 28,
-                                  //         topPositioned: 20,
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  // verticalSpace(10.h),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  //   children: [
-                                  //     NonAvailableStock(),
-                                  //     NonAvailableStock(),
-                                  //     AvailableStock(
-                                  //       imgPath: 'assets/SVGs/plants/potato.png',
-                                  //       label: 'بطاطس',
-                                  //       leftPositioned: 25,
-                                  //       topPositioned: 20,
-                                  //     )
-                                  //   ],
-                                  // ),
                                   Directionality(
                                     textDirection: TextDirection.rtl,
                                     child: GridView.count(
@@ -220,30 +177,7 @@ class _PlantsScreenState extends State<PlantsScreen> {
                                       color: ColorsManager.secondGreen)),
                             ],
                           ),
-                          verticalSpace(8.h),
-                          // npatat for manefacture
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     NonAvailableStock(),
-                          //     AvailableStock(
-                          //       imgPath: 'assets/SVGs/plants/cane.png',
-                          //       label: 'قصب',
-                          //       boxW: 90,
-                          //       boxH: 90,
-                          //       leftPositioned: 32,
-                          //       topPositioned: 30,
-                          //     ),
-                          //     AvailableStock(
-                          //       imgPath: 'assets/SVGs/plants/cotton.png',
-                          //       label: 'قطن',
-                          //       boxH: 95,
-                          //       boxW: 95,
-                          //       leftPositioned: 25,
-                          //       topPositioned: 25,
-                          //     ),
-                          //   ],
-                          // ),
+                          verticalSpace(12.h),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
@@ -272,21 +206,7 @@ class _PlantsScreenState extends State<PlantsScreen> {
                                       color: ColorsManager.secondGreen)),
                             ],
                           ),
-                          verticalSpace(8.h),
-                          // vegetables
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     NonAvailableStock(),
-                          //     NonAvailableStock(),
-                          //     AvailableStock(
-                          //       imgPath: 'assets/SVGs/plants/onion.png',
-                          //       label: 'بصل',
-                          //       leftPositioned: 25,
-                          //       topPositioned: 20,
-                          //     )
-                          //   ],
-                          // ),
+                          verticalSpace(12.h),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: GridView.count(
@@ -335,7 +255,7 @@ List<Widget> _buildGridItemsFood(List<Data> itemsGrid, BuildContext context) {
             : 'default_image.png',
         label: plant.name ?? 'Unknown',
         leftPositioned: 35,
-        topPositioned: 30,
+        topPositioned: 15,
       ),
     );
   }).toList();
@@ -354,7 +274,7 @@ List<Widget> _buildGridItemsIndustrial(
             : 'default_image.png',
         label: plant.name ?? 'Unknown',
         leftPositioned: 35,
-        topPositioned: 40,
+        topPositioned: 15,
       ),
     );
   }).toList();
