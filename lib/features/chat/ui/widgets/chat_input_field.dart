@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/color.dart';
-import 'package:graduation_project/core/theming/style_manager.dart'; // تأكد من استيراد هذا الملف
-
+import 'package:graduation_project/core/theming/style_manager.dart'; 
 class ChatInputField extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback? onSendPressed;
